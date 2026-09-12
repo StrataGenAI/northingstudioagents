@@ -1,0 +1,331 @@
+{
+  "file": "Products/PB-022 The 10-Minute Life Audit/dist/QuietCompass_10-Minute-Life-Audit_Tablet.pdf",
+  "pages": 4,
+  "size": "tablet",
+  "page_reports": [
+    {
+      "page": 1,
+      "size_mm": [
+        428.625,
+        571.5
+      ],
+      "fonts": [
+        {
+          "name": "/AAAAAA+IBMPlexMono-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/BAAAAA+Fraunces72pt-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/CAAAAA+Fraunces72pt-Italic",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/DAAAAA+SourceSans3-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/EAAAAA+SourceSans3-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        }
+      ],
+      "type_sizes": [
+        16.33,
+        17.35,
+        21.43,
+        22.45,
+        27.55,
+        65.31
+      ],
+      "type_smallest": [
+        {
+          "tf": 21.77,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "QUIET COMPASS \u00b7 FREE AUDIT",
+          "chars": 26,
+          "size": 16.33
+        },
+        {
+          "tf": 21.77,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "HOW TO SCORE",
+          "chars": 12,
+          "size": 16.33
+        },
+        {
+          "tf": 23.129999,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "4 PAGES \u00b7 8 AREAS \u00b7 10 MINUTES \u00b7 A4 + LE",
+          "chars": 54,
+          "size": 17.35
+        }
+      ],
+      "links": {
+        "external": [],
+        "internal": 1,
+        "broken": 0
+      },
+      "chars": 677,
+      "ink_pct": 2.29,
+      "fill_pct": 56.6,
+      "content_ends_at_pct": 95.0,
+      "max_gap_pct": 13.8
+    },
+    {
+      "page": 2,
+      "size_mm": [
+        428.625,
+        571.5
+      ],
+      "fonts": [
+        {
+          "name": "/AAAAAA+IBMPlexMono-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/BAAAAA+Fraunces72pt-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/DAAAAA+SourceSans3-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/FAAAAA+SourceSans3-Italic",
+          "subtype": "Type0",
+          "embedded": true
+        }
+      ],
+      "type_sizes": [
+        16.33,
+        17.35,
+        18.37,
+        26.53,
+        38.78
+      ],
+      "type_smallest": [
+        {
+          "tf": 21.77,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "QUIET COMPASS",
+          "chars": 13,
+          "size": 16.33
+        },
+        {
+          "tf": 21.77,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "THE 10-MINUTE LIFE AUDIT",
+          "chars": 24,
+          "size": 16.33
+        },
+        {
+          "tf": 21.77,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "STEP ONE \u00b7 SCORE",
+          "chars": 16,
+          "size": 16.33
+        }
+      ],
+      "links": {
+        "external": [],
+        "internal": 2,
+        "broken": 0
+      },
+      "chars": 1041,
+      "ink_pct": 4.2,
+      "fill_pct": 71.2,
+      "content_ends_at_pct": 95.0,
+      "max_gap_pct": 4.1
+    },
+    {
+      "page": 3,
+      "size_mm": [
+        428.625,
+        571.5
+      ],
+      "fonts": [
+        {
+          "name": "/AAAAAA+IBMPlexMono-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/BAAAAA+Fraunces72pt-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/CAAAAA+Fraunces72pt-Italic",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/DAAAAA+SourceSans3-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/EAAAAA+SourceSans3-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        }
+      ],
+      "type_sizes": [
+        16.08,
+        16.33,
+        17.35,
+        17.96,
+        20.41,
+        27.55,
+        38.78
+      ],
+      "type_smallest": [
+        {
+          "tf": 21.440001,
+          "tm": 1.0,
+          "cm": 0.749999920750002,
+          "font": "IBMPlexMono-Regular",
+          "sample": "2",
+          "chars": 1,
+          "size": 16.08
+        },
+        {
+          "tf": 21.440001,
+          "tm": 1.0,
+          "cm": 0.749999920750002,
+          "font": "IBMPlexMono-Regular",
+          "sample": "4",
+          "chars": 1,
+          "size": 16.08
+        },
+        {
+          "tf": 21.440001,
+          "tm": 1.0,
+          "cm": 0.749999920750002,
+          "font": "IBMPlexMono-Regular",
+          "sample": "6",
+          "chars": 1,
+          "size": 16.08
+        }
+      ],
+      "links": {
+        "external": [],
+        "internal": 2,
+        "broken": 0
+      },
+      "chars": 411,
+      "ink_pct": 1.09,
+      "fill_pct": 61.8,
+      "content_ends_at_pct": 95.0,
+      "max_gap_pct": 8.4
+    },
+    {
+      "page": 4,
+      "size_mm": [
+        428.625,
+        571.5
+      ],
+      "fonts": [
+        {
+          "name": "/AAAAAA+IBMPlexMono-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/BAAAAA+Fraunces72pt-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/DAAAAA+SourceSans3-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/EAAAAA+SourceSans3-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        }
+      ],
+      "type_sizes": [
+        16.33,
+        17.35,
+        18.37,
+        19.39,
+        21.43,
+        38.78
+      ],
+      "type_smallest": [
+        {
+          "tf": 21.77,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "QUIET COMPASS",
+          "chars": 13,
+          "size": 16.33
+        },
+        {
+          "tf": 21.77,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "THE 10-MINUTE LIFE AUDIT",
+          "chars": 24,
+          "size": 16.33
+        },
+        {
+          "tf": 21.77,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "STEP THREE \u00b7 MOVE",
+          "chars": 17,
+          "size": 16.33
+        }
+      ],
+      "links": {
+        "external": [],
+        "internal": 1,
+        "broken": 0
+      },
+      "chars": 902,
+      "ink_pct": 2.61,
+      "fill_pct": 94.8,
+      "content_ends_at_pct": 95.0,
+      "max_gap_pct": 3.4
+    }
+  ],
+  "fonts_used": [
+    "/AAAAAA+IBMPlexMono-Regular",
+    "/BAAAAA+Fraunces72pt-SemiBold",
+    "/CAAAAA+Fraunces72pt-Italic",
+    "/DAAAAA+SourceSans3-Regular",
+    "/EAAAAA+SourceSans3-SemiBold",
+    "/FAAAAA+SourceSans3-Italic"
+  ],
+  "fails": [],
+  "warnings": []
+}

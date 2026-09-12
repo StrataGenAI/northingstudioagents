@@ -1,0 +1,43 @@
+<meta charset="utf-8">
+<title>Page system smoke test — tablet</title>
+<link rel="stylesheet" href="../../_assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../_assets/product-base.css">
+<!--
+  Tablet-edition regression test: 1620x2160 px portrait, with the tab rail and
+  internal links that paper editions do not carry.
+  Build:  build_pdf.py Products/_smoke/build/smoke-tablet.html -o /tmp/smoke-tablet.pdf --size tablet
+  Expect: 2 pages at 428.6x571.5mm. If Chrome returns A4 instead, it is ignoring
+  the CSS page size and the tablet edition needs the CDP route, not --print-to-pdf.
+-->
+
+<body class="size-tablet">
+
+<section class="page" id="map">
+  <nav class="tabrail">
+    <a href="#map" class="is-current">MAP</a>
+    <a href="#one">1</a>
+  </nav>
+  <p class="kicker">Quiet Compass · tablet</p>
+  <h1>The Map</h1>
+  <p class="accent-line">Every page one tap from here, and a way back from every page.</p>
+  <div class="stack-4">
+    <div class="box"><a href="#one">1 · Time</a></div>
+  </div>
+  <div class="fill"></div>
+  <p class="spec-strip">Tablet edition · hyperlinked · 1620 × 2160</p>
+</section>
+
+<section class="page" id="one">
+  <nav class="tabrail">
+    <a href="#map">MAP</a>
+    <a href="#one" class="is-current">1</a>
+  </nav>
+  <div class="runhead"><span>Day 1 · time</span><span>20 min</span></div>
+  <h2>Where the hours went</h2>
+  <p>The tablet edition carries the tab rail; the printable editions do not.</p>
+  <div class="lines"><i></i><i></i><i></i><i></i></div>
+  <div class="fill"></div>
+  <div class="runfoot"><span><a href="#map">← back to map</a></span><span class="num">2</span></div>
+</section>
+
+</body>

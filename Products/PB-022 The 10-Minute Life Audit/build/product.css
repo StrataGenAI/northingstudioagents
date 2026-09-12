@@ -1,0 +1,196 @@
+/* PB-022 The 10-Minute Life Audit — product-specific pieces.
+ *
+ * Everything general lives in ../../_assets/product-base.css. This file adds
+ * only what this product needs: the scoring row, the 0-10 scale strip, the
+ * eight-area wheel, and the three sheet re-layouts.
+ *
+ * No hex values here. Colours come from the base stylesheet's tokens, which
+ * come from brand-kit.md.
+ *
+ * [Assumption] The brand name "Northing Studio" is not yet confirmed by the
+ * owner. It appears in the HTML only, never baked into a class name or an
+ * image, so a rename touches copy and nothing else.
+ */
+
+/* ------------------------------------------------------------ page setup */
+/* The spec's "Page setup" line sets all four margins to 15 mm; the shared base
+   uses an 18 mm head. The spec wins on page setup. */
+body { --margin-top: 15mm; --margin-bottom: 15mm; --margin-x: 15mm; }
+
+/* The .sheet wrapper exists so the tablet edition can scale the whole page
+   with one `zoom`, instead of overriding twenty type sizes by hand. On paper
+   it is a plain flex column and does nothing. */
+.sheet { display: flex; flex-direction: column; width: 100%; height: 100%; }
+.sheet > .fill { flex: 1 1 auto; min-height: 0; }
+
+/* Page numbers sit bottom-centre in mono, `1/4` style, per the spec. A three
+   column grid keeps the number optically centred whatever sits beside it. */
+.runfoot { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+.runfoot .foot-l { justify-self: start; display: flex; align-items: center; gap: 2mm; }
+.runfoot .foot-c { justify-self: center; font-family: var(--mono); font-size: 8.5pt; }
+.runfoot .foot-r { justify-self: end; }
+.compass-mini { width: 5mm; height: 5mm; display: block; }
+
+/* A stone tint, used for the score-row zebra and the cross-sell panel — the
+   two uses brand-kit.md names for stone. Drawn as a 55% layer rather than a
+   solid so the printable build stays inside its ink budget. */
+.tint { position: relative; }
+.tint::before {
+  content: ""; position: absolute; inset: 0; background: var(--stone);
+  opacity: .55; border-radius: var(--radius);
+}
+.tint > * { position: relative; }
+
+/* ------------------------------------------------- page 1, the title block */
+.lede { font-size: 11pt; line-height: 1.5; }
+.howto { margin-top: 1mm; }
+
+/* ------------------------------------------------ page 2, the scoring rows */
+/* One row per area: name and clarifying line on the left, the 0-10 strip on
+   the right, and the "why" rule beneath. Rows sit on a 9 mm baseline. */
+.areas { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0;
+         margin: 1mm 0 3mm; }
+/* Eight equal bands sharing the sheet's leftover height, so the rows reach the
+   foot of the page instead of stopping half way down. */
+.arow { position: relative; flex: 1 1 0; display: flex; flex-direction: column;
+        justify-content: center; padding: 0.8mm 3mm; }
+/* The zebra. brand-kit.md names "table zebra rows" as a use of stone; it is
+   laid on at 55% so the printable build stays inside its ink budget. */
+.arow:nth-child(even)::before {
+  content: ""; position: absolute; inset: 0; background: var(--stone); opacity: .55;
+}
+.arow > * { position: relative; }
+.arow-top { display: flex; align-items: center; gap: 4mm; }
+.arow-id { flex: 1 1 auto; min-width: 0; }
+.arow-name { font-family: var(--serif); font-size: 13pt; font-weight: 600;
+             line-height: 1.15; margin: 0; }
+.arow-note { font-size: 9pt; line-height: 1.3; margin: 0.4mm 0 0; }
+.arow-why { display: flex; align-items: flex-end; gap: 2.5mm; margin-top: 1.4mm; }
+.arow-why .label {
+  font-family: var(--mono); font-size: 8pt; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--primary); white-space: nowrap;
+  padding-bottom: 0.6mm;
+}
+/* The house writing-line pitch, 7.5 mm, from brand-kit.md §"Visual system".
+   Round 1 shipped 6.6 mm here (and 6.0 mm on Letter and tablet) while the build
+   log told the print-tester it was 7.5 mm. The eight rows are flex bands sharing
+   the sheet's leftover height, so the extra millimetre comes out of slack that
+   was being wasted as padding - it costs no row and no page. */
+.arow-why .rule { flex: 1 1 auto; height: var(--rule-line);
+                  border-bottom: var(--hairline) solid var(--stone); }
+.fn { vertical-align: super; font-size: 8pt; color: var(--primary); }
+.footnote { font-size: 9pt; line-height: 1.35; margin: 0; }
+
+/* The 0-10 strip: eleven rings, each big enough to circle with a real pen. */
+.scale { display: flex; gap: 1.4mm; align-items: center; flex: 0 0 auto; }
+.scale i {
+  width: 5.2mm; height: 5.2mm; border: var(--hairline) solid var(--primary);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-style: normal; font-size: 8.5pt; color: var(--ink);
+  line-height: 1;
+}
+
+/* ------------------------------------------------------- page 3, the wheel */
+/* Centres the wheel (and the cover compass) in whatever height is left over,
+   so the slack splits above and below it rather than pooling in one band. */
+.wheel-wrap { display: flex; align-items: center; justify-content: center; }
+/* 52 mm, not the 88 mm of round 1. The spec orders no diagram on page 1, and at
+   88 mm this brand mark was a large ringed circle two pages before the 120 mm
+   ringed circle the buyer actually scores - two different wheels in a four-page
+   file. At 52 mm it reads as the signature device brand-kit.md calls for and
+   cannot be mistaken for the exercise. Justified in new-copy.md. */
+.page--cover .device--cover { width: 52mm; height: 52mm; }
+.wheel { display: block; margin: 0 auto; width: 164mm; height: 164mm; }
+.instruction { font-size: 10.5pt; line-height: 1.45; margin: 5mm auto 0; text-align: center;
+               max-width: 160mm; }
+.wheel-fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter);
+                margin-top: 7mm; }
+.wheel-fields .label { display: flex; align-items: center; gap: 1.6mm; }
+/* The one brass element on the page. It is paired with its label, never alone,
+   so the page still reads in greyscale. */
+.brass-dot { width: 2.6mm; height: 2.6mm; border: 0.8pt solid var(--accent);
+             border-radius: 50%; flex: 0 0 auto; }
+.closing { font-family: var(--serif); font-style: italic; font-size: 13.5pt;
+           line-height: 1.35; color: var(--primary); text-align: center; margin: 6mm 0 0; }
+
+/* -------------------------------------------------- page 4, the move block */
+/* Round 1 ran the panel down the full column height with a bare `.fill` in the
+   middle, which left 205.6 mm of its 258.4 mm carrying no ink and one unbroken
+   173.3 mm void - a tall tinted box with a hole in it, on the page that has to
+   sell PB-003. No gate can catch that: the panel's own background marks every
+   scan row as content, so the dead-space gate scores the page clean.
+   The page is now an intro band - the action block's opening beside the panel,
+   both at their natural height - and then the five writing fields run the FULL
+   width of the sheet beneath it. Nothing is stretched to fill, so there is no
+   void to fill, and the buyer writes on 180 mm rules instead of 111 mm ones. */
+.move-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--gutter);
+             align-items: start; }
+.move-fields { display: flex; flex-direction: column; justify-content: space-between;
+               flex: 1 1 auto; min-height: 0; }
+.move-fields .field { margin-bottom: 0; }
+/* The last field is an instruction plus a label, not one long label. Set the
+   sentence in sans sentence case on its own line above the mono label, so the
+   two stop being the same object. The spec's words are unchanged. */
+.field--instr > .lead-in { display: block; font-size: 9.5pt; line-height: 1.35;
+                           color: var(--ink); margin-bottom: 0.6mm; }
+/* 9 mm rules here rather than the 7.5 mm house pitch: this is the page the
+   buyer writes a real sentence on, and the column has the height to spare. */
+.move-fields .lines > i { height: 9mm; }
+.panel--stone { display: flex; flex-direction: column; }
+/* product-base.css sets `.panel .kicker { opacity: .75 }`. That opacity makes
+   Chrome emit the run inside a transparency group with per-glyph positioning,
+   and the PDF text layer then extracts as "I F  Y O U  W A N T  M O R E" -
+   unsearchable, un-copyable, and invisible to the copy gate. Restoring full
+   opacity (and carrying the quiet tone with colour instead) keeps it one text
+   run. Tracking was never the cause; see BUILD-LOG.md. */
+.panel--stone .kicker { opacity: 1; color: var(--primary); }
+.panel--stone .sell { font-size: 9.5pt; line-height: 1.45; }
+.panel--stone .limit { font-size: 9.5pt; line-height: 1.45; margin: 0; }
+
+/* The spec asks for the repeated disclaimer at 8 pt. The 9 pt floor is an
+   accessibility gate in printable-pdf and product-builder, so it is set at
+   9 pt here and the deviation is recorded in BUILD-LOG.md. */
+.disclaimer-foot { font-size: 9pt; line-height: 1.35; margin: 0 0 2mm; }
+
+/* --------------------------------------------------------- link furniture */
+/* Digital editions only. Paper editions never render these. */
+.navlink { font-family: var(--mono); font-size: 8.5pt; text-decoration: none;
+           color: var(--primary); }
+body.print-build .navlink { display: none; }
+
+/* ===================================================== LETTER re-layout ====
+ * Letter is 5.9 mm wider and 17.6 mm shorter than A4, so it is re-flowed, not
+ * scaled: the scoring row uses the extra width to put the "why" rule beside
+ * the scale strip instead of beneath it, which buys back the lost height.
+ */
+body.size-letter .arow { padding: 1.6mm 3mm 1.2mm; }
+body.size-letter .arow-top { align-items: flex-start; }
+body.size-letter .arow-why { margin-top: 1mm; }
+/* No writing-band override here any more. Round 1 cut this to 6 mm - 20% under
+   the house floor - to buy back the 17.6 mm Letter loses to A4. The height comes
+   out of the rows' shared slack instead; all three editions now write at the
+   7.5 mm brand-kit pitch. */
+body.size-letter .scale i { width: 5mm; height: 5mm; }
+body.size-letter .scale { gap: 1.3mm; }
+/* 156 mm of sheet height is all page 3 can spare once the fields and the
+   closing line are placed; the wheel is 114 mm across here, not 120 mm. */
+body.size-letter .wheel { width: 156mm; height: 156mm; }
+body.size-letter .instruction { font-size: 10pt; }
+body.size-letter h1 { font-size: 32pt; }
+
+/* ===================================================== TABLET re-layout ====
+ * 1620x2160 px at 96 dpi is 428.6 x 571.5 mm. Scaling the content by
+ * 1620/793.7 = 2.041 makes one tablet page the optical equal of an A4 page,
+ * so type, rules and the wheel keep their paper proportions on a screen.
+ * The usable height works out at ~253 mm of A4-equivalent, so the tablet
+ * edition follows the shorter Letter layout.
+ */
+body.size-tablet { --margin-x: 28mm; --margin-top: 28mm; --margin-bottom: 28mm; }
+body.size-tablet .sheet { zoom: 2.041; }
+body.size-tablet .wheel { width: 152mm; height: 152mm; }
+body.size-tablet .instruction { font-size: 10pt; }
+body.size-tablet .arow { padding: 1.6mm 3mm 1.2mm; }
+/* As Letter: the 6 mm override is gone, the band is the 7.5 mm house pitch. */
+body.size-tablet .scale i { width: 5mm; height: 5mm; }
+body.size-tablet .scale { gap: 1.3mm; }
+body.size-tablet h1 { font-size: 32pt; }

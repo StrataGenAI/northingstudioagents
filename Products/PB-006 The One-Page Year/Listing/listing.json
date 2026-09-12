@@ -1,0 +1,124 @@
+{
+  "product_id": "PB-006",
+  "product_name": "The One-Page Year",
+  "brand": "Northing Studio",
+  "version": "v1.0",
+  "last_updated": "2026-09-12",
+  "price_usd": 0,
+  "launch_price_usd": null,
+  "launch_discount": "None. This product is free and stays free; the plan's 20%-for-two-weeks launch discount applies to paid products only.",
+
+  "claims": {
+    "pages": 2,
+    "formats": ["A4", "Letter", "Tablet"],
+    "undated": true,
+    "files": [
+      "NorthingStudio_One-Page-Year_A4.pdf",
+      "NorthingStudio_One-Page-Year_Letter.pdf",
+      "NorthingStudio_One-Page-Year_Tablet.pdf",
+      "README.txt",
+      "licences/"
+    ],
+    "measured": {
+      "A4_mm": [210.0, 297.0],
+      "Letter_mm": [215.9, 279.4],
+      "Tablet_px": [1620, 2160],
+      "Tablet_mm": [428.6, 571.5],
+      "ink_coverage_pct": "1.7-2.0 (limit 8.0)",
+      "dist_total_mb": 0.21
+    }
+  },
+
+  "disclaimer": "A structured self-reflection tool. Not therapy, diagnosis or financial advice.",
+
+  "etsy": {
+    "listing_type": "Digital download (instant download)",
+    "category": "Paper & Party Supplies > Paper > Stationery > Design & Templates > Templates > Planners & Inserts",
+    "attributes": {
+      "Primary colour": "Beige / cream",
+      "Holiday": "None",
+      "Occasion": "None",
+      "Digital file type": "PDF",
+      "Renewal": "Automatic"
+    },
+    "title": "One Page Goal Sheet Printable | Your Year on One Page | Undated Goal Planner, A4 + Letter + GoodNotes PDF",
+    "tags": [
+      "one page goal sheet",
+      "year on one page",
+      "goal planner",
+      "undated planner",
+      "yearly goals",
+      "new year planner",
+      "minimalist planner",
+      "goodnotes template",
+      "vision sheet",
+      "intention setting",
+      "reflection sheet",
+      "personal growth",
+      "digital planner"
+    ],
+    "materials": ["PDF", "printable", "digital download"],
+    "price_note": "BLOCKED: Etsy charges a $0.20 listing fee and we could not confirm that a $0 sale price is allowed. See assumptions. Do not publish on Etsy until the owner settles the price.",
+    "description": "YOUR YEAR, ON ONE PAGE\n\nOne sheet you can fill in tonight and pin up tomorrow. Not a system to maintain - a page to look at.\n\nWHAT IT IS\nA two-page PDF, undated. Page 1 is the plan: one sentence for the year, three goals, why those three, the first step for each, and the one habit you keep on a bad week. Page 2 is how to use it, in five steps.\n\nWHO IT'S FOR\n- You want the year in front of you, not buried in an app.\n- You have tried a sixty-page planner and stopped in February.\n- You write by hand, on paper or on a tablet.\n\nWHO IT'S NOT FOR\n- You want a tracker. There is no habit grid, no calendar and no monthly pages - this is one sheet plus a how-to page.\n- You want to edit the text. It is a flat PDF, not a Canva or Word template.\n- You want the year printed on it. It is undated by design and has no year field, so write the year at the top if you want one there.\n- You want a clinical tool. This is for reflection and planning only.\n\nWHAT'S INSIDE\n- 3 PDFs, 2 pages each: A4, US Letter, and a tablet edition\n- 5 blocks on page 1: the sentence, three goals, why these, the first step, the floor\n- 5 steps on page 2, plus one honest note about what this page does not do\n- README.txt with printing notes and the licence, and a licences folder with the three font licences\n- 0.2 MB in total\n\nHOW IT WORKS\n1. Print it, or open it in your tablet notes app.\n2. Answer the five blocks in one sitting - about five minutes. First answers are usually the honest ones.\n3. Put it somewhere you pass every day, and read it again on the first Sunday of each month.\n\nFORMATS\nA4 210 x 297 mm - US Letter 8.5 x 11 in - Tablet 1620 x 2160 px. Portrait, undated, single-sided. The Letter edition is laid out separately for the shorter sheet; it is not a scaled A4, so nothing shifts in the margins. Print at 100% (choose \"Actual size\", not \"Fit to page\"). Ink-light: it prints in pure black and white with no loss.\n\nCOMPATIBILITY\nAny app that opens a PDF and lets you write on it - GoodNotes, Notability and Samsung Notes among them. Flat pages, no interactive fields, one link on page 2. Plain text here, no logos: we are not affiliated with those apps.\n\nFAQ\nWhy is it free? Because it is how you meet us. It costs you an email address at checkout, and a rating if the page earns one.\nIs it a cut-down version of something I have to buy? No. This free page is the whole page - there is no locked version of it.\nIs it worth paying for? You do not have to pay anything. If you later want the longer method, a paid product is being built; this sheet does not expire when it arrives.\nCan I print it more than once? Yes, as many copies as you like, for yourself.\nCan I resell or share the file? No. Personal use only - please do not resell or redistribute it.\nWill it work on my printer? It is made for a home printer at 100%. The writing rules are hairlines, so a draft-mode inkjet may print them faintly; the structure still reads.\n\nREFUNDS\nThis is an instant digital download, so nothing is posted to you and there is nothing to refund. If a file will not open or will not print, message us and we will fix it or tell you why.\n\nTHE NEXT STEP\nThis page is the shortest version of a longer method. The Compass System - how you decide which three goals, and what you do on the weeks it falls apart - is still being built. It is named on page 2 of this file. There is no link to it yet, and nothing here depends on it.\n\nA structured self-reflection tool. Not therapy, diagnosis or financial advice.\n\nLast updated 12 September 2026, v1.0. First release."
+  },
+
+  "gumroad": {
+    "name": "The One-Page Year",
+    "slug": "one-page-year",
+    "url_unconfirmed": "https://northingstudio.gumroad.com/l/one-page-year",
+    "summary": "One page you'll actually look at.",
+    "tiers": [
+      {
+        "name": "The One-Page Year",
+        "price_usd": 0,
+        "type": "Pay what you want, minimum $0, suggested $3",
+        "note": "The plan specifies $0 with an optional 'support $3'. Gumroad caps $0 / pay-what-you-want products at 250 MB; this package is 0.21 MB."
+      }
+    ],
+    "description": "# Your year, on one page.\n\nOne sheet you can fill in tonight and pin up tomorrow. Not a system to maintain - a page to look at.\n\n**What it is.** A two-page PDF, undated. Page 1 is the plan: one sentence for the year, three goals, why those three, the first step for each, and the one habit you keep on a bad week. Page 2 is how to use it, in five steps.\n\n**Who it's for**\n- You want the year in front of you, not buried in an app.\n- You have tried a sixty-page planner and stopped in February.\n- You write by hand, on paper or on a tablet.\n\n**Who it's not for**\n- You want a tracker. There is no habit grid, no calendar and no monthly pages - this is one sheet plus a how-to page.\n- You want to edit the text. It is a flat PDF, not a Canva or Word template.\n- You want the year printed on it. It is undated by design and has no year field, so write the year at the top if you want one there.\n- You want a clinical tool. This is for reflection and planning only.\n\n**What's inside**\n- 3 PDFs, 2 pages each: A4, US Letter, and a tablet edition\n- 5 blocks on page 1: the sentence, three goals, why these, the first step, the floor\n- 5 steps on page 2, plus one honest note about what this page does not do\n- README.txt with printing notes and the licence, and a licences folder with the three font licences\n- 0.2 MB in total\n\n**How it works**\n1. Print it, or open it in your tablet notes app.\n2. Answer the five blocks in one sitting - about five minutes. First answers are usually the honest ones.\n3. Put it somewhere you pass every day, and read it again on the first Sunday of each month.\n\n**Formats.** A4 210 x 297 mm - US Letter 8.5 x 11 in - Tablet 1620 x 2160 px. Portrait, undated, single-sided. The Letter edition is laid out separately for the shorter sheet; it is not a scaled A4, so nothing shifts in the margins. Print at 100% (choose \"Actual size\", not \"Fit to page\"). Ink-light: it prints in pure black and white with no loss.\n\n**Compatibility.** Any app that opens a PDF and lets you write on it - GoodNotes, Notability and Samsung Notes among them. Flat pages, no interactive fields, one link on page 2. Plain text here, no logos: we are not affiliated with those apps.\n\n**FAQ**\n- *Why is it free?* Because it is how you meet us. It costs you an email address at checkout, and a rating if the page earns one.\n- *Is it a cut-down version of something I have to buy?* No. This free page is the whole page - there is no locked version of it.\n- *Is it worth paying for?* You do not have to pay anything. If you later want the longer method, a paid product is being built; this sheet does not expire when it arrives.\n- *Can I print it more than once?* Yes, as many copies as you like, for yourself.\n- *Can I resell or share the file?* No. Personal use only - please do not resell or redistribute it.\n- *Will it work on my printer?* It is made for a home printer at 100%. The writing rules are hairlines, so a draft-mode inkjet may print them faintly; the structure still reads.\n\n**Refunds.** It is free, so there is nothing to pay and nothing to refund. If a file will not open or will not print, email us and we will fix it or tell you why.\n\n**The next step.** This page is the shortest version of a longer method. The Compass System - how you decide which three goals, and what you do on the weeks it falls apart - is still being built. It is named on page 2 of this file. There is no link to it yet, and nothing here depends on it.\n\nA structured self-reflection tool. Not therapy, diagnosis or financial advice.\n\nLast updated 12 September 2026, v1.0. First release.",
+    "receipt_message": "Thank you - the files are on this page and in your email.\n\nStart with the A4 or Letter PDF, whichever matches your paper, and print at 100% (\"Actual size\"). On a tablet, import the Tablet PDF into your notes app and write on it with a stylus.\n\nOne instruction, if you only take one: answer the five blocks in one sitting. Don't polish. First answers are usually the honest ones.\n\nIf the page earned it, a rating takes a few seconds and is the most useful thing you can do for a small shop.\n\nThis free page is the whole page - there is no locked version of it.\n\nA structured self-reflection tool. Not therapy, diagnosis or financial advice."
+  },
+
+  "images": [
+    {"slot": 1, "file": "01-hero.png", "role": "HERO 16:9", "size": "2560x1440", "headline": "Your year, on one page."},
+    {"slot": 2, "file": "02-thumb.png", "role": "HERO square", "size": "2000x2000", "headline": "Your year, on one page."},
+    {"slot": 3, "file": "03-included.png", "role": "INCL", "size": "2000x2000", "headline": "Everything you get."},
+    {"slot": 4, "file": "04-page.png", "role": "PAGES", "size": "2000x2000", "headline": "The whole sheet, full size."},
+    {"slot": 5, "file": "05-demo.png", "role": "DEMO", "size": "2000x2000", "headline": "What one looks like, filled in."},
+    {"slot": 6, "file": "06-blocks.png", "role": "FEAT", "size": "2000x2000", "headline": "Five blocks. That's the page."},
+    {"slot": 7, "file": "07-howtouse.png", "role": "PAGES", "size": "2000x2000", "headline": "Page two: how to use it."},
+    {"slot": 8, "file": "08-size.png", "role": "SIZE + COMPAT", "size": "2000x2000", "headline": "Paper or tablet. Both included."},
+    {"slot": 9, "file": "09-howto.png", "role": "HOWTO", "size": "2000x2000", "headline": "Download, print, five minutes."},
+    {"slot": 10, "file": "10-next.png", "role": "BUNDLE (substituted)", "size": "2000x2000", "headline": "What this free page doesn't do."}
+  ],
+
+  "assumptions": [
+    "[Assumption] The Gumroad product URL https://northingstudio.gumroad.com/l/one-page-year is a PROPOSED slug. The owner has registered northingstudio.gumroad.com but the product does not exist, so the full URL is unconfirmed until the owner creates it.",
+    "[Assumption] The Etsy shop does not exist yet. The owner will claim the shop name directly. Nothing here asserts that it exists.",
+    "[Assumption] Etsy category path and attributes are a best guess at Etsy's current tree; confirm them in Etsy's own picker.",
+    "[Assumption] Etsy title and tag limits (140 chars, exactly 13 tags, 20 chars each) are taken from the listing-copy skill, checked 2026-09-12. Re-check before publishing; platforms change them.",
+    "[Assumption] Keyword choices are judgement, not measured search volume. We cannot see Etsy search data and must not scrape Etsy.",
+    "[Assumption] The 'support $3' pay-what-you-want tier comes from the product brief; the owner may prefer a clean $0."
+  ],
+
+  "blocked": [
+    "BLOCKING - placeholder domain is printed inside the shipped PDFs. Page 2 of all three editions shows 'northingstudio.example/compass-system' and both page footers show 'northingstudio.example'. The domain does not resolve. The files must be rebuilt with a real URL (or the line removed) before publishing, and the listing images re-rendered afterwards.",
+    "BLOCKING - no support contact exists. README.txt carries the placeholder 'hello@northingstudio.example'. The owner must supply a real address, and the file must be rebuilt.",
+    "BLOCKING - PB-002 The Compass System has no URL because the product has not been built. No link is claimed anywhere in this listing.",
+    "BLOCKING - Etsy price. Etsy charges a $0.20 listing fee and we could not confirm that a $0 sale price is possible. Until the owner settles this, publish on Gumroad only.",
+    "BLOCKING - the tablet claim is untested. No edition has been opened in GoodNotes, Notability or Samsung Notes on a real device (BUILD-LOG R2.9). Open it once before publishing, or soften the compatibility line.",
+    "BLOCKING - no printed proof. Nobody has printed an A4 or a Letter sheet, or written on one with a pen (BUILD-LOG R2.9). The hairline writing rules are the risk.",
+    "OPEN - plan Q3: separate free listing vs a $0 tier inside a paid listing. This package assumes a separate free listing.",
+    "OPEN - plan Q5: the refund promise. No promise of any kind is stated in this copy, on purpose.",
+    "OPEN - 'Northing Studio' is unscreened for trademark; the brand kit's own screen returned CONFLICT and the owner accepted the risk knowingly. A professional search is still outstanding."
+  ],
+
+  "must_not_claim": [
+    "No sales counts, download counts, ratings, reviews or testimonials - we have none.",
+    "No 'bestseller', '#1' or 'top rated'.",
+    "No refund or outcome promise until the owner decides (plan Q5).",
+    "No trademarked method names. The ban list is enforced by banned_terms.py.",
+    "No platform-endorsement badges, no app logos - app names are plain text only.",
+    "No struck-through price. This product has never been sold at any price."
+  ]
+}

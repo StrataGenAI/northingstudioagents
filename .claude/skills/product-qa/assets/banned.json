@@ -1,0 +1,55 @@
+{
+  "_note": "Rules for banned_terms.py. 'banned' and 'unsafe_claims' block a release; 'hype' warns. Every entry states why, so a reviewer can judge a false positive instead of guessing. Keep this in step with the project memory file product-naming-trademark-bans.md.",
+
+  "banned_terms": [
+    {"term": "Wheel of Life", "why": "WHEEL OF LIFE is a live US registration (Reg. 3918518, Success Motivation International) covering printed personal-development and goal-setting materials - our exact goods. Use 'The Balance Audit'."},
+    {"term": "Getting Things Done", "why": "David Allen's registered method name."},
+    {"regex": true, "pattern": "\\bGTD\\b", "term": "GTD", "why": "Abbreviation of Getting Things Done, a registered method name."},
+    {"regex": true, "pattern": "\\bPARA\\b(?!\\w)", "term": "PARA", "why": "Tiago Forte's method name (Building a Second Brain)."},
+    {"term": "Building a Second Brain", "why": "Tiago Forte's book and course name."},
+    {"term": "Second Brain", "why": "Reads as Building a Second Brain; pick our own mechanism name."},
+    {"term": "12 Week Year", "why": "Brian Moran's registered book and system name."},
+    {"term": "Bullet Journal", "why": "Ryder Carroll's registered trademark; 'BuJo' too."},
+    {"regex": true, "pattern": "\\bBuJo\\b", "term": "BuJo", "why": "Registered abbreviation of Bullet Journal."},
+    {"term": "Atomic Habits", "why": "James Clear's book title; do not borrow it for habit pages."},
+    {"regex": true, "pattern": "\\bThat Girl\\b", "term": "That Girl", "why": "Loaded social-media aesthetic the brand explicitly rejects."},
+    {"regex": true, "pattern": "\\b75 Hard\\b", "term": "75 Hard", "why": "Andy Frisella's trademarked programme."},
+    {"regex": true, "pattern": "\\bWOOP\\b", "term": "WOOP", "why": "Gabriele Oettingen's trademarked method."},
+    {"term": "Mandalart", "why": "Third-party method name."},
+    {"term": "Solo Leveling", "why": "Third-party entertainment IP."},
+    {"term": "Eisenhower Matrix", "why": "Name it ourselves - the grid is fine, the borrowed label is not our brand voice."},
+    {"term": "Life Compass", "why": "Dropped on the conflict screen: crowded on Etsy/Gumroad and the name of an ACT therapy worksheet. Use 'The Compass System'."},
+    {"term": "1% Studio", "why": "Rejected brand name: three live users including The 1% Planner, a direct category neighbour."}
+  ],
+
+  "unsafe_claims": [
+    {"regex": true, "pattern": "(cure|heal|fix|overcome|beat|eliminate)\\s+(your\\s+)?(anxiety|depression|burnout|trauma|adhd|ptsd)", "term": "treatment promise", "why": "Promises to treat a medical or mental-health condition. We sell reflection tools, not treatment."},
+    {"regex": true, "pattern": "(diagnos\\w+|assess whether you|find out if you('re| are))\\s*(have|are|suffer|burnt|burned)?", "term": "diagnostic framing", "why": "Implies clinical assessment. Brand rule: a structured self-reflection tool, never a diagnosis.", "allow_if_near": ["not", "never", "isn't", "is not", "no diagnosis"]},
+    {"regex": true, "pattern": "\\b(therapy|therapeutic|treatment plan|clinically (proven|tested))\\b", "term": "clinical language", "why": "Clinical framing outside the disclaimer. The words are allowed only inside the 'not therapy' disclaimer itself.", "allow_if_near": ["not", "never", "isn't", "is not"]},
+    {"regex": true, "pattern": "(scientifically|clinically) proven|studies (show|prove)|research (shows|proves)|proven to (work|increase|improve)", "term": "unsourced science claim", "why": "A research claim we cannot cite. The pipeline forbids numbers or studies that are not in the evidence files."},
+    {"regex": true, "pattern": "\\b\\d{1,3}\\s?%\\s+(of (people|users|buyers)|more (productive|focused)|increase|improvement|success)", "term": "invented statistic", "why": "A statistic with no source. Never put performance percentages in product copy."},
+    {"regex": true, "pattern": "(?<!not )(?<!isn't )(?<!is not )(?<!never )\\b(financial|investment|tax|legal|medical) advice\\b", "term": "advice claim", "why": "Money and legal pages must say 'educational only - not financial advice', never give it.", "allow_if_near": ["not", "never", "isn't", "is not", "educational only"]},
+    {"regex": true, "pattern": "(lose weight|weight loss|shed pounds|get shredded)", "term": "body/weight claim", "why": "Off-brand and risky; this is the competitor anti-model the brand kit calls out."},
+    {"regex": true, "pattern": "(guarantee[ds]?|guaranteed results|money.back promise)\\b", "term": "guarantee", "why": "A refund or outcome guarantee is an owner decision that is still open (plan Q5). It must not appear inside a product file."}
+  ],
+
+  "hype": [
+    {"regex": true, "pattern": "transform your (entire )?life|change your life forever|life.changing", "term": "life-transformation hype", "why": "Brand voice is calm, specific, kind-but-firm. Say what the buyer does in twenty minutes instead."},
+    {"regex": true, "pattern": "crush (your|it)|dominate|no excuses|most people (quit|fail)|stop being lazy", "term": "shaming/hustle tone", "why": "The explicit anti-model in the brand kit. We do not shame the buyer."},
+    {"regex": true, "pattern": "limited time|act now|only today|hurry|don't miss out", "term": "fake urgency", "why": "Brand rule: no urgency that never actually expires."},
+    {"regex": true, "pattern": "\\bunlock\\b|\\bsupercharge\\b|\\bskyrocket\\b|\\b10x\\b|game.chang(er|ing)", "term": "marketing filler", "why": "Generic hype language; replace with the concrete thing the page does."},
+    {"regex": true, "pattern": "\\bikigai\\b", "term": "ikigai", "why": "The word is fine in prose, but the standard four-circle ikigai Venn is banned as borrowed and over-copied. Check the page's diagram."},
+    {"regex": true, "pattern": "\\beffortless\\b|\\binstantly\\b|\\bin just \\d+ (seconds|minutes) a day\\b", "term": "effortlessness claim", "why": "The method asks for real effort; promising ease undercuts the product and the voice."}
+  ],
+
+  "disclaimers": {
+    "reflection": {
+      "patterns": ["not (therapy|a diagnosis|a diagnostic|medical)", "self.reflection tool", "not therapy, diagnosis"],
+      "example": "A structured self-reflection tool. Not therapy, diagnosis or financial advice."
+    },
+    "money": {
+      "patterns": ["not financial advice", "educational only"],
+      "example": "Educational only - not financial advice."
+    }
+  }
+}

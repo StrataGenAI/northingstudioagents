@@ -1,0 +1,235 @@
+/* PB-006 The One-Page Year — the pieces this product needs that the shared page
+ * system does not already provide. Everything else comes from
+ * ../../_assets/product-base.css, which is never edited from inside a product.
+ *
+ * BRAND NAME IS AN [Assumption]. "Northing Studio" is not yet confirmed by the
+ * owner. It appears as literal text in exactly these places, so a rename is one
+ * grep away:
+ *   build/a4.html, build/letter.html, build/tablet.html
+ *     - the page 1 kicker      "NORTHING STUDIO · ONE PAGE"   (spec-required copy)
+ *     - the running footer     "NORTHING STUDIO"              (2 per file)
+ *     - the footer domain      "northingstudio.example / ..."
+ *   dist/README.txt, and the dist/*.pdf file names
+ * It is literal text rather than a CSS custom property on purpose: generated
+ * `content:` does not reliably survive PDF text extraction, which would break
+ * both the spec-coverage gate and the screen-reader text path.
+ *
+ * NEVER fade text with `opacity`. Chrome draws a faded run in its own
+ * transparency group and emits every glyph separately, so the PDF text layer
+ * shatters into single characters. verify_pdf.py fails any build that does it.
+ * Fade with a colour instead. Nothing in this file uses opacity.
+ */
+
+/* ---------------------------------------------------------- title block */
+/* Page 1 sets the title against the compass device, top-right, as the spec's
+   layout column orders. Flex rather than the 3-column inner grid because the
+   device is a fixed optical size and the text should take whatever is left. */
+.titleblock {
+  display: flex;
+  gap: var(--gutter);
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 5mm;
+}
+.titleblock__text { flex: 1 1 auto; }
+.titleblock h1 { margin-bottom: 2mm; }
+.titleblock .accent-line { margin-bottom: 0; }
+
+/* The intro sits BELOW the title block, not inside it, so it takes the full
+   180 mm measure and sets on one line on every edition. Inside the title block
+   it shared the width with the 26 mm device and had ~148 mm to play with — one
+   millimetre less than the sentence needs — so A4 alone broke it over two lines
+   and left a ragged hole beside it, while Letter and Tablet set it on one. */
+.intro { margin: 0 0 6mm; max-width: none; }
+
+/* The compass, small. Our own drawing; the one brass marker on N is the single
+   accent on the page, and it never carries meaning on its own.
+   It appears ONCE in the product — the brand kit allows one icon per product
+   family, and a second, larger copy on page 2 inverted the hierarchy. */
+.device--mark { width: 26mm; height: 26mm; flex: 0 0 auto; margin: 0; }
+
+/* ------------------------------------------------------------- the blocks */
+/* Five stacked blocks. The leftover height of the sheet is pushed into the gaps
+   between them, not into a single dead band at the foot, so the page fills
+   deliberately and no empty band approaches the gate's 20% limit. */
+.blocks {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5mm;
+}
+.block { display: block; }
+
+/* A block's name is set as a kicker with a rule under it. This keeps the page to
+   three content type sizes (title, accent line, prompt) and costs almost no ink.
+   The rule is the brand kit's SECTION rule — 1 pt primary — not a stone
+   hairline. On a sheet whose whole function is knowing where to write, a
+   structural rule must not look like a rule you write on: the 0.5 pt stone
+   hairlines are now the writing lines and nothing else. */
+.block__name {
+  font-family: var(--mono);
+  font-size: 8.5pt;
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 0 0 2.5mm;
+  padding-bottom: 1.5mm;
+  border-bottom: 1pt solid var(--primary);
+}
+.block__name .n { margin-right: 2.5mm; }
+.block .prompt { margin: 0 0 2.5mm; max-width: 155mm; }
+
+/* Numbered writing lines: the goal number sits on the line itself, so blocks 2,
+   3 and 4 line up goal-for-goal down the page. Real text, not generated
+   content, so it extracts from the PDF and reads aloud. */
+.lines--numbered > i { position: relative; }
+.lines--numbered > i > .ln {
+  position: absolute;
+  left: 0;
+  bottom: 1.4mm;
+  font-family: var(--mono);
+  font-size: 9.5pt;
+  line-height: 1;
+  color: var(--primary);
+}
+
+/* --------------------------------------------------------------- page 2 */
+/* Page 2 is one full-width column of five steps, with the cross-sell as a
+   full-width band at the foot.
+   It was two side-by-side columns, and that could not work. The cross-sell copy
+   is about a quarter of the steps copy, so stretching both to the same height
+   left 111.4 mm — 37.5% of the A4 sheet — of empty paper in the right column,
+   with the brand device grown to 46 mm and parked at its foot to stop the
+   column ending half-way. The sheet-wide gap gate could not see it (3.4%),
+   because the left column staggers content across every horizontal band; the
+   per-column gate reports it as 38%.
+   Two columns of very unequal content cannot both be full. So the page stops
+   pretending they are equal: the steps take the height they need, and the
+   cross-sell takes the full 180 mm width at the foot — which is also the only
+   change that makes room to set the one link at a size a buyer can read and
+   retype. The air is now inside the step bands, which is rhythm, rather than in
+   one hole beside them, which is a hole. */
+.p2title { max-width: none; }
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+/* Equal-height bands, each opened by a section rule with its number and text at
+   the top. Air inside a repeating unit reads as rhythm; the same air between
+   stray items reads as a page that failed to finish. */
+.steps > li {
+  flex: 1 1 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6mm;
+  padding-top: 3.5mm;
+  border-top: 1pt solid var(--primary);
+}
+.steps .n {
+  font-family: var(--mono);
+  font-size: 14pt;
+  line-height: 1.2;
+  color: var(--primary);
+  flex: 0 0 9mm;
+}
+.steps p { margin: 0; max-width: none; font-size: 11pt; line-height: 1.55; }
+
+/* ------------------------------------------------- the cross-sell band */
+/* The page's whole commercial job. It takes the full width at the foot, where
+   it is the last thing read, and it carries the page's single accent — an
+   18 mm rule, which carries no text. */
+.more { flex: 0 0 auto; margin-top: 9mm; }
+.more .rule-accent { margin: 0 0 4mm; width: 18mm; }
+.more__grid {
+  display: grid;
+  grid-template-columns: 1fr 100mm;
+  gap: 8mm;
+  align-items: stretch;
+}
+.pitch { margin: 0; max-width: none; font-size: 11pt; line-height: 1.55; }
+
+/* The link is the one thing on this sheet a buyer has to read off paper and
+   type back in, and it is the only tappable object in the tablet edition. It
+   was 8.5 pt primary with no underline — smaller than the body, smaller than
+   the steps, and visually identical to the running footer. It is now:
+     - inside its own outlined panel, so it reads as the call to action;
+     - 11 pt mono, larger than the body text rather than smaller;
+     - full-strength ink, which the brand kit requires for anything under 18 pt
+       (primary is for headings, large text and UI labels only) and which takes
+       it from 5.40:1 to the same contrast as the body;
+     - underlined, so it reads as a link in greyscale and without colour.
+   100 mm of panel less 12 mm of padding leaves 88 mm; the 35-character URL sets
+   in 81.5 mm at 11 pt, so it still holds ONE line — `word-break: break-all`
+   once split it as "compass-syst / em", which reads as a typo on paper. */
+.cta {
+  border: var(--hairline) solid var(--stone);
+  border-radius: var(--radius);
+  padding: 5mm 6mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.linkline { font-family: var(--mono); font-size: 11pt; line-height: 1.4; margin: 0; }
+.linkline a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+
+/* The closing line needs air beneath it as well as above: with the steps column
+   growing to fill the sheet there is no slack left at the foot, so without an
+   explicit bottom margin this line sits ~4 mm off the footer rule and reads as
+   cramped against it on a sheet where nothing else is. */
+.limit { margin: 5mm 0 7mm; max-width: none; }
+
+/* Full-strength ink. This is the smallest text on the sheet and the most
+   legally protective, so it takes the one colour the brand kit allows under
+   18 pt. The shared system fades it to 80% ink with color-mix; that is a safe
+   fade (it does not damage the text layer the way opacity did) but it is still
+   a fade, and this line should not be faded at all. */
+.disclaimer { color: var(--ink); margin: 4mm 0 3mm; }
+
+/* ------------------------------------------------------------ the footer */
+/* No page numbers: the spec says so, and there are only two pages. */
+.runfoot .wordmark { letter-spacing: 0.16em; }
+
+/* ------------------------------------------------- the two shorter sheets */
+/* US Letter (279.4 mm) and the tablet page (280 mm) are ~18 mm shorter than A4
+   and must not be a scaled copy of it. Both recover the height the same way:
+   the block gaps tighten and the prompts take the extra width. */
+body.size-letter .titleblock,
+body.size-tablet .titleblock { margin-bottom: 4mm; }
+body.size-letter .blocks,
+body.size-tablet .blocks { gap: 4mm; }
+body.size-letter .block .prompt,
+body.size-tablet .block .prompt { max-width: none; }
+
+/* Page 2 re-flows rather than scales. Letter is 5.9 mm wider and 17.6 mm
+   shorter, so its cross-sell band gives the link panel the extra width and
+   narrows the pitch paragraph, which makes the paragraph taller and fills the
+   shorter sheet. */
+body.size-letter .more__grid { grid-template-columns: 1fr 106mm; gap: 10mm; }
+body.size-tablet .more__grid { grid-template-columns: 1fr 102mm; gap: 9mm; }
+
+/* -------------------------------------------------------------- tablet */
+/* 1620 x 2160 px is 428.6 x 571.5 mm — a 3:4 sheet, relatively shorter and wider
+ * than either paper size.
+ *
+ * The whole page system is written in millimetres and points for paper. At
+ * 428 mm wide, 10.5 pt body text is unreadably small relative to the sheet, and
+ * the smoke test's tablet page proves it: its content stops 11.9% down the sheet
+ * (Products/_smoke/qa/verify-tablet.json). So the tablet page is composed at
+ * 210 x 280 mm — a comfortable 3:4 page — and zoomed to fill the pixel sheet.
+ * One multiplier, so every rule, line pitch and type size scales together and
+ * nothing drifts out of proportion. */
+body.size-tablet { --sheet-w: 210mm; --sheet-h: 280mm; }
+body.size-tablet .page {
+  zoom: 2.0409;                    /* 1620px / (210mm * 96/25.4) */
+  padding-right: var(--margin-x);  /* there is no tab rail on this edition */
+}

@@ -1,0 +1,38 @@
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../_assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../../_assets/artboard.css">
+<style>
+.crop { position: relative; overflow: hidden; background: #fff;
+        border: 1px solid var(--stone); }
+.crop img { position: absolute; display: block; }
+.crop--plain { border: 0; background: transparent; }
+.shadow { box-shadow: 0 24px 60px rgba(31,42,54,0.16); }
+.lead { font-size: 46px; line-height: 1.4; margin: 34px 0 0; }
+.ul { font-size: 42px; line-height: 1.5; margin: 30px 0 0; padding-left: 0; list-style: none; }
+.ul li { margin: 0 0 20px; padding-left: 46px; position: relative; }
+.ul li::before { content: ""; position: absolute; left: 0; top: 0.62em;
+                 width: 24px; height: 3px; background: var(--primary); }
+.centre { display: flex; flex-direction: column; justify-content: center; }
+</style>
+<style>
+.stackwrap { position: relative; width: 1140px; height: 1140px; }
+.stackwrap .page-img { position: absolute; width: 690px; }
+.stackwrap .back  { left: 0px;   top: 130px; transform: rotate(-3.5deg); }
+.stackwrap .front { left: 380px; top: 70px;  transform: rotate(2.5deg); }
+.art--hero h1 { font-size: 168px; }
+</style>
+<div class="art art--hero">
+  <div class="row" style="height:100%">
+    <div class="col" style="width:1040px;justify-content:center">
+      <p class="k">Northing Studio &middot; Free</p>
+      <hr class="rule-accent">
+      <h1>Ten minutes.<br>One clear<br>picture.</h1>
+      <p class="sub">Eight areas, one wheel, one small move.</p>
+      <p class="spec" style="margin-top:80px">4 PAGES &middot; 8 AREAS &middot; A4 + LETTER + TABLET &middot; UNDATED</p>
+    </div>
+    <div class="stackwrap">
+      <img class="page-img shadow back"  src="pages/NorthingStudio_10-Minute-Life-Audit_A4-p01.png">
+      <img class="page-img shadow front" src="pages/NorthingStudio_10-Minute-Life-Audit_A4-p03.png">
+    </div>
+  </div>
+</div>

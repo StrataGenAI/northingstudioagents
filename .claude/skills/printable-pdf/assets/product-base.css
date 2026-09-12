@@ -1,0 +1,304 @@
+/* Quiet Compass — print page system.
+ *
+ * Every measurement here is in millimetres because the output is paper. Set the
+ * sheet with a `size-*` class on <body> and one `.page` element per printed page.
+ *
+ *   <body class="size-a4">
+ *     <link rel="stylesheet" href="../../_assets/fonts/fonts.css">
+ *     <section class="page"> ... </section>
+ *
+ * Rules that are not negotiable (they come from brand-kit.md and the QA gates):
+ *   - body text is always --ink on --paper, never below 9 pt
+ *   - --accent never carries text or meaning on its own
+ *   - no solid fills bigger than a small panel: printables target <=8% ink
+ *   - writing lines are 7.5 mm apart, 0.5 pt --stone
+ */
+
+/* ---------------------------------------------------------------- tokens */
+:root {
+  --paper:   #FBF8F3;
+  --ink:     #1F2A36;
+  --primary: #3E6B89;
+  --accent:  #D9A441;
+  --support: #7C9A7E;
+  --stone:   #E4DCD0;
+
+  --serif: "Fraunces", Georgia, serif;
+  --sans:  "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --mono:  "IBM Plex Mono", "SF Mono", Menlo, monospace;
+
+  --margin-x: 15mm;
+  --margin-top: 18mm;
+  --margin-bottom: 15mm;
+  --gutter: 6mm;
+  --rule-line: 7.5mm;          /* writing line pitch */
+  --hairline: 0.5pt;
+  --radius: 2mm;
+}
+
+/* ------------------------------------------------------------ sheet size */
+/* Chrome rounds its own A4 to 209.9 mm; build_pdf.py normalises the page box
+   afterwards, so declare the true trim size here and let it correct the rest. */
+body.size-a4     { --sheet-w: 210mm;    --sheet-h: 297mm; }
+body.size-letter { --sheet-w: 215.9mm;  --sheet-h: 279.4mm; }
+body.size-a5     { --sheet-w: 148mm;    --sheet-h: 210mm; }
+body.size-tablet { --sheet-w: 1620px;   --sheet-h: 2160px; }
+
+body.size-a4     { }
+@page { margin: 0; }
+body.size-a4     { }
+
+/* Each sheet class needs its own @page block; keep these in step with the
+   classes above. build_pdf.py reads the first one it finds as a sanity check. */
+@media print {
+  body.size-a4     { page: a4sheet; }
+  body.size-letter { page: lettersheet; }
+  body.size-a5     { page: a5sheet; }
+  body.size-tablet { page: tabletsheet; }
+}
+@page a4sheet     { size: 210mm 297mm;     margin: 0; }
+@page lettersheet { size: 215.9mm 279.4mm; margin: 0; }
+@page a5sheet     { size: 148mm 210mm;     margin: 0; }
+@page tabletsheet { size: 1620px 2160px;   margin: 0; }
+
+/* --------------------------------------------------------------- reset */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--paper); }
+body {
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  line-height: 1.5;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ---------------------------------------------------------------- page */
+.page {
+  position: relative;
+  width: var(--sheet-w);
+  height: var(--sheet-h);
+  padding: var(--margin-top) var(--margin-x) var(--margin-bottom);
+  background: var(--paper);
+  overflow: hidden;                 /* nothing may bleed past the trim */
+  page-break-after: always;
+  break-after: page;
+  display: flex;
+  flex-direction: column;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* The body of a page grows to fill the sheet, so a short page is visibly a
+   design choice and not an accident. `.fill` pushes furniture to the foot. */
+.page > .fill { flex: 1 1 auto; min-height: 0; }
+
+/* ------------------------------------------------------------ furniture */
+.runhead {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--mono); font-size: 8pt; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--primary);
+  padding-bottom: 2mm; border-bottom: var(--hairline) solid var(--stone);
+  margin-bottom: 7mm;
+}
+.runfoot {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--mono); font-size: 8pt; color: var(--primary);
+  padding-top: 2mm; border-top: var(--hairline) solid var(--stone);
+  margin-top: auto;
+}
+.kicker {
+  font-family: var(--mono); font-size: 8pt; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--primary); margin: 0 0 2mm;
+}
+.spec-strip {
+  font-family: var(--mono); font-size: 8.5pt; letter-spacing: 0.06em;
+  color: var(--primary); text-transform: uppercase;
+}
+
+/* ----------------------------------------------------------- typography */
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; color: var(--ink); margin: 0 0 3mm; }
+h1 { font-size: 30pt; line-height: 1.08; letter-spacing: -0.01em; }
+h2 { font-size: 19pt; line-height: 1.15; }
+h3 { font-size: 13pt; line-height: 1.2; }
+.page--cover h1 { font-size: 34pt; }
+.accent-line {                      /* the one italic serif line per page */
+  font-family: var(--serif); font-style: italic; font-size: 13.5pt;
+  line-height: 1.35; color: var(--primary); margin: 0 0 5mm;
+}
+p { margin: 0 0 3mm; max-width: 62em; }
+.lead { font-size: 11pt; }
+small, .caption { font-size: 9pt; line-height: 1.4; }   /* 9 pt is the floor */
+strong { font-weight: 600; }
+em { font-style: italic; }
+.num { font-family: var(--mono); font-feature-settings: "tnum" 1; }
+
+/* ----------------------------------------------------------------- grid */
+.grid { display: grid; gap: var(--gutter); }
+.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.stack-2 { display: flex; flex-direction: column; gap: 2mm; }
+.stack-4 { display: flex; flex-direction: column; gap: 4mm; }
+.stack-6 { display: flex; flex-direction: column; gap: 6mm; }
+
+/* --------------------------------------------------------- writing space */
+/* The product IS the writing space. Use .lines for free text, .field for a
+   labelled single line, .log for a grid the buyer fills in. */
+.lines { display: block; }
+.lines > i {                        /* each <i> is one ruled line */
+  display: block; height: var(--rule-line);
+  border-bottom: var(--hairline) solid var(--stone);
+}
+.lines--wide > i { height: 9mm; }
+
+.field { margin-bottom: 4mm; }
+.field > .label {
+  font-family: var(--mono); font-size: 8pt; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--primary); display: block; margin-bottom: 1mm;
+}
+.field > .rule { display: block; height: var(--rule-line); border-bottom: var(--hairline) solid var(--stone); }
+
+.box {                              /* an open answer box — outline, never a fill */
+  border: var(--hairline) solid var(--stone); border-radius: var(--radius);
+  padding: 3mm 4mm; min-height: 18mm;
+  display: flex; flex-direction: column; justify-content: flex-start;
+}
+/* Top-aligned on purpose: a tall box is writing space, so the prompt sits at the
+   top and the room beneath it stays clear for handwriting. Centre the content
+   only when the box is a short label that would otherwise look top-heavy. */
+.box--center { justify-content: center; }
+
+/* A chip inside a box is a number, not a badge: strip its frame so its glyphs
+   sit on the same left edge as the text under it. A bordered chip insets its own
+   text by its padding, which staggers the number against the line below and makes
+   the whole box look misaligned. */
+.box > .chip {
+  display: block; border: 0; padding: 0; margin-bottom: 1.5mm;
+  align-self: flex-start;
+}
+.box--accent { border-color: var(--accent); }
+.box--primary { border-color: var(--primary); }
+
+/* Tables the buyer writes into: 8 mm rows, hairline rules, no fills. */
+table.log { width: 100%; border-collapse: collapse; }
+table.log th {
+  font-family: var(--mono); font-size: 8pt; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--primary); text-align: left; font-weight: 400;
+  padding: 0 2mm 1.5mm; border-bottom: 1pt solid var(--primary);
+}
+table.log td {
+  height: 8mm; padding: 0 2mm; border-bottom: var(--hairline) solid var(--stone);
+  font-size: 10pt;
+}
+table.log td.tight { width: 18mm; }
+table.log td.mono { font-family: var(--mono); }
+table.log td.center, table.log th.center { text-align: center; }
+
+/* Vertical separators, for logs whose columns are genuinely different things.
+   Without them a three-column log reads as one wide smear when it is filled in. */
+table.log--grid th + th,
+table.log--grid td + td {
+  border-left: var(--hairline) solid var(--stone);
+  padding-left: 3mm;
+}
+
+/* A clock or duration the buyer writes in:  __ : __  */
+.time { display: flex; align-items: flex-end; justify-content: center; gap: 1.2mm; }
+.time i { display: block; width: 6mm; height: 5mm; border-bottom: var(--hairline) solid var(--stone); }
+.time b { font-family: var(--mono); font-size: 9.5pt; font-weight: 400; color: var(--primary);
+          line-height: 1; padding-bottom: 0.8mm; }
+
+/* A box the buyer marks with a tick or a cross. Small enough to sit in an 8 mm
+   row, big enough to mark with a real pen. */
+.tick { display: block; width: 5mm; height: 5mm; margin: 0 auto;
+        border: var(--hairline) solid var(--stone); border-radius: 1mm; }
+
+/* Our own tick and cross. Drawn, never typed: U+2713 and U+2717 are missing from
+   all three brand fonts, so a glyph would silently fall back to a system face. */
+.mark { width: 3.4mm; height: 3.4mm; vertical-align: -0.6mm; }
+.legend { font-family: var(--mono); font-size: 8pt; letter-spacing: 0.06em;
+          color: var(--primary); margin: 2mm 0 0; }
+
+/* Brand devices (compass, Kaizen loop, 80/20 bars) sit on the page as SVG. */
+.device { display: block; margin: 0 auto; }
+.device--cover { width: 78mm; height: 78mm; }
+
+/* ------------------------------------------------------------- devices */
+.panel {                            /* worked examples and quiet asides */
+  background: var(--stone); border-radius: var(--radius); padding: 4mm 5mm;
+}
+/* NEVER put `opacity` on text. Chrome renders a faded run in its own
+   transparency group and the PDF text layer comes out as "O P A C I T Y", out of
+   document order - copy-paste, search and screen readers all break, while every
+   gate still passes because it is valid embedded text. Fade with a colour
+   instead: color-mix toward the paper looks identical and extracts cleanly.
+   Verified by controlled test, 2026-09-12. */
+.panel .kicker { color: color-mix(in srgb, var(--ink) 75%, var(--paper)); }
+.rule-accent { height: 1pt; background: var(--accent); border: 0; margin: 4mm 0; }
+.rule-soft   { height: 0; border: 0; border-top: var(--hairline) solid var(--stone); margin: 4mm 0; }
+
+.chip {
+  display: inline-block; font-family: var(--mono); font-size: 8pt;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: var(--hairline) solid var(--stone); border-radius: var(--radius);
+  padding: 0.8mm 2mm; color: var(--primary);
+}
+.marker { color: var(--accent); }   /* the "you are here" brass mark */
+
+/* A 2x2 matrix drawn with rules, not fills, so it prints at almost no ink. */
+.matrix { position: relative; width: 100%; aspect-ratio: 1 / 1; border: var(--hairline) solid var(--stone); }
+.matrix::before, .matrix::after {
+  content: ""; position: absolute; background: var(--stone);
+}
+.matrix::before { left: 0; right: 0; top: 50%; height: var(--hairline); }
+.matrix::after  { top: 0; bottom: 0; left: 50%; width: var(--hairline); }
+.matrix .q {
+  position: absolute; width: 50%; height: 50%; padding: 3mm;
+  font-family: var(--mono); font-size: 8pt; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--primary);
+}
+.matrix .q1 { top: 0; left: 0; }      .matrix .q2 { top: 0; right: 0; text-align: right; }
+.matrix .q3 { bottom: 0; left: 0; }   .matrix .q4 { bottom: 0; right: 0; text-align: right; }
+.matrix .axis {
+  position: absolute; font-family: var(--mono); font-size: 7.5pt;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 70%, var(--paper));   /* not opacity */
+}
+
+/* ------------------------------------------------- tab rail (digital only) */
+.tabrail {
+  position: absolute; top: var(--margin-top); right: 0; width: 9mm;
+  display: flex; flex-direction: column; gap: 1mm;
+}
+.tabrail a {
+  display: block; text-align: center; text-decoration: none;
+  font-family: var(--mono); font-size: 8pt; color: var(--primary);
+  border: var(--hairline) solid var(--stone); border-right: 0;
+  border-radius: var(--radius) 0 0 var(--radius); padding: 1.5mm 0;
+}
+.tabrail a.is-current { color: var(--ink); border-color: var(--accent); }
+body.size-tablet .page { padding-right: calc(var(--margin-x) + 11mm); }
+a { color: var(--primary); }
+body.print-build .tabrail { display: none; }   /* paper editions carry no tabs */
+
+/* ------------------------------------------------------------- ink-light */
+/* The printable build: no panels filled, hairlines only. Toggle with a class
+   on <body> so one HTML source can produce both editions. */
+body.ink-light .panel { background: transparent; border: var(--hairline) solid var(--stone); }
+body.ink-light .rule-accent { background: var(--accent); }
+
+/* ------------------------------------------------------------ utilities */
+.t-center { text-align: center; }
+.t-right  { text-align: right; }
+.mt-auto  { margin-top: auto; }
+/* Share out the leftover height of a column, so boxes beside a tall element
+   (a matrix, a wheel) reach the same baseline instead of stopping short. */
+.grow     { flex: 1 1 auto; }
+.mb-0     { margin-bottom: 0; }
+.mb-4     { margin-bottom: 4mm; }
+.mb-8     { margin-bottom: 8mm; }
+.w-half   { width: 50%; }
+.muted    { color: var(--primary); }
+/* Faded with colour, not opacity - see the note above `.panel .kicker`. */
+.disclaimer { font-size: 9pt; color: color-mix(in srgb, var(--ink) 80%, var(--paper)); }

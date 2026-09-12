@@ -1,0 +1,4 @@
+/* Cover eyebrow: this is a listing brief, not a research report. */
+.cover-kicker { font-size: 0; }
+.cover-kicker::before { content: "Listing instructions"; font-size: 9pt;
+                        letter-spacing: .2em; }

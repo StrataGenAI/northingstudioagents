@@ -1,0 +1,201 @@
+{
+  "product_id": "PB-022",
+  "product_name": "The 10-Minute Life Audit",
+  "brand": "Northing Studio",
+  "version": "1.0",
+  "last_updated": "2026-09-12",
+  "price_usd": 0,
+  "launch_price_usd": null,
+  "launch_discount": null,
+  "launch_discount_note": "No launch discount. The product is free, so the plan's '~20% off for exactly two weeks, then list price and it stays there' rule has nothing to apply to. It is a lead magnet into PB-003 The Balance Audit.",
+  "claims": {
+    "pages": 4,
+    "formats": [
+      "A4",
+      "Letter",
+      "Tablet"
+    ],
+    "undated": true,
+    "files": [
+      "NorthingStudio_10-Minute-Life-Audit_A4.pdf",
+      "NorthingStudio_10-Minute-Life-Audit_Letter.pdf",
+      "NorthingStudio_10-Minute-Life-Audit_Tablet.pdf",
+      "README.txt",
+      "licences/ (FONT-LICENCES.md, OFL-Fraunces.txt, OFL-IBMPlexMono.txt, OFL-SourceSans3.txt, manifest.json)"
+    ],
+    "trim": {
+      "A4": "210 x 297 mm",
+      "Letter": "215.9 x 279.4 mm",
+      "Tablet": "1620 x 2160 px (428.6 x 571.5 mm)"
+    },
+    "ink_coverage": "2.2-4.2% per page (verify_pdf.py, round 2)",
+    "internal_links_tablet": 6,
+    "fonts": [
+      "Fraunces",
+      "Source Sans 3",
+      "IBM Plex Mono"
+    ],
+    "font_licence": "SIL Open Font License 1.1"
+  },
+  "disclaimer": "This is a structured self-reflection tool. It is not a diagnosis, an assessment or therapy. If something here worries you, talk to someone qualified — that is a strong move, not a weak one.",
+  "money_disclaimer": "Money here is about how you feel about your money, not advice about it. This is not financial advice.",
+  "compliance": {
+    "rule": "One registered phrase - the common three-word name for this kind of diagram - must appear nowhere: title, tags, description, image text, file names, folder names, PDF metadata or customer replies. It is deliberately NOT written out in this file, because the gates treat any occurrence as a failure and this file is copied from. The exact phrase is recorded in Product Plans/brand-kit.md (Risks table) and .claude/skills/product-qa/assets/banned.json.",
+    "registration": "Reg. 3918518, Ser. 77779648, Success Motivation International, Inc. - books, booklets, manuals and printed instructional materials for personal development, goal setting and planning. Our exact goods.",
+    "approved_wording": [
+      "the eight-area wheel",
+      "the balance wheel diagram",
+      "your wheel"
+    ]
+  },
+  "etsy": {
+    "title": "Life Audit Printable | Score 8 Life Areas in 10 Minutes | Balance Wheel Worksheet, Self Reflection PDF, A4 + Letter + Tablet",
+    "title_chars": 124,
+    "tags": [
+      "life audit",
+      "self assessment",
+      "balance wheel",
+      "self reflection",
+      "life areas",
+      "life balance chart",
+      "personal growth",
+      "printable worksheet",
+      "scorecard",
+      "goal setting sheet",
+      "goodnotes planner",
+      "monthly check in",
+      "instant download"
+    ],
+    "description": "Ten minutes. Eight areas. One clear picture — and one thing to do this week.\n\n------------------------------------------------------------\nWHAT IT IS\n------------------------------------------------------------\nA 4-page printable audit. You score eight areas of your life 0-10, draw those eight numbers as one balance wheel, and finish with a single small move for the week ahead. Free.\n\n------------------------------------------------------------\nWHO IT'S FOR\n------------------------------------------------------------\n- Anyone who senses something is off and wants a quick, honest read on it\n- People who think better on paper, or with a stylus, than in an app\n- Anyone at the start of a month, a quarter or a new job who wants a baseline to come back to\n\nWHO IT'S NOT FOR\n- If you want a full programme, this is not it. It is four pages, and it is meant to be.\n- If you want dated pages, a habit tracker or a daily layout, this has none of those.\n- If you want software to do the thinking, this is paper and PDF. You do the thinking; the pages hold the structure.\n- If you are looking for a clinical or diagnostic instrument, this is not one. See the note at the bottom.\n\n------------------------------------------------------------\nWHAT'S INSIDE\n------------------------------------------------------------\n4 pages, in this order:\n\n1. Start here — the scope, and the one rule for scoring honestly\n2. The eight areas — Health, Work, Money, People, Home, Growth, Play, Direction. Each with a one-line definition, a 0-10 scale to ring, and a line for \"Why that number?\"\n3. Your wheel — a 120 mm eight-area wheel. Eight labelled spokes, rings at 2, 4, 6, 8 and 10, and the full scale printed in every wedge, so you can mark any spoke without counting your way around the diagram. Then: lowest area, highest area, the one that surprised you.\n4. One small move — the area you're picking, the one move you'll make this week, when exactly, how you'll know you did it, and a date to re-score in 30 days.\n\n------------------------------------------------------------\nHOW IT WORKS — THREE STEPS\n------------------------------------------------------------\n1. SCORE. Eight areas, 0-10, first instinct, for how it is right now — not how it should be, and not how it was last year.\n2. SEE IT. Mark each score on its spoke and join the marks. The shape matters more than the numbers. You are looking for the dents.\n3. MOVE. Take the lowest area, or the one that surprised you, and make one move this week. Don't fix it. Just move it.\n\n------------------------------------------------------------\nFORMATS AND SPECIFICATIONS\n------------------------------------------------------------\n- A4 printable PDF — 210 x 297 mm, portrait, 4 pages\n- US Letter printable PDF — 215.9 x 279.4 mm, portrait, 4 pages. Laid out separately for the shorter, wider sheet; it is not a scaled A4.\n- Tablet PDF — 1620 x 2160 px, portrait, 4 pages, with internal page links\n- Undated. Print it as many times as you like, for yourself and your household.\n- Ink-light: measured at 4.2% maximum ink coverage per page. No solid fills.\n- Every page is designed to print legibly in pure black and white as well as in colour.\n- Fonts are embedded (Fraunces, Source Sans 3, IBM Plex Mono, all SIL Open Font License 1.1). The licence texts ship with the download.\n\n------------------------------------------------------------\nCOMPATIBILITY\n------------------------------------------------------------\nPrints from any PDF reader on Mac, Windows, iOS or Android. Print at 100% or \"Actual size\" — not \"Fit to page\", which rescales the sheet.\n\nThe tablet edition is a standard PDF intended for handwriting apps that import PDFs and let you annotate them, such as GoodNotes, Notability or Samsung Notes. Import it as a document, not as a photo, so the internal links and the text survive. We have not tested every app on every device, so we describe it as intended for those apps rather than certified with them.\n\nNo account, no software and no subscription is needed.\n\n------------------------------------------------------------\nFAQ\n------------------------------------------------------------\nIs it really free, and what is the catch?\nYes, it is free, and there is no catch. All four pages are here. Nothing is held back, nothing expires, and nothing needs buying to use it. We hope you like it enough to look at our paid products later — that is the whole business model, stated plainly.\n\nIs a 4-page free audit worth ten minutes of my time?\nThat is the honest question to ask. Ten minutes gets you eight scores, one picture and one action with a date on it. If you want more depth than that, this is not the product that gives it — see \"Next step\" below.\n\nDo I need a printer?\nNo. The tablet edition is built for a stylus. But it prints, and the wheel is meant to be drawn on.\n\nCan I fill it in on a computer?\nThe PDFs are not form-fillable. They are designed for a pen or a stylus.\n\nWill it work in my handwriting app?\nIt is a standard PDF, so any app that imports PDFs can open it. We have tested the internal links in the file itself, but not on every app and device — see Compatibility above.\n\nCan I print it more than once?\nYes, as many times as you like, for yourself and the people in your household.\n\nCan I resell it, share it or put it in my own bundle?\nNo. The licence is for your own personal use. You may not resell, redistribute, share the file publicly, or include it in any product of your own, free or paid.\n\nIs this an assessment, a diagnosis or therapy?\nNo. See the note at the bottom of this listing.\n\n------------------------------------------------------------\nREFUNDS AND POLICY\n------------------------------------------------------------\nThis is a free digital download, so there is nothing to pay and nothing to refund. Digital files cannot be returned once they have been downloaded. If a file will not open, will not print correctly, or is missing a page, get in touch and we will put it right or send you a working copy.\n\n------------------------------------------------------------\nNEXT STEP\n------------------------------------------------------------\nThis audit gives you the picture. The Balance Audit takes all eight areas further: guided questions so the scores are honest, a gap map, three standing rules, a 30-day plan, and twelve monthly re-scores so you can watch the shape change.\n\nThe Balance Audit is not published yet. When it is, it will be in this shop. This free audit is complete as it is — the paid one goes deeper, it does not replace this.\n\n------------------------------------------------------------\nPLEASE NOTE\n------------------------------------------------------------\nThis is a structured self-reflection tool. It is not a diagnosis, an assessment or therapy. If something here worries you, talk to someone qualified — that is a strong move, not a weak one.\n\nMoney here is about how you feel about your money, not advice about it. This is not financial advice.\n\n------------------------------------------------------------\nVersion 1.0 — last updated 12 September 2026. 4 pages, A4 + US Letter + tablet.\n\nIf this was worth the ten minutes, a rating helps more than you would think — it is the only reason anyone else finds it.\n",
+    "category": "Paper & Party Supplies > Paper > Stationery > Design & Templates > Templates",
+    "listing_type": "Digital download (instant download)",
+    "attributes": {
+      "Primary colour": "White",
+      "Secondary colour": "Blue",
+      "Holiday": "(leave blank)",
+      "Occasion": "(leave blank)"
+    },
+    "materials": [
+      "Printable PDF",
+      "Digital download",
+      "A4 and US Letter"
+    ],
+    "price_note": "Etsy does not accept a $0.00 listing price. See assumptions - OWNER DECISION REQUIRED before this listing can exist on Etsy."
+  },
+  "gumroad": {
+    "name": "The 10-Minute Life Audit",
+    "summary": "A clear picture, then one small move.",
+    "description": "**Ten minutes. Eight areas. One clear picture — and one thing to do this week.**\n\n### What it is\n\nA 4-page printable audit. You score eight areas of your life 0-10, draw those eight numbers as one balance wheel, and finish with a single small move for the week ahead. It is free, and it is complete.\n\n### Who it's for\n\n- Anyone who senses something is off and wants a quick, honest read on it\n- People who think better on paper, or with a stylus, than in an app\n- Anyone at the start of a month, a quarter or a new job who wants a baseline to come back to\n\n**Who it's not for**\n\n- If you want a full programme, this is not it. It is four pages, and it is meant to be.\n- If you want dated pages, a habit tracker or a daily layout, this has none of those.\n- If you want software to do the thinking: this is paper and PDF. You do the thinking; the pages hold the structure.\n- If you are looking for a clinical or diagnostic instrument, this is not one. See the note at the bottom.\n\n### What's inside\n\n**4 pages, in this order**\n\n1. **Start here** — the scope, and the one rule for scoring honestly\n2. **The eight areas** — Health, Work, Money, People, Home, Growth, Play, Direction. Each with a one-line definition, a 0-10 scale to ring, and a line for \"Why that number?\"\n3. **Your wheel** — a 120 mm eight-area wheel: eight labelled spokes, rings at 2, 4, 6, 8 and 10, and the full scale printed in every wedge, so you can mark any spoke without counting your way around the diagram. Then lowest area, highest area, and the one that surprised you.\n4. **One small move** — the area you're picking, the one move you'll make this week, when exactly, how you'll know you did it, and a date to re-score in 30 days.\n\n### How it works\n\n1. **Score.** Eight areas, 0-10, first instinct, for how it is right now — not how it should be, and not how it was last year.\n2. **See it.** Mark each score on its spoke and join the marks. The shape matters more than the numbers. You are looking for the dents.\n3. **Move.** Take the lowest area, or the one that surprised you, and make one move this week. Don't fix it. Just move it.\n\n### Formats\n\n| Edition | Size | Pages |\n|---|---|---|\n| A4 printable PDF | 210 x 297 mm, portrait | 4 |\n| US Letter printable PDF | 215.9 x 279.4 mm, portrait | 4 |\n| Tablet PDF (internal page links) | 1620 x 2160 px, portrait | 4 |\n\nUndated. Ink-light — measured at 4.2% maximum ink coverage per page, with no solid fills. Every page is designed to print legibly in pure black and white as well as in colour. Fonts embedded (Fraunces, Source Sans 3, IBM Plex Mono — SIL Open Font License 1.1); the licence texts ship with the download.\n\n### Compatibility\n\nPrints from any PDF reader on Mac, Windows, iOS or Android. Print at 100% or \"Actual size\", not \"Fit to page\".\n\nThe tablet edition is a standard PDF intended for handwriting apps that import PDFs and let you annotate them — GoodNotes, Notability, Samsung Notes and similar. Import it as a document, not as a photo, so the internal links and the text survive. We have not tested every app on every device, so we say intended for rather than certified with.\n\nNo account, no software and no subscription needed.\n\n### FAQ\n\n**Is it really free, and what is the catch?** Yes, and there is no catch. All four pages are here. Nothing is held back, nothing expires, and nothing needs buying to use it. We hope you like it enough to look at our paid products later — that is the whole business model, stated plainly.\n\n**Is a 4-page free audit worth ten minutes of my time?** That is the honest question. Ten minutes gets you eight scores, one picture, and one action with a date on it. If you want more depth than that, this is not the product that gives it — see Next step.\n\n**Do I need a printer?** No. The tablet edition is built for a stylus. But it prints, and the wheel is meant to be drawn on.\n\n**Can I fill it in on a computer?** The PDFs are not form-fillable. They are made for a pen or a stylus.\n\n**Will it work in my handwriting app?** It is a standard PDF, so any app that imports PDFs can open it. We have tested the internal links in the file itself, but not on every app and device.\n\n**Can I print it more than once?** Yes — as many times as you like, for yourself and the people in your household.\n\n**Can I resell it, share it or put it in my own bundle?** No. The licence is for your own personal use only.\n\n**Is this an assessment, a diagnosis or therapy?** No. See the note below.\n\n### Refunds and policy\n\nThis is a free digital download, so there is nothing to pay and nothing to refund. Digital files cannot be returned once downloaded. If a file will not open, will not print correctly, or is missing a page, get in touch and we will put it right.\n\n### Next step\n\nThis audit gives you the picture. **The Balance Audit** takes all eight areas further: guided questions so the scores are honest, a gap map, three standing rules, a 30-day plan, and twelve monthly re-scores so you can watch the shape change.\n\nThe Balance Audit is not published yet. When it is, it will be in this shop. This free audit is complete as it is — the paid one goes deeper, it does not replace this.\n\n### Please note\n\nThis is a structured self-reflection tool. It is not a diagnosis, an assessment or therapy. If something here worries you, talk to someone qualified — that is a strong move, not a weak one.\n\nMoney here is about how you feel about your money, not advice about it. This is not financial advice.\n\n---\n\nVersion 1.0 — last updated 12 September 2026. 4 pages, A4 + US Letter + tablet.\n\nIf this was worth the ten minutes, a rating helps more than you would think — it is the only reason anyone else finds it.\n",
+    "slug_proposed": "10-minute-life-audit",
+    "url_unconfirmed": "https://northingstudio.gumroad.com/l/10-minute-life-audit",
+    "url_status": "UNCONFIRMED - the owner has registered northingstudio.gumroad.com but has not created this product, so the slug is a proposal, not a live URL.",
+    "tiers": [],
+    "pricing_model": "Pay what you want, minimum $0, suggested $0",
+    "receipt_message": "Thank you — your four pages are attached.\n\nStart with page 1. It takes about ten minutes: eight scores, one wheel, one small move.\n\nPrint the A4 or US Letter edition at 100% / \"Actual size\" (not \"Fit to page\"), or open the tablet edition in your handwriting app as a document rather than a photo, so the internal links survive.\n\nIf it was worth the ten minutes, a rating helps more than you would think — it is the only reason anyone else finds it.\n\nSomething wrong with a file? Reply to this email and we will put it right.",
+    "email_capture": "On - Gumroad collects the email on a free download by default; keep it on."
+  },
+  "images": [
+    {
+      "slot": 1,
+      "role": "HERO",
+      "file": "01-hero.png",
+      "size": "2560x1440",
+      "headline": "Ten minutes. One clear picture.",
+      "why": "Gumroad cover. The benefit, with the real wheel page beside it."
+    },
+    {
+      "slot": 2,
+      "role": "HERO",
+      "file": "02-thumb.png",
+      "size": "2000x2000",
+      "headline": "Eight areas. One picture.",
+      "why": "Etsy primary / Gumroad square. A different composition, not a crop of slot 1."
+    },
+    {
+      "slot": 3,
+      "role": "INCL",
+      "file": "03-included.png",
+      "size": "2000x2000",
+      "headline": "What you get",
+      "why": "Counts and the spec strip: 4 PAGES / 8 AREAS / 10 MINUTES / FREE."
+    },
+    {
+      "slot": 4,
+      "role": "PAGES",
+      "file": "04-wheel.png",
+      "size": "2000x2000",
+      "headline": "The wheel, full size",
+      "why": "The real page 3 wheel, close, so a buyer can see it is genuinely markable."
+    },
+    {
+      "slot": 5,
+      "role": "DEMO",
+      "file": "05-demo.png",
+      "size": "2000x2000",
+      "headline": "This is what a dent looks like",
+      "why": "The same real page with an example fill-in drawn on it, labelled EXAMPLE."
+    },
+    {
+      "slot": 6,
+      "role": "PAGES",
+      "file": "06-scoring.png",
+      "size": "2000x2000",
+      "headline": "Eight areas, defined",
+      "why": "Page 2 at a size where the clarifying lines are readable."
+    },
+    {
+      "slot": 7,
+      "role": "FEAT",
+      "file": "07-move.png",
+      "size": "2000x2000",
+      "headline": "It ends with one move",
+      "why": "Page 4, callout-labelled: the four fields plus the re-score date."
+    },
+    {
+      "slot": 8,
+      "role": "SIZE",
+      "file": "08-formats.png",
+      "size": "2000x2000",
+      "headline": "Print it or write on it",
+      "why": "Three editions with real dimensions, and the tablet frame."
+    },
+    {
+      "slot": 9,
+      "role": "HOWTO",
+      "file": "09-howto.png",
+      "size": "2000x2000",
+      "headline": "How to score honestly",
+      "why": "The one rule that makes the audit work, in the product's own words."
+    },
+    {
+      "slot": 10,
+      "role": "BUNDLE",
+      "file": "10-next.png",
+      "size": "2000x2000",
+      "headline": "Free now. Deeper later.",
+      "why": "The honest upgrade to PB-003, with the 'complete as it is' line. No invented saving, no price."
+    }
+  ],
+  "assumptions": [
+    "[BLOCKER] dist/README.txt still contains the literal string '<SUPPORT CONTACT - owner to insert before the listing goes live>'. It ships to the buyer as written. The package cannot go live until the owner replaces it with a real support address.",
+    "[BLOCKER] Etsy does not accept a $0.00 listing price (its minimum is a small positive amount; verify the current figure in Etsy's own Seller Handbook - we do not scrape Etsy). The Product Plan's recommendation of a separate free Etsy listing therefore cannot be executed as written. Owner must choose: (a) Gumroad-only for the free product, (b) list it on Etsy at Etsy's minimum price and drop the word 'free' from the Etsy copy, or (c) attach it as a free bonus inside a paid Etsy listing.",
+    "[BLOCKER] No PB-003 URL exists. The Balance Audit is not built, so the 'Next step' section names it without a link and page 4 of the PDF carries no outbound link. Do not invent one.",
+    "[UNCONFIRMED] https://northingstudio.gumroad.com/l/10-minute-life-audit - the subdomain is registered, the product is not created, so the slug is a proposal.",
+    "[UNCONFIRMED] The Etsy shop name. The owner will claim it directly. Nothing in this listing asserts that an Etsy shop exists.",
+    "[UNCONFIRMED] The brand name 'Northing Studio' is the owner's decision but its conflict screen returned CONFLICT and a professional trademark search is still outstanding (brand-kit.md v2).",
+    "[OPEN] No refund promise of any kind is stated anywhere, because that is an open owner question in the Product Plan's pricing rationale. Do not add one to either platform until the owner decides.",
+    "[OPEN] No proof claims anywhere - no sales counts, no ratings, no testimonials, no 'bestseller'. We have none.",
+    "[OPEN] GoodNotes / Notability / Samsung Notes behaviour has never been tested on a real device. Copy says 'intended for', never 'works with'. Do not strengthen it until someone tests it.",
+    "[OPEN] The Etsy category path and attributes above are a best guess at Etsy's current taxonomy; confirm them in Etsy's own listing form, which is the only authority.",
+    "[NOTE] The PDFs in dist/ are unprotected - pdf-protect has deliberately not been run yet. The build log says it is the last step, after the brand name, the PB-003 URL and the support contact are settled. Decide whether to protect before uploading.",
+    "[NOTE] Keyword judgement, not evidence: a web search on 2026-09-12 shows buyers phrasing this as 'life audit', 'life audit worksheet', 'life wheel printable' and 'self reflection'. We cannot see Etsy search volume and we do not scrape Etsy, so the tag set is judgement informed by the research report's keyword clusters, not measured demand."
+  ],
+  "sources": [
+    "Products/PB-022 The 10-Minute Life Audit/dist/ (shipped files - the authority on counts and formats)",
+    "Product Plans/2026-09-12 Product Plan.md - Launch product briefs, PB-022 (brief, price, 10-slot image plan)",
+    "Product Plans/specs/PB-022 The 10-Minute Life Audit.md (page-by-page build spec)",
+    "Product Plans/brand-kit.md v2 (voice, palette, type, listing-image rules)",
+    "Products/PB-022 The 10-Minute Life Audit/BUILD-LOG.md sections 14-17 (blockers, assumptions)",
+    "Products/PB-022 The 10-Minute Life Audit/critique/round-1.md (honest limits)"
+  ]
+}

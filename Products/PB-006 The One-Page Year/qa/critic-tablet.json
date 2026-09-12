@@ -1,0 +1,182 @@
+{
+  "file": "Products/PB-006 The One-Page Year/dist/QuietCompass_One-Page-Year_Tablet.pdf",
+  "pages": 2,
+  "size": "tablet",
+  "page_reports": [
+    {
+      "page": 1,
+      "size_mm": [
+        428.625,
+        571.5
+      ],
+      "fonts": [
+        {
+          "name": "/AAAAAA+IBMPlexMono-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/BAAAAA+Fraunces72pt-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/CAAAAA+Fraunces72pt-Italic",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/DAAAAA+SourceSans3-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/EAAAAA+SourceSans3-Italic",
+          "subtype": "Type0",
+          "embedded": true
+        }
+      ],
+      "type_sizes": [
+        16.32,
+        17.35,
+        18.37,
+        19.39,
+        21.43,
+        27.55,
+        61.22
+      ],
+      "type_smallest": [
+        {
+          "tf": 21.76,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "QUIET COMPASS \u00b7 ONE PAGE",
+          "chars": 24,
+          "size": 16.32
+        },
+        {
+          "tf": 21.76,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "QUIET COMPASS",
+          "chars": 13,
+          "size": 16.32
+        },
+        {
+          "tf": 21.76,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "quietcompass.example / v1.0 \u00b7 2026-09",
+          "chars": 37,
+          "size": 16.32
+        }
+      ],
+      "links": {
+        "external": [],
+        "internal": 0,
+        "broken": 0
+      },
+      "chars": 807,
+      "ink_pct": 1.53,
+      "fill_pct": 40.6,
+      "content_ends_at_pct": 94.4,
+      "max_gap_pct": 8.4
+    },
+    {
+      "page": 2,
+      "size_mm": [
+        428.625,
+        571.5
+      ],
+      "fonts": [
+        {
+          "name": "/AAAAAA+IBMPlexMono-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/BAAAAA+Fraunces72pt-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/DAAAAA+SourceSans3-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/EAAAAA+SourceSans3-Italic",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/FAAAAA+SourceSans3-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        }
+      ],
+      "type_sizes": [
+        16.32,
+        17.35,
+        21.43,
+        22.45,
+        28.57,
+        61.22
+      ],
+      "type_smallest": [
+        {
+          "tf": 21.76,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "HOW TO USE",
+          "chars": 10,
+          "size": 16.32
+        },
+        {
+          "tf": 21.76,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "IF YOU WANT MORE",
+          "chars": 16,
+          "size": 16.32
+        },
+        {
+          "tf": 21.76,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "QUIET COMPASS",
+          "chars": 13,
+          "size": 16.32
+        }
+      ],
+      "links": {
+        "external": [
+          "https://quietcompass.example/compass-system"
+        ],
+        "internal": 0,
+        "broken": 0
+      },
+      "chars": 790,
+      "ink_pct": 2.02,
+      "fill_pct": 51.7,
+      "content_ends_at_pct": 94.4,
+      "max_gap_pct": 13.1
+    }
+  ],
+  "fonts_used": [
+    "/AAAAAA+IBMPlexMono-Regular",
+    "/BAAAAA+Fraunces72pt-SemiBold",
+    "/CAAAAA+Fraunces72pt-Italic",
+    "/DAAAAA+SourceSans3-Regular",
+    "/EAAAAA+SourceSans3-Italic",
+    "/FAAAAA+SourceSans3-SemiBold"
+  ],
+  "fails": [],
+  "warnings": []
+}

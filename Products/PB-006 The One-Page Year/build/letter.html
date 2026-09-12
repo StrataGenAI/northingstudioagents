@@ -1,0 +1,167 @@
+<meta charset="utf-8">
+<title>The One-Page Year — US Letter</title>
+<link rel="stylesheet" href="../../_assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../_assets/product-base.css">
+<link rel="stylesheet" href="product.css">
+<!--
+  PB-006 The One-Page Year — US Letter edition, 215.9 x 279.4 mm portrait.
+
+  This is a genuine re-layout, NOT a scaled A4, as the spec's deliverables table
+  requires. Letter is 5.9 mm wider and 17.6 mm shorter than A4, so:
+    - the five blocks tighten their gaps to absorb the lost height
+    - the prompts take the extra width
+    - on page 2 the cross-sell band gives the link panel the extra width
+      (106 mm against A4's 100 mm, with a 10 mm gap against 8 mm), which
+      narrows the pitch paragraph, makes it taller, and fills the shorter sheet
+  All of that lives in product.css under `body.size-letter`; the copy below is
+  identical to the A4 edition and identical to the spec.
+
+  Page 2 is one full-width column of five steps with the cross-sell as a
+  full-width band at the foot — see the note in product.css under "page 2", and
+  the deviation recorded in BUILD-LOG.md round 2.
+
+  Build:  build_pdf.py build/letter.html -o "dist/NorthingStudio_One-Page-Year_Letter.pdf" --size letter
+-->
+
+<body class="size-letter print-build ink-light">
+
+<!-- ==================================================== p.1 the whole plan -->
+<section class="page">
+
+  <header class="titleblock">
+    <div class="titleblock__text">
+      <div class="titleblock__head">
+        <p class="kicker">NORTHING STUDIO &middot; ONE PAGE</p>
+        <h1>The One-Page Year</h1>
+        <p class="accent-line">One page you'll actually look at.</p>
+      </div>
+    </div>
+
+    <!-- Stroke widths are in viewBox user units, so they scale with the box: at
+         26 mm wide the brand kit's 1.25 pt diagram stroke is 2.03 units and its
+         0.5 pt stone hairline is 0.81 units. Only instance of the mark. -->
+    <svg class="device device--mark" viewBox="0 0 120 120" role="img"
+         aria-label="The Northing Studio mark">
+      <circle cx="60" cy="60" r="46" fill="none" stroke="var(--primary)" stroke-width="2.03"/>
+      <circle cx="60" cy="60" r="34" fill="none" stroke="var(--stone)" stroke-width="0.81"/>
+      <path d="M60 8 L60 20 M60 100 L60 112 M8 60 L20 60 M100 60 L112 60"
+            stroke="var(--primary)" stroke-width="2.03" stroke-linecap="round"/>
+      <path d="M60 26 L74 60 L60 94 L46 60 Z" fill="none"
+            stroke="var(--primary)" stroke-width="2.03" stroke-linejoin="round"/>
+      <circle cx="60" cy="26" r="4" fill="var(--accent)"/>
+    </svg>
+  </header>
+
+  <p class="intro">Fill this in once. Put it where you'll see it. Come back to
+    it on the first Sunday of every month.</p>
+
+  <div class="blocks">
+
+    <section class="block">
+      <h2 class="block__name"><span class="n num">1</span>The sentence</h2>
+      <p class="prompt">If this year went well, what would be true by the end of
+        it? Write one sentence.</p>
+      <div class="lines"><i></i><i></i></div>
+    </section>
+
+    <section class="block">
+      <h2 class="block__name"><span class="n num">2</span>Three goals</h2>
+      <p class="prompt">Three things, not ten. Number them in the order you'd
+        protect them if the year got hard.</p>
+      <div class="lines lines--numbered">
+        <i><span class="ln">1.</span></i>
+        <i><span class="ln">2.</span></i>
+        <i><span class="ln">3.</span></i>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="block__name"><span class="n num">3</span>Why these</h2>
+      <p class="prompt">For each goal, finish this line: <em>This matters
+        because&hellip;</em></p>
+      <div class="lines lines--numbered">
+        <i><span class="ln">1.</span></i>
+        <i><span class="ln">2.</span></i>
+        <i><span class="ln">3.</span></i>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="block__name"><span class="n num">4</span>The first step</h2>
+      <p class="prompt">The smallest next step for each goal &mdash; something you
+        could do in under an hour.</p>
+      <div class="lines lines--numbered">
+        <i><span class="ln">1.</span></i>
+        <i><span class="ln">2.</span></i>
+        <i><span class="ln">3.</span></i>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="block__name"><span class="n num">5</span>The floor</h2>
+      <p class="prompt">One habit you'll keep even on your worst week. Write the
+        smallest version of it that still counts.</p>
+      <div class="lines"><i></i><i></i></div>
+    </section>
+
+  </div>
+
+  <p class="disclaimer">A structured self-reflection tool. Not therapy, diagnosis
+    or financial advice.</p>
+
+  <div class="runfoot">
+    <span class="wordmark">NORTHING STUDIO</span>
+    <span>northingstudio.example / v1.0 &middot; 2026-09</span>
+  </div>
+</section>
+
+<!-- ============================================ p.2 how to use + what's next -->
+<section class="page">
+
+  <header class="titleblock">
+    <div class="titleblock__text">
+      <div class="titleblock__head">
+        <p class="kicker">HOW TO USE</p>
+        <h1 class="p2title">Five minutes now,<br>five minutes a month</h1>
+      </div>
+    </div>
+  </header>
+
+  <ol class="steps">
+    <li><span class="n num">1</span>
+      <p>Print it, or open it in your tablet notes app.</p></li>
+    <li><span class="n num">2</span>
+      <p>Answer the five blocks in one sitting. Don't polish &mdash; first
+        answers are usually the honest ones.</p></li>
+    <li><span class="n num">3</span>
+      <p>Put it somewhere you pass every day.</p></li>
+    <li><span class="n num">4</span>
+      <p>On the first Sunday of each month, read it and change anything that's
+        no longer true.</p></li>
+    <li><span class="n num">5</span>
+      <p>Cross things out. A plan you've edited is a plan you're using.</p></li>
+  </ol>
+
+  <aside class="more">
+    <hr class="rule-accent">
+    <p class="kicker">IF YOU WANT MORE</p>
+    <div class="more__grid">
+      <p class="pitch">This page is the shortest version of a longer method. If
+        it helped, <strong>The Compass System</strong> takes the same five
+        blocks and adds the part this page can't: how you decide <em>which</em>
+        three goals, and what you do on the weeks it falls apart.</p>
+      <div class="cta">
+        <p class="linkline"><a href="https://northingstudio.example/compass-system">northingstudio.example/compass-system</a></p>
+      </div>
+    </div>
+    <p class="limit">This free page is the whole page &mdash; there's no locked
+      version of it.</p>
+  </aside>
+
+  <div class="runfoot">
+    <span class="wordmark">NORTHING STUDIO</span>
+    <span>northingstudio.example / v1.0 &middot; 2026-09</span>
+  </div>
+</section>
+
+</body>

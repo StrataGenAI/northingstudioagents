@@ -1,0 +1,127 @@
+<meta charset="utf-8">
+<title>Page system smoke test — A4</title>
+<link rel="stylesheet" href="../../_assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../_assets/product-base.css">
+<!--
+  Regression test for the page system. Not a product. Exercises every component
+  the build agent relies on, so a CSS or font change that breaks print output is
+  caught here rather than inside a product.
+  Build:  build_pdf.py Products/_smoke/build/smoke-a4.html -o Products/_smoke/dist/smoke-a4.pdf --size a4
+  Expect: 3 pages, exactly 210x297mm, no Type3 font, no body text under 9pt,
+          and no empty band over 20% of the sheet on pages 2-3.
+-->
+
+<body class="size-a4 print-build ink-light">
+
+<!-- 1. cover: furniture, display type, the compass device -->
+<section class="page page--cover">
+  <p class="kicker">Quiet Compass · smoke test</p>
+  <h1>The Page System</h1>
+  <p class="accent-line">Every component on one sheet, so a broken one is obvious.</p>
+
+  <div class="fill" style="display:flex; flex-direction:column; align-items:center;
+                           justify-content:center; gap:7mm;">
+    <!-- The four-direction compass: our own drawing, brass marker on N. -->
+    <svg class="device device--cover" viewBox="0 0 120 120" aria-hidden="true">
+      <circle cx="60" cy="60" r="46" fill="none" stroke="var(--primary)" stroke-width="1.4"/>
+      <circle cx="60" cy="60" r="34" fill="none" stroke="var(--stone)" stroke-width="1"/>
+      <path d="M60 8 L60 20 M60 100 L60 112 M8 60 L20 60 M100 60 L112 60"
+            stroke="var(--primary)" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M60 26 L74 60 L60 94 L46 60 Z" fill="none"
+            stroke="var(--primary)" stroke-width="1.4" stroke-linejoin="round"/>
+      <circle cx="60" cy="26" r="4" fill="var(--accent)"/>
+    </svg>
+    <p class="legend mb-0">Direction · Energy · Systems · Wellbeing</p>
+  </div>
+
+  <p class="spec-strip">3 pages · A4 + Letter · static fonts · ink-light</p>
+</section>
+
+<!-- 2. a working page: the log fills the sheet, columns are separated -->
+<section class="page">
+  <div class="runhead"><span>Day 1 · time</span><span>20 min</span></div>
+  <h2>Where the hours went</h2>
+  <p>Log yesterday, not a typical day. Work backwards from bedtime; it is easier
+     and more honest. Then mark each block: it mattered, or it did not.</p>
+
+  <p class="legend">
+    <svg class="mark" viewBox="0 0 24 24" fill="none" stroke="var(--primary)"
+         stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13l6 6L20 5"/></svg>
+    it mattered &nbsp;·&nbsp;
+    <svg class="mark" viewBox="0 0 24 24" fill="none" stroke="var(--primary)"
+         stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    it did not
+  </p>
+
+  <table class="log log--grid" style="margin-top:4mm">
+    <tr><th>What I did</th><th class="center" style="width:26mm">Minutes</th><th class="center" style="width:24mm">Mattered?</th></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+    <tr><td></td><td><span class="time"><i></i><b>:</b><i></i></span></td><td><span class="tick"></span></td></tr>
+  </table>
+
+  <div class="fill"></div>
+  <div class="field">
+    <span class="label">Today's one line</span>
+    <span class="rule"></span>
+  </div>
+  <div class="runfoot"><span>Day 1 · time</span><span class="num">2</span></div>
+</section>
+
+<!-- 3. devices: matrix, boxes, chips, ruled lines filling the sheet -->
+<section class="page">
+  <div class="runhead"><span>Day 3 · tasks</span><span>components</span></div>
+  <h2>The few that move things</h2>
+
+  <div class="grid cols-2 mb-4">
+    <div class="matrix">
+      <span class="q q1">The vital few</span>
+      <span class="q q2">Worth the weight</span>
+      <span class="q q3">Pleasant noise</span>
+      <span class="q q4">The trap</span>
+    </div>
+    <div class="stack-4" style="height:100%">
+      <div class="box box--accent grow">
+        <span class="chip">01</span>
+        <p class="caption mb-0">An open answer box: outline, never a fill.</p>
+      </div>
+      <div class="box grow">
+        <span class="chip">02</span>
+        <p class="caption mb-0">Second box, same system, no accent.</p>
+      </div>
+      <p class="caption mb-0">A brass <span class="marker">marker</span> never
+         carries meaning on its own.</p>
+    </div>
+  </div>
+
+  <hr class="rule-accent">
+  <p class="kicker">Ruled writing space at 7.5 mm</p>
+  <div class="lines">
+    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    <i></i><i></i><i></i><i></i>
+  </div>
+
+  <div class="fill"></div>
+  <p class="disclaimer">A structured self-reflection tool. Not therapy, diagnosis
+     or financial advice.</p>
+  <div class="runfoot"><span>Smoke test</span><span class="num">3</span></div>
+</section>
+
+</body>

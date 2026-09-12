@@ -1,0 +1,10 @@
+{
+  "banned": [],
+  "claims": [],
+  "hype": [],
+  "disclaimer": {
+    "kind": "reflection",
+    "present": true,
+    "expected": "A structured self-reflection tool. Not therapy, diagnosis or financial advice."
+  }
+}

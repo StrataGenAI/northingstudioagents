@@ -1,0 +1,158 @@
+{
+  "file": "Products/_smoke/dist/smoke-tablet.pdf",
+  "pages": 2,
+  "size": "tablet",
+  "page_reports": [
+    {
+      "page": 1,
+      "size_mm": [
+        428.625,
+        571.5
+      ],
+      "fonts": [
+        {
+          "name": "/AAAAAA+IBMPlexMono-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/BAAAAA+Fraunces72pt-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/CAAAAA+Fraunces72pt-Italic",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/DAAAAA+SourceSans3-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        }
+      ],
+      "type_sizes": [
+        7.99,
+        8.5,
+        10.5,
+        13.5,
+        30.0
+      ],
+      "type_smallest": [
+        {
+          "tf": 10.6599998,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "QUIET COMPASS \u00b7 TABLET",
+          "chars": 22,
+          "size": 7.99
+        },
+        {
+          "tf": 10.6599998,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "MAP",
+          "chars": 3,
+          "size": 7.99
+        },
+        {
+          "tf": 10.6599998,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "1",
+          "chars": 1,
+          "size": 7.99
+        }
+      ],
+      "links": {
+        "external": [],
+        "internal": 3,
+        "broken": 0
+      },
+      "chars": 150,
+      "ink_pct": 0.13,
+      "fill_pct": 7.3,
+      "content_ends_at_pct": 11.9,
+      "max_gap_pct": 0.6
+    },
+    {
+      "page": 2,
+      "size_mm": [
+        428.625,
+        571.5
+      ],
+      "fonts": [
+        {
+          "name": "/AAAAAA+IBMPlexMono-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/BAAAAA+Fraunces72pt-SemiBold",
+          "subtype": "Type0",
+          "embedded": true
+        },
+        {
+          "name": "/DAAAAA+SourceSans3-Regular",
+          "subtype": "Type0",
+          "embedded": true
+        }
+      ],
+      "type_sizes": [
+        7.99,
+        10.5,
+        19.0
+      ],
+      "type_smallest": [
+        {
+          "tf": 10.6599998,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "DAY 1 \u00b7 TIME",
+          "chars": 12,
+          "size": 7.99
+        },
+        {
+          "tf": 10.6599998,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "20 MIN",
+          "chars": 6,
+          "size": 7.99
+        },
+        {
+          "tf": 10.6599998,
+          "tm": 1.0,
+          "cm": 0.74999996875,
+          "font": "IBMPlexMono-Regular",
+          "sample": "\u2190 back to map",
+          "chars": 13,
+          "size": 7.99
+        }
+      ],
+      "links": {
+        "external": [],
+        "internal": 3,
+        "broken": 0
+      },
+      "chars": 134,
+      "ink_pct": 0.07,
+      "fill_pct": 2.8,
+      "content_ends_at_pct": 7.8,
+      "max_gap_pct": 0.9
+    }
+  ],
+  "fonts_used": [
+    "/AAAAAA+IBMPlexMono-Regular",
+    "/BAAAAA+Fraunces72pt-SemiBold",
+    "/CAAAAA+Fraunces72pt-Italic",
+    "/DAAAAA+SourceSans3-Regular"
+  ],
+  "fails": [],
+  "warnings": []
+}

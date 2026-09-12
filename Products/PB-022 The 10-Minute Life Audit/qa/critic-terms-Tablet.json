@@ -1,0 +1,18 @@
+{
+  "banned": [],
+  "claims": [],
+  "hype": [
+    {
+      "file": "QuietCompass_10-Minute-Life-Audit_Tablet.pdf",
+      "page": 4,
+      "term": "marketing filler",
+      "why": "Generic hype language; replace with the concrete thing the page does.",
+      "context": "e as it is \u2014 the paid one goes deeper, it doesn\u2019t unlock this."
+    }
+  ],
+  "disclaimer": {
+    "kind": "reflection",
+    "present": true,
+    "expected": "A structured self-reflection tool. Not therapy, diagnosis or financial advice."
+  }
+}

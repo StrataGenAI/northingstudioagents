@@ -1,0 +1,6 @@
+/* Cover overrides for the listing pack: this is not a research report. */
+.cover-kicker { font-size: 0; letter-spacing: 0; }
+.cover-kicker::after {
+  content: "Listing pack";
+  font-size: 9pt; letter-spacing: .2em;
+}

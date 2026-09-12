@@ -1,0 +1,142 @@
+/* Northing Studio — listing-image artboards.
+ *
+ * Screen, not paper: everything here is in pixels. The page system in
+ * product-base.css is for the product itself; this is for the shop.
+ *
+ * The one rule that governs every decision: a buyer decides in a search grid at
+ * roughly 220 px wide. If the headline cannot be read at 11% of full size, the
+ * image has failed no matter how good it looks at 100%.
+ *
+ *   <body>
+ *     <link rel="stylesheet" href="../../_assets/fonts/fonts.css">
+ *     <link rel="stylesheet" href="../../_assets/artboard.css">
+ *     <div class="art art--sq"> ... </div>
+ */
+
+:root {
+  --paper:   #FBF8F3;
+  --ink:     #1F2A36;
+  --primary: #3E6B89;
+  --accent:  #D9A441;
+  --support: #7C9A7E;
+  --stone:   #E4DCD0;
+
+  --serif: "Fraunces Display", "Fraunces", Georgia, serif;
+  --sans:  "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --mono:  "IBM Plex Mono", "SF Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--paper); }
+
+/* ------------------------------------------------------------- artboards */
+.art {
+  position: relative; overflow: hidden;
+  background: var(--paper); color: var(--ink);
+  font-family: var(--sans);
+  display: flex; flex-direction: column;
+}
+.art--sq    { width: 2000px; height: 2000px; padding: 150px; }  /* Etsy / thumbnail */
+.art--hero  { width: 2560px; height: 1440px; padding: 150px; }  /* 16:9, Gumroad cover */
+.art--tall  { width: 2000px; height: 2500px; padding: 150px; }  /* Etsy 4:5 */
+
+/* --------------------------------------------------------------- type */
+/* Sizes are tuned for the 2000px square. On .art--hero they still read,
+   because the hero is wider, not smaller. */
+.k {
+  font-family: var(--mono); font-size: 34px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--primary); margin: 0 0 44px;
+}
+.art h1 {
+  font-family: var(--serif); font-weight: 600; font-size: 150px; line-height: 1.03;
+  letter-spacing: -0.015em; margin: 0; color: var(--ink);
+}
+.art h1.sm  { font-size: 118px; }
+.art h1.xs  { font-size: 92px; }
+.sub {
+  font-family: var(--serif); font-style: italic; font-size: 56px; line-height: 1.25;
+  color: var(--primary); margin: 40px 0 0;
+}
+.body { font-size: 44px; line-height: 1.45; margin: 36px 0 0; max-width: 1400px; }
+.spec {
+  font-family: var(--mono); font-size: 30px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--primary);
+}
+.fill { flex: 1 1 auto; min-height: 0; }
+.row  { display: flex; gap: 80px; align-items: center; }
+.row--top { align-items: flex-start; }
+.col  { display: flex; flex-direction: column; }
+.half { flex: 1 1 0; min-width: 0; }
+
+/* ------------------------------------------------- product page mockups */
+/* Page images come from render_pages.py — real pages, never redrawn. A soft
+   shadow is allowed HERE and nowhere else in the brand. */
+.page-img {
+  display: block; max-width: 100%; background: #fff;
+  box-shadow: 0 24px 60px rgba(31, 42, 54, 0.16);
+  border: 1px solid var(--stone);
+}
+.stack { position: relative; }
+.stack .page-img { position: absolute; width: 78%; }
+.stack .p1 { left: 0;   top: 6%;  transform: rotate(-3deg); }
+.stack .p2 { left: 12%; top: 2%;  transform: rotate(1.5deg); }
+.stack .p3 { left: 22%; top: 0;   transform: rotate(5deg); }
+
+/* One tablet frame, for the hyperlinked edition only. Never a device AND a
+   page stack in the same frame. */
+.tablet {
+  border: 18px solid var(--ink); border-radius: 36px; padding: 0;
+  background: var(--ink); display: inline-block; line-height: 0;
+  box-shadow: 0 30px 70px rgba(31, 42, 54, 0.22);
+}
+.tablet img { display: block; width: 100%; border-radius: 20px; }
+
+/* A gallery of interior pages: prompts must stay readable, so never more
+   than three across on a square artboard. */
+.gallery { display: grid; gap: 44px; }
+.gallery--2 { grid-template-columns: repeat(2, 1fr); }
+.gallery--3 { grid-template-columns: repeat(3, 1fr); }
+
+/* ------------------------------------------------------------- devices */
+.chip {
+  display: inline-block; font-family: var(--mono); font-size: 28px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary);
+  border: 2px solid var(--stone); border-radius: 12px; padding: 10px 22px;
+}
+.rule-accent { height: 6px; background: var(--accent); border: 0; width: 180px; margin: 0 0 44px; }
+.marker { color: var(--accent); }
+
+/* Anatomy callouts for the FEAT slot: a label joined to the thing it names. */
+.callout { position: absolute; font-family: var(--mono); font-size: 28px;
+           letter-spacing: 0.06em; color: var(--primary); max-width: 420px; }
+.callout::before {
+  content: ""; position: absolute; background: var(--accent);
+  height: 3px; width: 60px; left: -76px; top: 0.7em;
+}
+
+/* Honest comparison table (COMPAT slot). Never invent a competitor's gap. */
+.compare { width: 100%; border-collapse: collapse; font-size: 38px; }
+.compare th, .compare td {
+  text-align: left; padding: 26px 20px; border-bottom: 2px solid var(--stone);
+}
+.compare th { font-family: var(--mono); font-size: 28px; letter-spacing: 0.08em;
+              text-transform: uppercase; color: var(--primary); font-weight: 400; }
+.compare .yes { color: var(--support); }
+.compare .no  { color: var(--stone); }
+
+/* A quiet panel for counts and inclusions. */
+.panel { background: var(--stone); border-radius: 20px; padding: 56px 64px; }
+.panel .k { margin-bottom: 28px; }
+
+/* Big number + label, for "24 pages", "7 days". */
+.stat { font-family: var(--mono); font-size: 110px; line-height: 1; color: var(--ink); }
+.stat small { display: block; font-family: var(--mono); font-size: 28px;
+              letter-spacing: 0.1em; text-transform: uppercase;
+              color: var(--primary); margin-top: 16px; }
+
+/* Price, used only where the platform does not already show it. */
+.price { font-family: var(--mono); font-size: 72px; color: var(--ink); }
+
+/* ------------------------------------------------------ safety margins */
+/* Platforms crop. Keep every word inside this box on square artboards. */
+.safe { position: absolute; inset: 150px; pointer-events: none; }

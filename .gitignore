@@ -1,0 +1,19 @@
+# Competitor research: 1,034 third-party listing images and 235 scraped JSON
+# files. Gathered under platform terms that forbid redistribution, and not ours
+# to publish. Kept local, deliberately.
+research/
+Research Reports/
+
+# Python / macOS noise
+__pycache__/
+*.pyc
+.DS_Store
+
+# Rename audit logs (local history, not part of the product)
+rename-*.log
+
+# Working scratch
+*.print.html
+
+# Orphaned pre-pipeline artifact: Type3 fonts, superseded brand name.
+PB-001 Focus Audit Workbook.pdf
