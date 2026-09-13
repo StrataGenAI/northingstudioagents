@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Tile many images into ONE labelled PNG so a whole listing (or a search grid of competitor
-thumbnails) can be viewed with a single Read. Uses headless Google Chrome.
+thumbnails) can be viewed with a single Read. Uses headless Chrome (scripts/lib/chromium.py).
 
 Usage:
   contact_sheet.py DIR_OR_IMAGES... --out sheet.png [--cols 4] [--cell 360]
@@ -12,29 +12,13 @@ import argparse
 import glob
 import html
 import os
-import pathlib
-import subprocess
 import sys
 import tempfile
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "scripts"))
+from lib import chromium  # noqa: E402
+
 EXTS = (".jpg", ".jpeg", ".png", ".webp", ".gif")
-CHROME_CANDIDATES = [
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    "/Applications/Chromium.app/Contents/MacOS/Chromium",
-    "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
-    "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
-]
-
-
-def chrome():
-    for c in CHROME_CANDIDATES:
-        if os.path.exists(c):
-            return c
-    sys.exit("No Chrome/Chromium/Edge/Brave found in /Applications")
-
-
-def uri(path):
-    return pathlib.Path(os.path.abspath(path)).as_uri()
 
 
 def collect(inputs):
@@ -67,10 +51,10 @@ def main():
     for f in files:
         parent = os.path.basename(os.path.dirname(os.path.abspath(f)))
         label = html.escape(f"{parent}/{os.path.basename(f)}")
-        cells.append(f'<figure><div class="im"><img src="{html.escape(uri(f))}"></div>'
+        cells.append(f'<figure><div class="im"><img src="{html.escape(chromium.uri(f))}"></div>'
                      f'<figcaption>{label}</figcaption></figure>')
     doc = f"""<html><head><style>
-      body{{margin:0;padding:{gap}px;background:#fff;font:12px -apple-system,Helvetica,sans-serif;color:#333}}
+      body{{margin:0;padding:{gap}px;background:#fff;font:12px "DejaVu Sans",Helvetica,sans-serif;color:#333}}
       .g{{display:grid;grid-template-columns:repeat({cols},{a.cell}px);gap:{gap}px}}
       figure{{margin:0}} .im{{width:{a.cell}px;height:{a.cell}px;background:#f2f2f2;display:flex;align-items:center;justify-content:center;overflow:hidden}}
       img{{max-width:100%;max-height:100%;object-fit:contain}}
@@ -80,13 +64,10 @@ def main():
         t.write(doc)
     out = os.path.abspath(a.out)
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    subprocess.run([chrome(), "--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-first-run",
-                    "--allow-file-access-from-files", f"--window-size={width},{height}",
-                    "--virtual-time-budget=5000", f"--screenshot={out}", uri(t.name)],
-                   capture_output=True)
-    os.unlink(t.name)
-    if not os.path.exists(out):
-        sys.exit("Chrome did not write the screenshot")
+    try:
+        chromium.screenshot(t.name, out, width, height, budget=5000)
+    finally:
+        os.unlink(t.name)
     print(f"{out}  ({len(files)} images, {cols}x{rows}, {width}x{height}px)")
 
 

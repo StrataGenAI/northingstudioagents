@@ -1,4 +1,6 @@
-# Brand kit — Northing Studio (v2, 2026-09-12)
+# Brand kit — Quiet Compass line · NORTHING STUDIO (v3, 2026-09-13)
+
+> **Structure, decided by the owner on 2026-09-13:** **NORTHING STUDIO** is the shop and account name. **Quiet Compass** is the product line this kit defines; it lives at `brands/quiet-compass/`, with room for further lines beside it. File names keep the `NorthingStudio_` prefix. Shop-level facts (support contact, licensor, open owner notes) are in `brands/SHOP.md`; the locked voice rules are in `voice.md` in this folder. The status and name sections below are kept as the record of 2026-09-12.
 
 > **Status: the name is decided.** The owner chose **Northing Studio** on 2026-09-12 after "Quiet Compass" proved unavailable on Etsy, has registered `northingstudio.gumroad.com`, and will claim the Etsy shop name directly. Its conflict screen returned **CONFLICT** and the owner reviewed and accepted that risk knowingly — the findings are in the screen table below, and a professional trademark search remains outstanding. The palette, type, voice and page system were built to stand independently of the name and are unchanged.
 
@@ -69,6 +71,8 @@ Backup serif if Fraunces ever proves awkward at small sizes: **Source Serif 4** 
 
 ## Voice
 
+**Locked rules: `voice.md` in this folder** (V1–V11, banned words, worked examples). It overrides anything in this section that disagrees.
+
 **Three adjectives: calm · specific · kind-but-firm.**
 
 Anti-model from the evidence: STRONGLAND's male-coded, shaming copy with weight-loss claims (`research/audits/gumroad-lifemathmoney-tough.md` §"Weaknesses"), and The Overwhelmed Brain's diagnostic-sounding promises with no disclaimer (`research/audits/gumroad-theoverwhelmedbrain-jkSo.md`).
@@ -118,3 +122,4 @@ No device mockup on the thumbnail, no logo of any third-party app, no busy desk 
 - **v1 · 2026-09-12** — First kit. Created by the Product Planning Agent from the 2026-09-12 Gumroad research report. Name merged from **"Quiet Compass"** + "Field Manual" + "1% Studio"; "1% Studio" and "Life Compass" dropped on conflict screens; "Wheel of Life" banned on a live trademark finding. Fonts verified OFL 1.1 (Fraunces, Source Sans 3, IBM Plex Mono).
 - **v2 · 2026-09-12** — **Renamed to "Northing Studio"** on the owner's decision, after they found "Quiet Compass" unavailable on Etsy. Applied with `rename_brand.py` across 144 occurrences in 27 live-source files plus 6 deliverable filenames; `qa/`, `BUILD-LOG.md` and `critique/` were deliberately left untouched, because they record what was measured under the old name. Palette, type, devices and the page system are unchanged — "northing" is a navigation term (distance travelled north), so the compass device still fits the name.
   **Correction made by hand:** the automated replace initially rewrote this changelog and the Name section into false claims, including a conflict-screen row crediting "Northing Studio" with evidence actually gathered for "Quiet Compass". Repaired above. **"Northing Studio" remains unscreened** — no conflict search has been completed against it, and Etsy availability must be confirmed by the owner in Etsy's shop-name field.
+- **v3 · 2026-09-13** — Owner decision: **NORTHING STUDIO is the shop; Quiet Compass is a product line** under it. Kit moved from `Product Plans/brand-kit.md` to `brands/quiet-compass/brand-kit.md`, with the fonts (`fonts/`) and the listing artboard CSS (`artboard.css`) beside it; product and listing HTML links updated to match. `NorthingStudio_` file prefixes kept. Voice rules locked in `voice.md`. The contradiction between the v2 screen row ("CONFLICT found") and the v2 changelog ("remains unscreened") is recorded as an open owner note in `brands/SHOP.md`, not resolved here.

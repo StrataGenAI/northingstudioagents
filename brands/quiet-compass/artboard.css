@@ -8,8 +8,8 @@
  * image has failed no matter how good it looks at 100%.
  *
  *   <body>
- *     <link rel="stylesheet" href="../../_assets/fonts/fonts.css">
- *     <link rel="stylesheet" href="../../_assets/artboard.css">
+ *     <link rel="stylesheet" href="../../../../brands/quiet-compass/fonts/fonts.css">
+ *     <link rel="stylesheet" href="../../../../brands/quiet-compass/artboard.css">
  *     <div class="art art--sq"> ... </div>
  */
 
@@ -39,6 +39,7 @@ html, body { margin: 0; padding: 0; background: var(--paper); }
 .art--sq    { width: 2000px; height: 2000px; padding: 150px; }  /* Etsy / thumbnail */
 .art--hero  { width: 2560px; height: 1440px; padding: 150px; }  /* 16:9, Gumroad cover */
 .art--tall  { width: 2000px; height: 2500px; padding: 150px; }  /* Etsy 4:5 */
+.art--pin   { width: 1000px; height: 1500px; padding: 150px; }  /* Pinterest pin, 2:3 */
 
 /* --------------------------------------------------------------- type */
 /* Sizes are tuned for the 2000px square. On .art--hero they still read,

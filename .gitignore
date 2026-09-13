@@ -17,3 +17,20 @@ rename-*.log
 
 # Orphaned pre-pipeline artifact: Type3 fonts, superseded brand name.
 PB-001 Focus Audit Workbook.pdf
+
+# Local Python environment built by scripts/setup.sh
+.venv/
+
+# Drive upload staging (rebuilt on every upload)
+.upload/
+
+# Owner's keyword/competitor exports: third-party tool data, pulled from Drive
+data/research-input/*
+!data/research-input/.gitkeep
+
+# Credentials never live in the repo (GDRIVE_CREDENTIALS points outside it)
+rclone.conf
+*.rclone.conf
+*service-account*.json
+*credentials*.json
+.env

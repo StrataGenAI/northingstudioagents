@@ -6,23 +6,25 @@ normalised to the exact trim size. Content is laid out in millimetres, so the
 correction is under 0.12 mm and never moves type off the grid.
 
 Usage:
-  build_pdf.py build/focus-audit.html -o dist/QuietCompass_Focus-Audit_A4.pdf --size a4
-  build_pdf.py build/focus-audit.html -o dist/..._Tablet.pdf --size tablet
+  build_pdf.py build/a4.html -o dist/NorthingStudio_Focus-Audit_A4.pdf --size a4
+  build_pdf.py build/tablet.html -o dist/..._Tablet.pdf --size tablet
 
 Sizes:   a4 (210x297mm) · letter (215.9x279.4mm) · tablet (1620x2160px @ 96dpi)
          or --size 210x297mm / --size 1620x2160px
 
 The HTML must set its own `@page { size: ...; margin: 0 }` to match --size; this
 script verifies that it did and fails loudly if the two disagree.
+
+Chrome is found and driven by scripts/lib/chromium.py (headless, no sandbox,
+no /dev/shm), which also waits for the file to end in %%EOF before it counts.
 """
 import argparse
 import os
 import re
-import shutil
-import subprocess
 import sys
-import tempfile
-import time
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "scripts"))
+from lib import chromium  # noqa: E402
 
 PT_PER_MM = 72.0 / 25.4
 SIZES = {                      # name -> (width_mm, height_mm)
@@ -31,22 +33,6 @@ SIZES = {                      # name -> (width_mm, height_mm)
     "a5": (148.0, 210.0),
     "tablet": (1620 / 96 * 25.4, 2160 / 96 * 25.4),   # 428.625 x 571.5 mm
 }
-CHROMES = [
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    "/Applications/Chromium.app/Contents/MacOS/Chromium",
-    "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
-    "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
-]
-
-
-def chrome():
-    for c in CHROMES:
-        if os.path.exists(c):
-            return c
-    found = shutil.which("google-chrome") or shutil.which("chromium")
-    if found:
-        return found
-    sys.exit("No Chrome/Chromium found — install Google Chrome.")
 
 
 def parse_size(s):
@@ -58,69 +44,6 @@ def parse_size(s):
     w, h, unit = float(m.group(1)), float(m.group(2)), m.group(3)
     f = {"mm": 1.0, "px": 25.4 / 96, "in": 25.4}[unit]
     return w * f, h * f
-
-
-def complete(path):
-    """Has Chrome finished writing this PDF?
-
-    Byte count alone cannot tell a finished write from a stalled one, and on a
-    loaded machine writes stall for seconds at a time. A finished PDF ends with
-    %%EOF, so ask the file itself. Shipping a half-written render is worse than
-    waiting: it produces a valid-looking file that every later gate measures.
-    """
-    try:
-        size = os.path.getsize(path)
-        with open(path, "rb") as fh:
-            fh.seek(max(0, size - 64))
-            return b"%%EOF" in fh.read()
-    except OSError:
-        return False
-
-
-def render(html, out, budget):
-    """Print the page with Chrome.
-
-    Chrome in --headless=new regularly writes the PDF and then never exits, so
-    waiting on the process is not an option: wait for the file to appear and stop
-    growing, then stop Chrome ourselves. (--run-all-compositor-stages-before-draw
-    makes the hang far worse and buys nothing for a static page, so it is gone.)
-    """
-    exe = chrome()
-    if os.path.exists(out):
-        os.remove(out)
-    with tempfile.TemporaryDirectory() as profile:
-        cmd = [exe, "--headless=new", "--disable-gpu", "--no-sandbox",
-               "--no-pdf-header-footer", "--hide-scrollbars",
-               "--allow-file-access-from-files",
-               f"--virtual-time-budget={budget}",
-               f"--user-data-dir={profile}",
-               f"--print-to-pdf={out}",
-               "file://" + os.path.abspath(html)]
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        # Generous on purpose: a render that takes five seconds on an idle machine
-        # has taken two and a half minutes on a loaded one. The completeness test
-        # below is what normally ends the wait; this only stops us hanging forever.
-        deadline = time.time() + max(600.0, budget / 1000.0 + 60)
-        size, stable = -1, 0
-        while time.time() < deadline:
-            if p.poll() is not None:
-                break
-            if os.path.exists(out):
-                s = os.path.getsize(out)
-                stable = stable + 1 if (s == size and s > 0) else 0
-                size = s
-                if stable >= 3 and complete(out):    # settled AND ends with %%EOF
-                    break
-            time.sleep(0.5)
-        if p.poll() is None:
-            p.terminate()
-            try:
-                p.wait(timeout=10)
-            except subprocess.TimeoutExpired:
-                p.kill()
-        err = (p.stderr.read() or b"").decode("utf-8", "replace") if p.stderr else ""
-    if not os.path.exists(out) or os.path.getsize(out) == 0:
-        sys.exit(f"Chrome produced no PDF.\n{err[-1500:]}")
 
 
 def normalise(path, w_mm, h_mm, tol_mm=0.02):
@@ -199,7 +122,7 @@ def main():
         print("warning: no `@page { size: ... }` found; Chrome will guess the sheet size.")
 
     os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
-    render(a.html, a.out, a.budget)
+    chromium.print_pdf(a.html, a.out, a.budget)
     before, fixed = normalise(a.out, w_mm, h_mm)
 
     from pypdf import PdfReader

@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
-"""Scan a product (PDF, HTML or Markdown) for trademarked names, unsafe claims and hype.
+"""Scan a product (PDF, HTML or Markdown) for trademarked names, unsafe claims, voice
+violations and hype.
 
 The ban list is evidence-backed, not a guess: WHEEL OF LIFE is a live US
 registration covering our exact goods, and the method names below belong to other
 people's books and systems. The claims list keeps us out of medical, therapeutic
-and financial-advice territory, which is both a legal and a brand rule.
+and financial-advice territory, which is both a legal and a brand rule. The voice
+list is the measurable part of the line's locked voice.md (brands/<line>/voice.md).
 
 Edit assets/banned.json to change the lists — never hard-code a new rule here.
+'banned_terms', 'unsafe_claims' and 'voice' block a release; 'hype' warns.
 
 Usage:
   banned_terms.py dist/Product_A4.pdf
-  banned_terms.py build/*.html --require-disclaimer reflection
+  banned_terms.py build/*.html build/new-copy.md --require-disclaimer reflection
   banned_terms.py dist/Product_A4.pdf --json qa/terms.json
 """
 import argparse
@@ -21,6 +24,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RULES = os.path.join(HERE, "..", "assets", "banned.json")
+GROUPS = (("banned_terms", "banned", "BANNED  "), ("unsafe_claims", "claims", "CLAIM   "),
+          ("voice", "voice", "VOICE   "), ("hype", "hype", "HYPE    "))
+BLOCKING = ("banned", "claims", "voice")
 
 
 def load_text(path):
@@ -33,8 +39,11 @@ def load_text(path):
         return [(i + 1, p.extract_text() or "") for i, p in enumerate(r.pages)]
     text = open(path, encoding="utf-8", errors="replace").read()
     if ext in (".html", ".htm"):
+        text = re.sub(r"<!--.*?-->", " ", text, flags=re.S)
         text = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", text, flags=re.S | re.I)
         text = re.sub(r"<[^>]+>", " ", text)
+    elif ext == ".md":
+        text = re.sub(r"<!--.*?-->", " ", text, flags=re.S)
     return [(0, text)]
 
 
@@ -48,7 +57,7 @@ def main():
     a = ap.parse_args()
 
     rules = json.load(open(a.rules))
-    findings = {"banned": [], "claims": [], "hype": [], "disclaimer": None}
+    findings = {"banned": [], "claims": [], "voice": [], "hype": [], "disclaimer": None}
 
     all_text = []
     for path in a.files:
@@ -57,9 +66,8 @@ def main():
         for pno, text in load_text(path):
             all_text.append(text)
             flat = re.sub(r"\s+", " ", text)
-            for group, key in (("banned_terms", "banned"), ("unsafe_claims", "claims"),
-                               ("hype", "hype")):
-                for entry in rules[group]:
+            for group, key, _ in GROUPS:
+                for entry in rules.get(group, []):
                     pat = entry["pattern"] if entry.get("regex") else re.escape(entry["term"])
                     near = [w.lower() for w in entry.get("allow_if_near", [])]
                     for m in re.finditer(pat, flat, re.I):
@@ -87,7 +95,7 @@ def main():
         findings["disclaimer"] = {"kind": a.require_disclaimer, "present": hit,
                                   "expected": need["example"]}
 
-    for key, label in (("banned", "BANNED  "), ("claims", "CLAIM   "), ("hype", "HYPE    ")):
+    for _, key, label in GROUPS:
         for f in findings[key]:
             where = f"{f['file']}" + (f" p{f['page']}" if f["page"] else "")
             print(f"{label}{where}: “{f['term']}” — {f['why']}")
@@ -102,12 +110,12 @@ def main():
         json.dump(findings, open(a.json, "w"), indent=2)
         print(f"\n  wrote {a.json}")
 
-    hard = len(findings["banned"]) + len(findings["claims"]) + (1 if d and not d["present"] else 0)
+    hard = sum(len(findings[k]) for k in BLOCKING) + (1 if d and not d["present"] else 0)
     soft = len(findings["hype"])
     if hard:
         print(f"\nFAIL — {hard} blocking issue(s), {soft} tone warning(s).")
         return 1
-    print(f"\nPASS — no banned names, no unsafe claims"
+    print(f"\nPASS — no banned names, no unsafe claims, no voice violations"
           + (f"; {soft} tone warning(s) to consider." if soft else "."))
     return 0
 

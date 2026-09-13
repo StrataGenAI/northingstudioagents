@@ -1,11 +1,12 @@
 ---
 name: product-build-loop
-description: The build → critique → revise → finalise workflow for digital products, with the hallucination controls that make it trustworthy — single source of truth, deterministic gates, evidence-bound findings, round limits and a signed-off release record. Use when running or orchestrating the product-builder and product-critic agents.
+description: The build → critique → revise → release → deliver workflow for digital products, with the hallucination controls that make it trustworthy — single source of truth, deterministic gates, evidence-bound findings, round limits, a script-run release gate, a signed-off release record and a verified Google Drive delivery. Use when running or orchestrating the product-builder and product-critic agents.
 ---
 
 # The build loop
 
-Two agents, one artefact, a fixed number of rounds:
+Two agents, one artefact, a fixed number of rounds, then a gate nobody can talk
+past, and a delivery that is verified or not done:
 
 ```
 product-planner spec ──▶ product-builder ──▶ product-critic ──▶ product-builder
@@ -13,11 +14,15 @@ product-planner spec ──▶ product-builder ──▶ product-critic ──�
                                   ▲                                    │
                                   └──────── round 2, then 3 ───────────┘
                                                                        ▼
-                                                              SIGNOFF.md + ship
+                     release_check.py ──▶ pdf-protect ──▶ SIGNOFF.md ──▶ upload to Drive (verified)
+                     (fails → BLOCKERs                                  └▶ Drive links appended to SIGNOFF.md
+                      for the next round)
 ```
 
-The orchestrator (the main session) runs the agents; it does not build or
-critique itself, and it never relays a claim it has not seen the evidence for.
+The orchestrator (the main session, via `/build-product`) runs the agents and every
+release and upload script. It does not build or critique itself, and it never
+relays a claim it has not seen the evidence for. Run every command from the
+repository root with `PY=.venv/bin/python`.
 
 ## The hallucination controls
 
@@ -48,9 +53,10 @@ something up.
 6. **Scope is fixed.** The critic does not redesign the product, and the builder
    does not add features. Both route anything beyond the spec to the owner as an
    IDEA.
-7. **Open questions stay open.** The owner's undecided items (brand name, Notion
-   tiers, free-tier structure, guarantee) are marked `[Assumption]` wherever they
-   appear. Neither agent may resolve one by guessing.
+7. **Open questions stay open.** The owner's undecided items (support contact,
+   practitioner pricing, Notion tiers, free-tier structure, guarantee) are marked
+   `[Assumption]` or left as visible placeholders wherever they appear. Neither
+   agent may resolve one by guessing.
 8. **Round limit.** Three rounds maximum. What is unresolved after round 3 goes to
    the owner in `SIGNOFF.md` under "Unresolved". A loop that cannot converge is
    information, not a reason to keep spinning.
@@ -59,13 +65,33 @@ something up.
    once, then it goes to the owner.
 10. **Nothing physical is claimed.** Paper feel, pen bleed, real-device
     annotation and print-shop output cannot be verified here. Both agents list
-    them as "needs a human check", every round.
+    them as "needs a human check", every round, and **no agent may tick an owner
+    check** in `SIGNOFF.md`.
+11. **The release gate is a script.** `scripts/release_check.py` checks what
+    shipped past the critic in v1 and fails on any one of these:
+    - dead or placeholder URLs
+    - products that are not live in `catalogue.md`
+    - formats claimed but not shipped
+    - SKUs in filenames
+    - moved page cross-references or mismatched version stamps
+    - a fake tablet edition
+    - an undeclared interaction mode
+    - missing page renders
+    - open BLOCKER/MAJOR findings
+    - a critic who did not open every page
+
+    No agent's judgement overrides it.
+12. **Delivered means verified.** Nothing uploads before the release gate passes,
+    protection has run and `SIGNOFF.md` exists. `upload_to_drive.py` checks the
+    files against Drive by hash, and `SIGNOFF.md`'s Drive links are copied from the
+    upload record, never typed. A failed upload is reported verbatim and the build
+    is not complete.
 
 ## Round protocol
 
-**Round 1 — build.** `product-builder` reads the spec and the brand kit, writes
-the HTML, renders every edition, runs all gates, fixes what the gates catch, and
-writes `build/BUILD-LOG.md` (decisions, assumptions, gate output, what it could
+**Round 1 — build.** `product-builder` reads the spec, the voice rules and the brand
+kit, writes the HTML, renders every edition, runs all gates, fixes what the gates
+catch, and writes `BUILD-LOG.md` (decisions, assumptions, gate output, what it could
 not verify).
 
 **Round 1 — critique.** `product-critic` runs the gates itself (it never trusts
@@ -84,38 +110,73 @@ fixes are fair game; new opinions about untouched pages are not.
 
 **Round 3** happens only if a BLOCKER survives. Same shape.
 
-**Finalise.** When no BLOCKER and no MAJOR remain (or the owner has accepted
-them), the builder runs `pdf-protect` last, then writes `SIGNOFF.md`.
+**Release.** When no BLOCKER and no MAJOR remain (or the owner has accepted
+them), the orchestrator runs `release_check.py`. If it fails, its failures are the
+next round's BLOCKERs — within the same three-round limit. When it passes, the
+builder runs `pdf-protect` last (unless the spec says `**Protection:** none`) and
+builds the practitioner package if the spec sells one. Then it writes `SIGNOFF.md`,
+and the orchestrator delivers it (see "Delivery").
 
 ## What each round writes
 
 ```
 Products/PB-0XX <Name>/
-  build/BUILD-LOG.md      decisions, assumptions, gate output, open questions
-  build/new-copy.md       every sentence not from the spec, with its reason
-  critique/round-N.md     findings, scores, verdict
+  BUILD-LOG.md            decisions, assumptions, gate output, open questions, OWNER-ACCEPTED lines
+  build/new-copy.md       every sentence not from the spec, with its reason and voice rule
+  critique/round-N.md     findings, buyer-complaint checks, scores, Pages opened, verdict
   qa/verify-*.json        machine gate output, per edition, per round
-  qa/pages/*.png          what was actually looked at
-  SIGNOFF.md              gates table, scores, what a human must still check
+  qa/pages/<edition>/     the builder's page PNGs + manifest
+  qa/critic-pages/<edition>/  the critic's page PNGs + manifest
+  qa/release-check*.json  the release gate (release, listing, signoff modes)
+  qa/drive-*.json         upload records (the only source of Drive links)
+  SIGNOFF.md              gates table, scores, what a human must still check, Drive links
 ```
 
 ## SIGNOFF.md must contain
 
-- every gate, its command, and its final result
+- every gate, its command, and its final result — including `release_check.py`
 - the nine dimension scores with one line each
 - every finding raised, and its outcome (fixed / rejected / deferred / accepted)
-- **what could not be verified here** — printing on paper, writing on it with a
-  pen, GoodNotes and Notability on a real device, colour on a real printer
+- the release file list with sizes, and the protection applied to each (or
+  "none — free lead magnet" when the spec says so)
 - open owner questions blocking the listing
-- the release file list with sizes, and the protection applied to each
+- **`## Owner checks (not verifiable here, agents may not tick)`**, unticked:
+  - `- [ ] Print it on paper`
+  - `- [ ] Write on it with a pen`
+  - `- [ ] Test the tablet PDF in GoodNotes`
+  - `- [ ] Test the tablet PDF in Notability`
+- **`## Drive links`** as the **last** section, written only by
+  `scripts/append_drive_links.py` from the verified upload records
+
+## Delivery
+
+```bash
+$PY scripts/release_check.py "$D" --signoff                      # owner checks present and unticked
+$PY scripts/upload_to_drive.py --product "$D" --stage build      # deliverables/ + qa/, verified by hash
+$PY scripts/append_drive_links.py "$D"                           # links from qa/drive-build.json
+$PY scripts/upload_to_drive.py --product "$D" --stage signoff    # SIGNOFF.md with its links
+$PY scripts/release_check.py "$D" --signoff --require-drive-links
+```
+
+Drive layout: `Northing Studio/<PB-ID>_<Product-Name>/`
+- `deliverables/` — the A4, Letter and tablet PDFs, README and licences
+- `listing/`
+- `pinterest/`
+- `qa/` — SIGNOFF.md, page PNGs and check outputs
+
+Research goes to `Northing Studio/research/`.
 
 ## Orchestrator checklist
 
-- [ ] the spec exists and names its product ID
-- [ ] `fetch_fonts.py --check` passes before the build starts
+- [ ] `scripts/setup.sh --check` passes (exit 2 = Drive not configured: say so up front)
+- [ ] the spec exists, names its product ID, and has Interaction, Font set, Protection, Practitioner licence and Cross-references
+- [ ] `research/buyer-complaints.md` exists
+- [ ] `fetch_fonts.py --check --check-system` passes before the build starts
 - [ ] builder ran; `BUILD-LOG.md` exists and its gate output is pasted, not summarised
-- [ ] critic ran the gates itself and opened the PNGs
+- [ ] critic ran the gates itself, rendered every edition, and listed every page under Pages opened
 - [ ] every BLOCKER is closed with re-run evidence
-- [ ] `pdf-protect` ran last, after all QA
-- [ ] `SIGNOFF.md` lists the human checks that remain
-- [ ] the owner is told, plainly, what is still an assumption
+- [ ] `release_check.py` passed before protection
+- [ ] `pdf-protect` ran last, after all QA (or the spec says none)
+- [ ] `SIGNOFF.md` lists the owner checks, unticked
+- [ ] the upload verified, and the Drive links in `SIGNOFF.md` came from the upload record
+- [ ] the owner is told, plainly, what is still an assumption and what they must check by hand

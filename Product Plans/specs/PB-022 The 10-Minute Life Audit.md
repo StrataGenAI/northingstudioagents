@@ -6,6 +6,11 @@ Brief: `2026-09-12 Product Plan.md` §"Launch product briefs" → PB-022 · Bran
 
 > **Compliance, non-negotiable:** never use the phrase "Wheel of Life" anywhere in this product, its file names, its listing, its tags or its image text. **WHEEL OF LIFE® is a live US registration (Reg. 3918518, Success Motivation International, Inc.) covering printed personal-development, goal-setting and planning materials.** Our device is "the eight-area wheel" or "the balance wheel diagram", and the product is "The 10-Minute Life Audit".
 
+**Interaction:** annotate-only
+**Font set:** brands/quiet-compass/fonts
+**Protection:** none — free lead magnet (pdf-protect rule 5)
+**Practitioner licence:** no
+
 ## Deliverables
 
 | File | Format | Size / orientation | Notes |
@@ -31,6 +36,17 @@ Margins 15 mm · 2-column grid, 6 mm gutter · scoring rows on a 9 mm baseline �
 ## Hyperlink / tab map (digital)
 
 Linear: p.1 → p.2 → p.3 → p.4, each page carrying a small mono "back" chevron to the previous page. One outbound link on p. 4 to the PB-003 listing. No tab rail — at four pages it would be decoration.
+
+## Cross-references
+
+The tablet edition's back/forward chevrons. The paper editions carry no page references.
+
+| Reference text | Target page | Target heading | Editions |
+|---|---|---|---|
+| p. 1 | 1 | The 10-Minute Life Audit | Tablet |
+| p. 2 | 2 | Where things actually are | Tablet |
+| p. 3 | 3 | Your wheel | Tablet |
+| p. 4 | 4 | One small move | Tablet |
 
 ## Assets
 

@@ -1,0 +1,11 @@
+# Exact pins, installed into .venv by scripts/setup.sh.
+#
+# The print and copy gates are calibrated against these extractors. pypdf 6.16.2
+# changed how letter-spaced text is extracted ("NORTHING STUDIO" became
+# "N O R T H I N G  S T U D I O"), which falsely trips the split-text gate in
+# verify_pdf.py and breaks spec_coverage.py and release_check.py's text matching.
+# Change a pin only with a re-measured baseline recorded in the build logs.
+pypdf==6.16.1
+markdown==3.10.3
+requests==2.34.2
+Pillow==12.3.0

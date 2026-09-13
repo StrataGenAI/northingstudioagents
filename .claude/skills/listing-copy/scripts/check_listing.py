@@ -137,24 +137,36 @@ def main():
 
     # ------------------------------------------------- claims vs reality
     claims = L.get("claims", {})
+    if claims.get("interaction") not in ("fillable", "annotate-only"):
+        fails.append("claims.interaction must be 'fillable' or 'annotate-only' - every listing "
+                     "tells the buyer which it is")
     if a.dist and os.path.isdir(a.dist):
         facts = pdf_facts(a.dist)
-        pages = {v.get("pages") for v in facts.values() if "pages" in v}
-        if claims.get("pages") and pages and claims["pages"] not in pages:
-            fails.append(f"listing claims {claims['pages']} pages; the shipped PDFs have "
-                         f"{sorted(pages)} - {', '.join(sorted(facts))}")
         shipped_sizes = {v["mm"] for v in facts.values() if "mm" in v}
         want = {"A4": (210, 297), "Letter": (216, 279),
                 "A5": (148, 210), "Tablet": (429, 572)}
+        by_format = {}
+        for label, fact in facts.items():
+            for fmt, mm in want.items():
+                if fact.get("mm") == mm:
+                    by_format.setdefault(fmt, []).append((label, fact["pages"]))
+        if claims.get("pages") and not claims.get("formats"):
+            fails.append("claims.pages is set but claims.formats is empty - page counts are "
+                         "checked per format")
         for fmt in claims.get("formats", []):
             if fmt not in want:
                 # An unknown format must never pass quietly: silence would let
                 # "A5 included" ship when no A5 file exists.
                 warns.append(f"listing claims a {fmt!r} edition this gate cannot verify - "
                              f"confirm by hand that the file exists")
-            elif want[fmt] not in shipped_sizes:
+            elif fmt not in by_format:
                 fails.append(f"listing claims a {fmt} edition; no shipped PDF is that size "
                              f"(found {sorted(shipped_sizes)})")
+            elif claims.get("pages") and not any(p == claims["pages"] for _, p in by_format[fmt]):
+                # Per format, not once per product: a 24-page A4 beside a 22-page
+                # Letter passes a "24 is somewhere in the package" check.
+                fails.append(f"listing claims {claims['pages']} pages; the {fmt} edition has "
+                             + ", ".join(f"{p} ({label})" for label, p in by_format[fmt]))
         for label, fact in facts.items():
             print(f"  shipped: {label}  {fact}")
     elif a.dist:

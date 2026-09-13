@@ -5,8 +5,8 @@ This script exists so that quality claims are measurements, not opinions. It is
 the only acceptable source for statements like "fonts are embedded" or "ink is
 under 8%". If a gate is not in here, it has not been checked.
 
-  verify_pdf.py dist/QuietCompass_Focus-Audit_A4.pdf --size a4 --expect-pages 24 \
-      --max-ink 8 --min-type 9 --json qa/verify-a4.json
+  verify_pdf.py dist/NorthingStudio_Focus-Audit_A4.pdf --size a4 --expect-pages 24 \
+      --fonts brands/quiet-compass/fonts/manifest.json --json qa/verify-a4.json
 
 Gates
   size        every page box equals the trim size (tolerance 0.05 mm)
@@ -14,71 +14,59 @@ Gates
   fonts       every font is embedded and none is Type3
               (Chrome turns *variable* fonts into Type3 outlines: unselectable,
                unsearchable, rejected by print shops. Use static instances.)
+  font set    every font is one of the faces in --fonts (the line's font
+              manifest). A server with no font packages silently substitutes
+              DejaVu or Liberation when fonts.css fails to load; the page count
+              and every other gate still pass, so only the font names catch it.
   type        no text is rendered below --min-type points
   ink         average ink coverage per page <= --max-ink percent
   fill        how far down the sheet real content reaches, so half-empty pages
               are reported instead of being shipped
   links       internal destinations resolve; external URIs are listed
-Exit code is 1 if any gate fails.
+Exit code is 1 if any gate fails. A page that cannot be rasterised is a failure,
+never a skipped check.
 """
 import argparse
 import json
 import math
 import os
-import struct
-import subprocess
+import re
 import sys
-import tempfile
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "scripts"))
+from lib import raster  # noqa: E402
 
 PT_PER_MM = 72.0 / 25.4
 SIZES = {"a4": (210.0, 297.0), "letter": (215.9, 279.4), "a5": (148.0, 210.0),
          "tablet": (1620 / 96 * 25.4, 2160 / 96 * 25.4)}
 
 
+class RasterFailed(Exception):
+    pass
+
+
 # ------------------------------------------------------------------ raster
 PX_PER_MM = 320 / 297.0          # A4's historic resolution, kept as the reference
 
 
-def page_bitmap(reader, index, px=None):
-    """Render one page to a small RGB bitmap via sips. Returns (w, h, pixels).
+def page_bitmap(pdf_path, reader, index, px=None):
+    """Render one page to a small RGB bitmap via pdftoppm. Returns (w, h, pixels).
 
-    Resolution is fixed in pixels per *millimetre*, not pixels per sheet. `sips -Z`
-    scales the longest side, so a fixed 320 px gave A4 0.93 mm per pixel but gave a
+    Resolution is fixed in pixels per *millimetre*, not pixels per sheet. Scaling
+    the longest side to a fixed 320 px gave A4 0.93 mm per pixel but gave a
     428x571 mm tablet sheet 1.79 mm - at which a 0.5 pt writing rule falls below the
     detection threshold and vanishes. The symptom was the same page 4 measuring
     14.7% dead space on A4 and 54.4% on tablet.
     """
-    from pypdf import PdfWriter
     if px is None:
         h_mm = float(reader.pages[index].mediabox.height) / PT_PER_MM
         px = max(320, min(1400, int(round(h_mm * PX_PER_MM))))
-    with tempfile.TemporaryDirectory() as td:
-        one = os.path.join(td, "p.pdf")
-        w = PdfWriter()
-        w.add_page(reader.pages[index])
-        w.write(one)
-        bmp = os.path.join(td, "p.bmp")
-        r = subprocess.run(["sips", "-Z", str(px), "-s", "format", "bmp", one, "--out", bmp],
-                           capture_output=True)
-        if r.returncode != 0 or not os.path.exists(bmp):
-            return None
-        data = open(bmp, "rb").read()
-    off = struct.unpack_from("<I", data, 10)[0]
-    w_, h_ = struct.unpack_from("<ii", data, 18)
-    bpp = struct.unpack_from("<H", data, 28)[0]
-    step, rows = bpp // 8, abs(h_)
-    stride = (w_ * step + 3) & ~3
-    px_rows = []
-    for y in range(rows):
-        base = off + y * stride
-        row = []
-        for x in range(w_):
-            i = base + x * step
-            row.append((data[i + 2], data[i + 1], data[i]))   # BMP is BGR
-        px_rows.append(row)
-    if h_ > 0:                       # bottom-up bitmap
-        px_rows.reverse()
-    return w_, rows, px_rows
+    try:
+        return raster.page_rgb(pdf_path, index + 1, px)
+    except SystemExit as e:              # raster helpers exit on a missing/failed tool
+        raise RasterFailed(str(e)) from None
+    except ValueError as e:
+        raise RasterFailed(f"unreadable raster: {e}") from None
 
 
 def ink_and_fill(bitmap, margin_frac=0.05):
@@ -180,6 +168,30 @@ def font_report(page):
             embedded = False          # Type3 = drawn glyphs, not a real embedded face
         out.append({"name": name, "subtype": sub.lstrip("/"), "embedded": embedded})
     return out
+
+
+def face_name(base_font):
+    """/ABCDEF+Fraunces-Regular (or ...-Identity-H) -> Fraunces-Regular."""
+    name = base_font.lstrip("/")
+    name = re.sub(r"^[A-Z]{6}\+", "", name)
+    return re.sub(r"-Identity-[HV]$", "", name)
+
+
+def load_font_set(path):
+    """The PostScript names of every face in a line's font manifest."""
+    if not os.path.exists(path):
+        sys.exit(f"FAIL: font manifest not found: {path}")
+    m = json.load(open(path))
+    names, missing = {}, []
+    for stem, rec in m.get("fonts", {}).items():
+        if rec.get("postscript_name"):
+            names[rec["postscript_name"]] = stem
+        else:
+            missing.append(stem)
+    if missing or not names:
+        sys.exit(f"FAIL: {path} records no PostScript name for {', '.join(missing) or 'any face'}. "
+                 f"Run fetch_fonts.py --dir {os.path.dirname(path)} (without --check) to record them.")
+    return names
 
 
 def _scale(m):
@@ -292,6 +304,11 @@ def main():
     ap.add_argument("pdf")
     ap.add_argument("--size", default="a4")
     ap.add_argument("--expect-pages", type=int)
+    ap.add_argument("--fonts", metavar="MANIFEST",
+                    help="the line's font manifest, e.g. brands/quiet-compass/fonts/manifest.json; "
+                         "any font not in it FAILS as a substitute. Required for products.")
+    ap.add_argument("--any-font", action="store_true",
+                    help="skip the font-set gate (research reports and other non-product PDFs only)")
     ap.add_argument("--max-ink", type=float, default=8.0)
     ap.add_argument("--min-type", type=float, default=9.0,
                     help="floor for body, prompt and caption text")
@@ -305,9 +322,19 @@ def main():
                     help="a source file (HTML/CSS/SVG) that must be OLDER than the PDF; "
                          "repeatable. Catches a half-finished revision that rebuilt one "
                          "edition and left the others stale.")
-    ap.add_argument("--no-raster", action="store_true", help="skip ink/fill (faster)")
+    ap.add_argument("--no-raster", action="store_true",
+                    help="skip ink/fill; refused unless --allow-no-raster is also given")
+    ap.add_argument("--allow-no-raster", action="store_true",
+                    help="confirm skipping the raster gates; recorded in the JSON report")
     ap.add_argument("--json")
     a = ap.parse_args()
+
+    if not a.fonts and not a.any_font:
+        sys.exit("FAIL: pass --fonts <line>/fonts/manifest.json so substituted fonts are caught "
+                 "(or --any-font for a PDF that is not a product).")
+    if a.no_raster and not a.allow_no_raster:
+        sys.exit("FAIL: --no-raster skips the ink and fill gates; add --allow-no-raster to "
+                 "confirm. Never skip them for a build that will ship.")
 
     from pypdf import PdfReader
     if not os.path.exists(a.pdf):
@@ -320,9 +347,19 @@ def main():
     if not want:
         sys.exit(f"--size must be one of {', '.join(SIZES)}")
     sparse = {int(x) for x in a.sparse_pages.replace(" ", "").split(",") if x}
+    font_set = load_font_set(a.fonts) if a.fonts else None
 
-    report = {"file": a.pdf, "pages": len(r.pages), "size": a.size, "page_reports": []}
+    report = {"file": a.pdf, "pages": len(r.pages), "size": a.size,
+              "font_set": a.fonts or "not checked (--any-font)",
+              "raster": "skipped (--no-raster --allow-no-raster)" if a.no_raster else None,
+              "page_reports": []}
     fails, warns = [], []
+    if not a.no_raster:
+        try:
+            report["raster"] = raster.tool_version()
+        except SystemExit as e:
+            report["raster"] = "unavailable"
+            fails.append(f"raster: {e}")
 
     # A half-finished revision ships one rebuilt edition beside two stale ones, and
     # every other gate passes them happily because each file is internally valid.
@@ -339,6 +376,8 @@ def main():
         fails.append(f"page count is {len(r.pages)}, spec says {a.expect_pages}")
 
     all_fonts = {}
+    substitutes = {}
+    raster_ok = not a.no_raster and report["raster"] != "unavailable"
     for i, page in enumerate(r.pages, 1):
         pr = {"page": i}
         mb = page.mediabox
@@ -358,6 +397,8 @@ def main():
                              f"Use a static font instance, not a variable font.")
             elif not f["embedded"]:
                 fails.append(f"p{i}: font {f['name']} is not embedded")
+            if font_set is not None and face_name(f["name"]) not in font_set:
+                substitutes.setdefault(face_name(f["name"]), i)
 
         runs, base = text_runs(page)
         pr["type_sizes"] = sorted({r["size"] for r in runs})
@@ -393,8 +434,14 @@ def main():
                              f"“{s}”. Something on this page fades text with CSS "
                              f"opacity; fade it with a colour instead.")
 
-        if not a.no_raster:
-            bm = page_bitmap(r, i - 1)
+        if raster_ok:
+            try:
+                bm = page_bitmap(a.pdf, r, i - 1)
+            except RasterFailed as e:
+                fails.append(f"p{i}: page could not be rasterised, so ink and fill were not "
+                             f"measured - {e}")
+                raster_ok = False
+                bm = None
             if bm:
                 m = ink_and_fill(bm)
                 pr["ink_pct"] = round(m["ink"], 2)
@@ -409,6 +456,11 @@ def main():
                                  f"in the {m['gap_where']}, from {m['gap_from'] * 100:.0f}% to "
                                  f"{m['gap_to'] * 100:.0f}% down the page - is this page finished?")
         report["page_reports"].append(pr)
+
+    for name, first in sorted(substitutes.items()):
+        fails.append(f"p{first}: font {name} is not in the brand font set ({a.fonts}) - it is a "
+                     f"substitute. fonts.css did not load, or a CSS font-family does not match "
+                     f"a face in the manifest.")
 
     report["fonts_used"] = sorted(all_fonts)
     report["fails"] = fails

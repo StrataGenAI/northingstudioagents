@@ -5,11 +5,11 @@ description: Fetch public Etsy and Gumroad seller/listing data for market resear
 
 # Etsy & Gumroad scraper
 
-Two tested scripts in `scripts/` (Python 3 + `requests`). JSON goes to stdout and logs go to stderr. Save raw output so nothing is fetched twice:
+Two tested scripts in `scripts/` (run with `.venv/bin/python`, which has `requests`). JSON goes to stdout and logs go to stderr. Save raw output so nothing is fetched twice:
 
 ```bash
 S=.claude/skills/etsy-gumroad-scraper/scripts
-python3 $S/etsy.py listing 1126658970 > research/raw/etsy/<shop>/listing-1126658970.json
+.venv/bin/python $S/etsy.py listing 1126658970 > research/raw/etsy/<shop>/listing-1126658970.json
 ```
 
 ## Terms & usage rules (read first)
@@ -46,15 +46,15 @@ Every Etsy result has `source` and, for Wayback, `archived_at` and `age_days`. *
 ## Etsy commands
 
 ```bash
-python3 $S/etsy.py listing <id|url>              # one listing -> JSON (+ up to 100 reviews in API mode)
-python3 $S/etsy.py images  <id|url> --out DIR    # every listing image, numbered 01.jpg.. + manifest.json (captions)
-python3 $S/etsy.py shop    <ShopName|url>        # shop stats; API mode adds sections, featured listings, all active listings
+.venv/bin/python $S/etsy.py listing <id|url>              # one listing -> JSON (+ up to 100 reviews in API mode)
+.venv/bin/python $S/etsy.py images  <id|url> --out DIR    # every listing image, numbered 01.jpg.. + manifest.json (captions)
+.venv/bin/python $S/etsy.py shop    <ShopName|url>        # shop stats; API mode adds sections, featured listings, all active listings
 # API mode only:
-python3 $S/etsy.py ping                          # test the key -> {"application_id": ...}
-python3 $S/etsy.py reviews  <ShopName> --max 500 # shop-wide reviews incl. buyer photos + star distribution
-python3 $S/etsy.py batch    <id> <id> ...        # up to 100 listings in one call, with images
-python3 $S/etsy.py taxonomy "planner"            # category ids, e.g. Design & Templates > Planner Templates
-python3 $S/etsy.py search "goal planner" --taxonomy <id> --digital-only --sort score --limit 200
+.venv/bin/python $S/etsy.py ping                          # test the key -> {"application_id": ...}
+.venv/bin/python $S/etsy.py reviews  <ShopName> --max 500 # shop-wide reviews incl. buyer photos + star distribution
+.venv/bin/python $S/etsy.py batch    <id> <id> ...        # up to 100 listings in one call, with images
+.venv/bin/python $S/etsy.py taxonomy "planner"            # category ids, e.g. Design & Templates > Planner Templates
+.venv/bin/python $S/etsy.py search "goal planner" --taxonomy <id> --digital-only --sort score --limit 200
 ```
 
 Listing fields (archive mode): `title, shop, price, original_price, currency, rating, review_count, favorites, bestseller_badge, etsys_pick, demand_signals, is_digital_download, digital_file_types, listed_on, shop_sales, category, description, images[{url, caption}], reviews_sample`.
@@ -86,10 +86,10 @@ These notes come from https://developers.etsy.com/documentation and the spec at 
 ## Gumroad commands
 
 ```bash
-python3 $S/gumroad.py search  "<query>" [--pages 3] [--details]  # Discover search, 9 per page; --details adds sales_count
-python3 $S/gumroad.py profile <username|url> [--details]         # all products on a creator profile
-python3 $S/gumroad.py product <product_url>                      # full data: sales_count, ratings breakdown, tier prices, covers, description
-python3 $S/gumroad.py images  <product_url> --out DIR            # cover images (original resolution) + description images
+.venv/bin/python $S/gumroad.py search  "<query>" [--pages 3] [--details]  # Discover search, 9 per page; --details adds sales_count
+.venv/bin/python $S/gumroad.py profile <username|url> [--details]         # all products on a creator profile
+.venv/bin/python $S/gumroad.py product <product_url>                      # full data: sales_count, ratings breakdown, tier prices, covers, description
+.venv/bin/python $S/gumroad.py images  <product_url> --out DIR            # cover images (original resolution) + description images
 ```
 
 Notes:
@@ -104,3 +104,18 @@ Notes:
 - Etsy: `shop total sales × median price of the shop's digital listings`. Label it **[Estimated]** and show the formula; if the median isn't measured, show a range from sale price to list price.
 - Gumroad: `Σ(sales_count × price)` over paid products, using the tier price actually charged. Label it **[Estimated]**.
 - Treat these as signals, never exact figures: `favorites`, `review_count` (roughly 1 review per 10–30 sales on Etsy digital goods; state that this is a heuristic), Bestseller badge, featured listings, "in N carts".
+
+## Status and low-star reviews
+
+**Etsy is enabled again** (owner decision, 2026-09-13; paused 2026-09-12). `etsy.py` no longer needs
+`ETSY_ENABLED`. Every rule above still applies.
+
+**Low-star reviews for `research/buyer-complaints.md`:**
+- **Etsy, archive mode:** `listing` returns `reviews_sample` from the page's JSON-LD with rating, date and text.
+  Keep ratings 1–3. Samples are small, so a theme needs reviews from several listings.
+- **Etsy, API mode (authorised key only):** `listing` returns up to 100 reviews and `reviews <Shop>` returns shop-wide
+  reviews with the star distribution. Keep ratings 1–3.
+- **Gumroad** exposes `ratings_breakdown_1to5_pct` but **no review text**. Record the 1–3 star share as context,
+  never as a quote.
+- **Saving:** write every fetched review set to `research/reviews/` and never fetch it twice. Quote at most 25 words,
+  always with the listing URL, star rating, date and route.

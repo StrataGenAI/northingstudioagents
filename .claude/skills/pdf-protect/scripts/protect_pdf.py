@@ -16,7 +16,7 @@ copy-paste theft and states our intent; it is not DRM and must never be sold as
 
 Usage:
   protect_pdf.py dist/Product_A4.pdf --edition print  --title "The Focus Audit" \
-      --author "Quiet Compass" --owner-pass "$QC_OWNER_PASS"
+      --author "Northing Studio" --owner-pass "$QC_OWNER_PASS"
   protect_pdf.py dist/Product_Tablet.pdf --edition tablet ...
   protect_pdf.py dist/Product_A4.pdf --verify-only
 """
@@ -72,7 +72,7 @@ def main():
     ap.add_argument("--edition", choices=sorted(EDITIONS), default="print")
     ap.add_argument("--out", help="default: overwrite in place")
     ap.add_argument("--title")
-    ap.add_argument("--author", default="Quiet Compass")
+    ap.add_argument("--author", default="Northing Studio")
     ap.add_argument("--subject")
     ap.add_argument("--keywords")
     ap.add_argument("--owner-pass", default=os.environ.get("QC_OWNER_PASS"),
@@ -100,8 +100,8 @@ def main():
     generated = not a.owner_pass
 
     w = PdfWriter(clone_from=a.pdf)
-    meta = {"/Producer": "Quiet Compass build pipeline",
-            "/Creator": "Quiet Compass",
+    meta = {"/Producer": "Northing Studio build pipeline",
+            "/Creator": "Northing Studio",
             "/ModDate": datetime.datetime.now().strftime("D:%Y%m%d%H%M%S")}
     if a.title:
         meta["/Title"] = a.title

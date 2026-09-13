@@ -1,14 +1,15 @@
 ---
 name: listing-copy
-description: Write and validate the selling copy for a digital product listing — SEO title and tags within platform limits, the description structure that converts, pricing and discount policy, disclaimers and FAQ — with a gate that checks every claim against the actually-shipped files. Use when writing, reviewing or publishing an Etsy or Gumroad listing.
+description: Write and validate the selling copy for a digital product listing — SEO title and tags within platform limits, the description structure that converts, pricing and discount policy, disclaimers, FAQ and the fillable/annotate-only statement — with gates that check every claim against the actually-shipped files, per format, and every product or URL against the live catalogue. Use when writing, reviewing or publishing an Etsy or Gumroad listing.
 ---
 
 # Listing copy and SEO
 
 The listing is where exaggeration is most tempting and most damaging: one more
 page in the count, a format we never shipped, a proof number nobody earned. So
-the copy lives in a machine-readable `listing.json`, and `check_listing.py`
-compares its claims against the real PDFs in `dist/`.
+the copy lives in a machine-readable `listing.json`. `check_listing.py` compares its
+claims against the real PDFs in `dist/`, and `release_check.py --listing` compares
+every product name and URL against `catalogue.md`.
 
 ## `listing.json` — the single source
 
@@ -18,16 +19,17 @@ compares its claims against the real PDFs in `dist/`.
   "product_name": "The One-Page Year",
   "price_usd": 0,
   "launch_price_usd": null,
-  "claims": { "pages": 2, "formats": ["A4", "Letter", "Tablet"], "undated": true },
+  "claims": { "pages": 2, "formats": ["A4", "Letter", "Tablet"], "interaction": "annotate-only", "undated": true },
   "disclaimer": "A structured self-reflection tool. Not therapy, diagnosis or financial advice.",
   "etsy":    { "title": "...", "tags": ["...13..."], "description": "...", "category": "..." },
   "gumroad": { "name": "...", "summary": "...", "description": "...", "tiers": [] },
-  "assumptions": ["brand name unconfirmed", "no PB-002 URL yet"]
+  "assumptions": ["support contact not yet set"]
 }
 ```
 
-Everything else — the instruction PDF, the image headlines — is written *from*
-this file, so there is one place a price or a page count can be wrong.
+- `product_id` is internal. It never appears in any customer-facing field.
+- Everything else — the instruction PDF, the image headlines, the pin copy — is
+  written *from* this file, so there is one place a price or a page count can be wrong.
 
 ## Platform limits
 
@@ -67,22 +69,33 @@ kaizen · undated planner · printable workbook.
 
 ## Description — the structure that converts
 
-From the research (§"SEO & copy insights"), in this order:
+From the research (§"SEO & copy insights"), in this order, in the line's locked
+voice (`brands/<line>/voice.md`):
 
 1. **Benefit headline**
 2. **One-line definition** — what it actually is
 3. **Who it's for / not for** — the "not for" earns trust and cuts refunds
 4. **What's inside**, with counts
 5. **How it works**, in three steps
-6. **Formats and compatibility** — plain text, no app logos
+6. **Formats and compatibility** — plain text, no app logos. Say plainly whether it
+   is **fillable** (typed-in form fields) or **annotate-only** (write or draw on
+   it in a notes app or on paper), exactly as `claims.interaction` says.
 7. **FAQ — including the price objection by name** ("Is it worth $19?"). The
    highest-converting shop in the study does this on every listing
 8. **Refunds / guarantee**
-9. **Next step or bundle**
+9. **Next step or bundle** — only products that are live in `catalogue.md`
 
 Then a changelog line with a real "last updated" date, and a polite rating
 request in the delivery file — review capture is the cheapest ranking lever we
 have.
+
+## Licences and tiers
+
+The standard purchase is the **personal-use licence**. Where the spec sells a
+**practitioner licence** (a coach or therapist using the pages with clients), it
+is a separate Gumroad tier or Etsy listing at its own price. The price is set by
+the owner in `brands/SHOP.md`; never invent it. The listing says what each licence
+allows in one plain line each, and never implies the pages are a clinical tool.
 
 ## Pricing and discounts
 
@@ -96,21 +109,35 @@ product for exactly this reason.
 
 ## Disclaimers
 
-Every reflection or audit product: *"A structured self-reflection tool. Not
-therapy, diagnosis or financial advice."* Money products add *"Educational only —
-not financial advice."* These appear in the listing **and** on the product's
-start page.
+- **Every reflection or audit product:** *"A structured self-reflection tool. Not
+  therapy, diagnosis or financial advice."*
+- **Money products** add *"Educational only — not financial advice."*
+
+These appear in the listing **and** on the product's start page.
 
 ## Gates
 
 ```bash
+PY=.venv/bin/python
 Q=.claude/skills/product-qa/scripts
 L=.claude/skills/listing-copy/scripts
-python3 $L/check_listing.py "<product>/Listing/listing.json" --dist "<product>/dist"
-python3 $Q/banned_terms.py  "<product>/Listing/Listing Instructions.md" --require-disclaimer reflection
+$PY $L/check_listing.py "<product>/Listing/listing.json" --dist "<product>/dist" --json "<product>/Listing/qa/listing.json"
+$PY $Q/banned_terms.py  "<product>/Listing/listing.json" "<product>/Listing/Listing Instructions.md" --require-disclaimer reflection
+$PY scripts/release_check.py "<product>" --listing      # orchestrator, after images and pins exist
 ```
 
-`check_listing.py` counts the title and tags, demands the nine sections, rejects
-unearned proof claims ("bestseller", "500+ sold"), and **cross-checks the claimed
-page count and formats against the shipped PDFs**. A listing that promises a
-Letter edition we did not build fails there, not in a refund request.
+**`check_listing.py`:**
+- counts the title and tags, and demands the nine sections
+- rejects unearned proof claims ("bestseller", "500+ sold")
+- requires `claims.interaction`
+- **cross-checks the claimed page count and formats against the shipped PDFs, per
+  format.** A listing that promises a Letter edition we did not build, or 24 pages
+  when the Letter file has 22, fails there, not in a refund request.
+
+**`release_check.py --listing`:**
+- every URL resolves
+- every product named is live
+- no internal IDs
+- the interaction claim matches the spec
+- the slot brief was approved and not changed since
+- the pins' destinations are live, or pending this listing

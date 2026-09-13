@@ -760,3 +760,29 @@ with" — **do not strengthen it until it has been tested on a real device.**
 `pdf-protect` has **not** been run. Protection is the last step, after the owner
 confirms the brand name and supplies the PB-003 URL and the support contact.
 The three PDFs in `dist/` are unprotected, and that is correct for this round.
+
+---
+
+## Linux re-measure (2026-09-13) — pipeline moved to headless Linux
+
+Recorded by the port, not by a build round. The shipped PDFs were **not rebuilt**; the same Mac-built files were re-verified on the Linux server with `verify_pdf.py` (rasteriser: poppler `pdftoppm` instead of macOS `sips`, same 320/297 px-per-mm resolution, `--fonts brands/quiet-compass/fonts/manifest.json`, pypdf pinned at 6.16.1).
+
+- **Fonts:** every embedded face is a brand face (the new font-set gate passes).
+- **Ink** moves by up to ±0.75 percentage points between rasterisers. Every page stays far under the 8% limit, so no pass/fail changes; thresholds were left alone and the drift was reported to the owner.
+- **Largest empty band** changes where the old baseline predates the px-per-mm fix (tablet p4 / p1).
+- The split-text gate fails these files under pypdf ≥ 6.16.2 (letter-spaced kickers extract as single letters); that is an extractor change, which is why pypdf is pinned.
+
+| Edition | Page | Ink % (Mac) | Ink % (Linux) | Δ | Max gap % (Mac) | Max gap % (Linux) |
+|---|---|---|---|---|---|---|
+| A4 | 1 | 2.01 | 1.82 | -0.19 | 29.4 | 30.3 |
+| A4 | 2 | 4.17 | 3.76 | -0.41 | 11.9 | 10.6 |
+| A4 | 3 | 1.16 | 1.06 | -0.10 | 20.0 | 19.1 |
+| A4 | 4 | 1.61 | 1.83 | +0.22 | 14.7 | 15.0 |
+| Letter | 1 | 2.03 | 1.84 | -0.19 | 28.7 | 29.4 |
+| Letter | 2 | 4.16 | 3.72 | -0.44 | 10.3 | 10.3 |
+| Letter | 3 | 1.12 | 1.06 | -0.06 | 18.4 | 18.4 |
+| Letter | 4 | 1.63 | 1.86 | +0.23 | 14.1 | 14.7 |
+| Tablet | 1 | 2.06 | 1.85 | -0.21 | 55.6 | 55.7 |
+| Tablet | 2 | 4.20 | 3.47 | -0.73 | 13.8 | 12.7 |
+| Tablet | 3 | 1.14 | 0.90 | -0.24 | 20.9 | 19.8 |
+| Tablet | 4 | 1.69 | 1.72 | +0.03 | 54.4 | 15.7 |

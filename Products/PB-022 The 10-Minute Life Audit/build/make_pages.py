@@ -329,7 +329,7 @@ def document(edition):
     pages = "\n".join(fn(edition, digital) for fn in (page1, page2, page3, page4))
     return f"""<meta charset="utf-8">
 <title>{TITLE} — {BRAND} — {edition.upper()}</title>
-<link rel="stylesheet" href="../../_assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../../brands/quiet-compass/fonts/fonts.css">
 <link rel="stylesheet" href="../../_assets/product-base.css">
 <link rel="stylesheet" href="product.css">
 <!--

@@ -7,11 +7,11 @@ description: Standard method for visually auditing Etsy/Gumroad listing images a
 
 This skill makes image analysis **consistent and comparable** across sellers, so the Product Planning Agent can aggregate it. Use the fixed codes and vocabularies below. Don't invent new labels unless nothing fits, and if you do, add them under "Other" with a short definition.
 
-Scripts (macOS, dependency-free, need Google Chrome):
+Scripts (headless Linux: Chrome via `scripts/lib/chromium.py`, Pillow; run with `PY=.venv/bin/python` from the repo root):
 ```bash
 A=.claude/skills/listing-image-audit/scripts
-python3 $A/contact_sheet.py research/assets/etsy/<seller>/<listing>/ --out research/assets/etsy/<seller>/<listing>/_sheet.png --cols 5 --cell 300
-python3 $A/palette.py research/assets/etsy/<seller>/<listing>/01.jpg     # -> "#F4EFE8 41%  #A3B18A 22% ..."
+$PY $A/contact_sheet.py research/assets/etsy/<seller>/<listing>/ --out research/assets/etsy/<seller>/<listing>/_sheet.png --cols 5 --cell 300
+$PY $A/palette.py research/assets/etsy/<seller>/<listing>/01.jpg     # -> "#F4EFE8 41%  #A3B18A 22% ..."
 ```
 
 ## Workflow per listing
@@ -23,7 +23,7 @@ python3 $A/palette.py research/assets/etsy/<seller>/<listing>/01.jpg     # -> "#
 5. **Fill in the audit template** below and save it as `research/audits/<platform>-<seller-slug>-<listing-id>.md`.
 6. **Thumbnail test (per category).** Put image 01 of the top ~10 competing listings on one sheet at search-grid size and compare them side by side:
    ```bash
-   python3 $A/contact_sheet.py research/assets/etsy/*/*/01.jpg --out research/audits/thumbs-<category>.png --cols 5 --cell 220
+   $PY $A/contact_sheet.py research/assets/etsy/*/*/01.jpg --out research/audits/thumbs-<category>.png --cols 5 --cell 220
    ```
    Ask: which ones can you read at this size? Which stand out on colour or contrast? Which promise is readable in under 2 seconds?
 

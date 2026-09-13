@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Markdown -> styled, print-ready PDF (A4) using headless Google Chrome.
+"""Markdown -> styled, print-ready PDF (A4) using headless Chrome.
 
 Usage:
   md_to_pdf.py REPORT.md [-o REPORT.pdf] [--title T] [--subtitle S] [--author A] [--date D]
@@ -11,7 +11,8 @@ Markdown conventions it understands (see SKILL.md):
   a paragraph of only images   laid out as an image gallery grid
   `#A3B18A`                     inline code that is a hex colour gets a colour swatch
 Relative image paths are resolved from the markdown file's folder (paths with spaces are fine);
-large local images are downscaled into a cache (macOS `sips`) so the PDF stays a sensible size.
+large local images are downscaled into a cache (Pillow) so the PDF stays a sensible size.
+Chrome is driven by scripts/lib/chromium.py (headless, no sandbox, waits for %%EOF).
 """
 import argparse
 import datetime
@@ -20,32 +21,21 @@ import html as htmllib
 import os
 import pathlib
 import re
-import subprocess
 import sys
 import tempfile
 from urllib.parse import unquote
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "scripts"))
+from lib import chromium, raster  # noqa: E402
+
 try:
     import markdown
 except ImportError:
-    sys.exit("Missing dependency: run `pip3 install markdown`")
+    sys.exit("Missing dependency: run scripts/setup.sh and use .venv/bin/python")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CSS_FILE = os.path.join(HERE, "..", "assets", "report.css")
-CHROME_CANDIDATES = [
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    "/Applications/Chromium.app/Contents/MacOS/Chromium",
-    "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
-    "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
-]
 CALLOUTS = r"\[!(IDEA|INSIGHT|WARNING|NOTE|TIP|OPPORTUNITY)\]\s*"
-
-
-def chrome():
-    for c in CHROME_CANDIDATES:
-        if os.path.exists(c):
-            return c
-    sys.exit("No Chrome/Chromium/Edge/Brave found in /Applications")
 
 
 def uri(path):
@@ -53,9 +43,10 @@ def uri(path):
 
 
 def image_size(path):
-    r = subprocess.run(["sips", "-g", "pixelWidth", "-g", "pixelHeight", path], capture_output=True, text=True)
-    nums = re.findall(r"pixel(?:Width|Height):\s*(\d+)", r.stdout)
-    return tuple(int(n) for n in nums) if len(nums) == 2 else (0, 0)
+    try:
+        return raster.image_size(path)
+    except OSError:
+        return (0, 0)
 
 
 def local_image(src, base_dir, cache_dir, max_px):
@@ -70,8 +61,10 @@ def local_image(src, base_dir, cache_dir, max_px):
         key = hashlib.md5(f"{path}{os.path.getmtime(path)}{max_px}".encode()).hexdigest()[:12]
         small = os.path.join(cache_dir, f"{key}.jpg")
         if not os.path.exists(small):
-            subprocess.run(["sips", "-Z", str(max_px), "-s", "format", "jpeg", "-s", "formatOptions", "82",
-                            path, "--out", small], capture_output=True)
+            try:
+                raster.to_jpeg(path, small, quality=82, max_side=max_px)
+            except OSError as e:
+                print(f"  warning: could not downscale {src}: {e}", file=sys.stderr)
         if os.path.exists(small):
             path = small
     return uri(path)
@@ -186,16 +179,11 @@ def main():
     html_path = os.path.splitext(out)[0] + ".print.html"
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(doc)
-    if os.path.exists(out):
-        os.remove(out)
-    subprocess.run([chrome(), "--headless=new", "--disable-gpu", "--no-first-run", "--no-pdf-header-footer",
-                    "--allow-file-access-from-files", "--run-all-compositor-stages-before-draw",
-                    "--virtual-time-budget=20000", f"--print-to-pdf={out}", uri(html_path)],
-                   capture_output=True)
-    if not a.keep_html:
-        os.remove(html_path)
-    if not os.path.exists(out):
-        sys.exit("Chrome did not produce a PDF")
+    try:
+        chromium.print_pdf(html_path, out, budget=20000)
+    finally:
+        if not a.keep_html and os.path.exists(html_path):
+            os.remove(html_path)
     pages = "?"
     try:
         import pypdf

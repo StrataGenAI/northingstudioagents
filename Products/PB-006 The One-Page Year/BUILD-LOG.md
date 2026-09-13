@@ -800,3 +800,23 @@ was re-architected, and no word of the spec's copy was changed, added or
 reordered. `pdf-protect` has **not** been run — protection remains the last step,
 after the owner confirms the brand name and supplies the real URL and support
 address.
+
+---
+
+## Linux re-measure (2026-09-13) — pipeline moved to headless Linux
+
+Recorded by the port, not by a build round. The shipped PDFs were **not rebuilt**; the same Mac-built files were re-verified on the Linux server with `verify_pdf.py` (rasteriser: poppler `pdftoppm` instead of macOS `sips`, same 320/297 px-per-mm resolution, `--fonts brands/quiet-compass/fonts/manifest.json`, pypdf pinned at 6.16.1).
+
+- **Fonts:** every embedded face is a brand face (the new font-set gate passes).
+- **Ink** moves by up to ±0.75 percentage points between rasterisers. Every page stays far under the 8% limit, so no pass/fail changes; thresholds were left alone and the drift was reported to the owner.
+- **Largest empty band** changes where the old baseline predates the px-per-mm fix (tablet p4 / p1).
+- The split-text gate fails these files under pypdf ≥ 6.16.2 (letter-spaced kickers extract as single letters); that is an extractor change, which is why pypdf is pinned.
+
+| Edition | Page | Ink % (Mac) | Ink % (Linux) | Δ | Max gap % (Mac) | Max gap % (Linux) |
+|---|---|---|---|---|---|---|
+| A4 | 1 | 1.70 | 2.45 | +0.75 | 8.8 | 5.9 |
+| A4 | 2 | 2.14 | 2.53 | +0.39 | 14.1 | 16.6 |
+| Letter | 1 | 1.75 | 2.49 | +0.74 | 6.6 | 6.2 |
+| Letter | 2 | 2.22 | 2.59 | +0.37 | 16.2 | 16.2 |
+| Tablet | 1 | 1.79 | 1.95 | +0.16 | 15.3 | 6.3 |
+| Tablet | 2 | 2.26 | 2.19 | -0.07 | 16.6 | 16.4 |

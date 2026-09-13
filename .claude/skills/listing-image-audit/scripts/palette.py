@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Dominant colours of an image as hex codes with their share of the image.
 
-Dependency-free: macOS `sips` shrinks the image to a small BMP, then a tiny k-means runs in pure Python.
+Pillow shrinks the image to 96 px, then a tiny k-means runs in pure Python.
 
 Usage:
   palette.py IMAGE [IMAGE ...] [--k 6]
@@ -10,31 +10,14 @@ Output (one line per image):
 """
 import argparse
 import os
-import struct
-import subprocess
 import sys
-import tempfile
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "scripts"))
+from lib import raster  # noqa: E402
 
 
 def pixels(path):
-    with tempfile.TemporaryDirectory() as td:
-        bmp = os.path.join(td, "p.bmp")
-        subprocess.run(["sips", "-Z", "96", "-s", "format", "bmp", path, "--out", bmp],
-                       check=True, capture_output=True)
-        data = open(bmp, "rb").read()
-    off = struct.unpack_from("<I", data, 10)[0]
-    w, h = struct.unpack_from("<ii", data, 18)
-    bpp = struct.unpack_from("<H", data, 28)[0]
-    step = bpp // 8
-    row = (w * step + 3) & ~3
-    out = []
-    for y in range(abs(h)):
-        base = off + y * row
-        for x in range(w):
-            i = base + x * step
-            b, g, r = data[i], data[i + 1], data[i + 2]
-            out.append((r, g, b))
-    return out
+    return raster.small_rgb(path, 96)
 
 
 def kmeans(px, k, iters=12):

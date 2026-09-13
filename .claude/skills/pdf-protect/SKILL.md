@@ -1,6 +1,6 @@
 ---
 name: pdf-protect
-description: Apply copy protection and document metadata to a finished product PDF — blocks copy/paste, editing and page extraction while keeping printing, tablet annotation and screen-reader access working. Use as the last step before a digital product ships, and to check what protection an existing PDF carries.
+description: Apply copy protection and document metadata to a finished product PDF — blocks copy/paste, editing and page extraction while keeping printing, tablet annotation and screen-reader access working. Use as the last step before a digital product ships (after release_check.py), and to check what protection an existing PDF carries.
 ---
 
 # PDF copy protection
@@ -26,18 +26,19 @@ the footer at purchase time) and watermarked free samples — not stronger claim
 ## Use it
 
 ```bash
+PY=.venv/bin/python
 S=.claude/skills/pdf-protect/scripts
 
 # printable editions: print freely, copy nothing
-python3 $S/protect_pdf.py "…/dist/QuietCompass_Focus-Audit_A4.pdf" \
-  --edition print --title "The Focus Audit" --author "Quiet Compass" \
+$PY $S/protect_pdf.py "…/dist/NorthingStudio_Focus-Audit_A4.pdf" \
+  --edition print --title "The Focus Audit" --author "Northing Studio" \
   --subject "A 7-day focus audit workbook" --owner-pass "$QC_OWNER_PASS"
 
 # tablet edition: same, but annotation and form filling stay on
-python3 $S/protect_pdf.py "…/dist/QuietCompass_Focus-Audit_Tablet.pdf" --edition tablet …
+$PY $S/protect_pdf.py "…/dist/NorthingStudio_Focus-Audit_Tablet.pdf" --edition tablet …
 
 # check any PDF
-python3 $S/protect_pdf.py "…/dist/…_A4.pdf" --verify-only
+$PY $S/protect_pdf.py "…/dist/…_A4.pdf" --verify-only
 ```
 
 | Edition | Allowed | Denied |
@@ -47,9 +48,12 @@ python3 $S/protect_pdf.py "…/dist/…_A4.pdf" --verify-only
 
 ## Rules
 
-1. **Protect last.** Encryption must come after every build and QA step —
-   `verify_pdf.py` and `spec_coverage.py` read the PDF, and re-encrypting an
-   already-encrypted file fails. Order: build → verify → QA → protect → ship.
+1. **Protect last.** Encryption must come after every build and QA step, because
+   `verify_pdf.py` and `spec_coverage.py` read the PDF and re-encrypting an
+   already-encrypted file fails. The order is:
+   build → verify → QA → `release_check.py` → **protect** → practitioner package → SIGNOFF → upload.
+   The upload re-checks that the protected files still carry the exact pages and
+   text the release check measured.
 2. **Tablet editions must stay annotatable.** The product promises GoodNotes and
    Notability support; `--edition print` on a tablet file breaks that promise.
    Test on a real device before claiming compatibility.
@@ -60,6 +64,8 @@ python3 $S/protect_pdf.py "…/dist/…_A4.pdf" --verify-only
    it for the whole catalogue, or the file can never be edited again. If the
    script generates one, save it before the terminal scrollback is gone.
 5. **Free lead magnets stay unprotected** unless the owner asks otherwise —
-   friction on a free file costs more in shares than it saves in copying.
+   friction on a free file costs more in shares than it saves in copying. The spec
+   records this as `**Protection:** none — free lead magnet`; that line is the only
+   thing that lets `upload_to_drive.py` deliver an unprotected PDF.
 6. Re-run `--verify-only` after protecting and paste the output into the QA
    record. "Protected" is a claim; the verify output is the evidence.

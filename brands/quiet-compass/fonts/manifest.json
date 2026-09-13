@@ -6,6 +6,7 @@
       "css_family": "Fraunces Display",
       "date": "2026-09-12",
       "licence": "SIL Open Font License 1.1",
+      "postscript_name": "Fraunces144pt-SemiBold",
       "query": "Fraunces:opsz,wght@144,600",
       "sha256": "9b65af6c1fbba98daec2fbe779025d2cc37a7fddf2e0e0606bbe81cd9bd3f799",
       "style": "normal",
@@ -18,6 +19,7 @@
       "css_family": "Fraunces",
       "date": "2026-09-12",
       "licence": "SIL Open Font License 1.1",
+      "postscript_name": "Fraunces72pt-Italic",
       "query": "Fraunces:ital,opsz,wght@1,72,400",
       "sha256": "01a4e2a4e4fd29659e46298b53b33a0f7d35b4cf3206c8a59968022354559c03",
       "style": "italic",
@@ -30,6 +32,7 @@
       "css_family": "Fraunces",
       "date": "2026-09-12",
       "licence": "SIL Open Font License 1.1",
+      "postscript_name": "Fraunces72pt-Regular",
       "query": "Fraunces:opsz,wght@72,400",
       "sha256": "a2bc331ca1a0b9637922cf20d4ebf116da116ae88ff7ecc80f01596449439c4a",
       "style": "normal",
@@ -42,6 +45,7 @@
       "css_family": "Fraunces",
       "date": "2026-09-12",
       "licence": "SIL Open Font License 1.1",
+      "postscript_name": "Fraunces72pt-SemiBold",
       "query": "Fraunces:opsz,wght@72,600",
       "sha256": "5e729321bdf6aba972334150b4d39d842f095258749eaec7fbb3e30b83f76479",
       "style": "normal",
@@ -54,6 +58,7 @@
       "css_family": "IBM Plex Mono",
       "date": "2026-09-12",
       "licence": "SIL Open Font License 1.1",
+      "postscript_name": "IBMPlexMono-Regular",
       "query": "IBM+Plex+Mono:wght@400",
       "sha256": "3790e6d302ca3797bd7d7b7ab06d53ac322360dff83158d52c8fdbe5b2cf5cf9",
       "style": "normal",
@@ -66,6 +71,7 @@
       "css_family": "IBM Plex Mono",
       "date": "2026-09-12",
       "licence": "SIL Open Font License 1.1",
+      "postscript_name": "IBMPlexMono-SemiBold",
       "query": "IBM+Plex+Mono:wght@600",
       "sha256": "ecb8b9ab39c67a72f0642a6c4da0186eb404a854b8a3cb219c2e03df54b1a574",
       "style": "normal",
@@ -78,6 +84,7 @@
       "css_family": "Source Sans 3",
       "date": "2026-09-12",
       "licence": "SIL Open Font License 1.1",
+      "postscript_name": "SourceSans3-Italic",
       "query": "Source+Sans+3:ital,wght@1,400",
       "sha256": "0bcb855d70b8926a702e8fafd2be951b8b64dfb0db37841c4282af1c8d65a06d",
       "style": "italic",
@@ -90,6 +97,7 @@
       "css_family": "Source Sans 3",
       "date": "2026-09-12",
       "licence": "SIL Open Font License 1.1",
+      "postscript_name": "SourceSans3-Regular",
       "query": "Source+Sans+3:wght@400",
       "sha256": "0d54575e41d1c5fe2d267b239db2050ba4a7c5b5c0db8da6418024a2c6c6db64",
       "style": "normal",
@@ -102,6 +110,7 @@
       "css_family": "Source Sans 3",
       "date": "2026-09-12",
       "licence": "SIL Open Font License 1.1",
+      "postscript_name": "SourceSans3-SemiBold",
       "query": "Source+Sans+3:wght@600",
       "sha256": "37613a01e7cf909d93af308eef50c803c3d17ad6fdcc2bb00406106f3c4694ac",
       "style": "normal",
@@ -109,5 +118,21 @@
       "weight": 600
     }
   },
-  "licences": {}
+  "licences": {
+    "OFL-Fraunces.txt": {
+      "date": "2026-09-13",
+      "sha256": "bdf4c22802eaf804f998195871c6b8938aac2ac14b2d78a8bd66a6f1eced833b",
+      "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/fraunces/OFL.txt"
+    },
+    "OFL-IBMPlexMono.txt": {
+      "date": "2026-09-13",
+      "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+      "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/OFL.txt"
+    },
+    "OFL-SourceSans3.txt": {
+      "date": "2026-09-13",
+      "sha256": "09746787287a289323b0ec3cff4d1a4a801331b82b7207c1e186f5d26619a392",
+      "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/sourcesans3/OFL.txt"
+    }
+  }
 }

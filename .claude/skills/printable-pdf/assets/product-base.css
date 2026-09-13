@@ -4,7 +4,7 @@
  * sheet with a `size-*` class on <body> and one `.page` element per printed page.
  *
  *   <body class="size-a4">
- *     <link rel="stylesheet" href="../../_assets/fonts/fonts.css">
+ *     <link rel="stylesheet" href="../../../brands/quiet-compass/fonts/fonts.css">
  *     <section class="page"> ... </section>
  *
  * Rules that are not negotiable (they come from brand-kit.md and the QA gates):

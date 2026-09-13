@@ -456,8 +456,8 @@ def main():
     p.add_argument("--digital-only", action="store_true")
     sub.add_parser("taxonomy").add_argument("fragment")
     a = ap.parse_args()
-    if os.environ.get("ETSY_ENABLED") != "1":
-        sys.exit("Etsy research is paused (project decision, 2026-09-12). Run with ETSY_ENABLED=1 to re-enable.")
+    # Etsy research was paused on 2026-09-12 and re-enabled by the owner on 2026-09-13
+    # (MULTI_AGENT_PLAN.md item 26). The archive-only and authorised-API rules still apply.
     if a.cmd == "ping":
         need_key("ping")
         res = api("/openapi-ping")

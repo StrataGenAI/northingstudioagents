@@ -42,6 +42,22 @@
     {"regex": true, "pattern": "\\beffortless\\b|\\binstantly\\b|\\bin just \\d+ (seconds|minutes) a day\\b", "term": "effortlessness claim", "why": "The method asks for real effort; promising ease undercuts the product and the voice."}
   ],
 
+  "voice": [
+    {"regex": true, "pattern": "!(?![-\\[])", "term": "exclamation mark", "why": "Voice V11: calm punctuation. Our copy states things; it never raises its voice."},
+    {"regex": true, "pattern": "\\byou deserve\\b", "term": "you deserve", "why": "Voice V3/V4: encouragement instead of evidence."},
+    {"regex": true, "pattern": "\\byou(?:'|\u2019)?ve got this\\b|\\byou got this\\b", "term": "you've got this", "why": "Voice V4: cheerleading. Name the setback as normal instead."},
+    {"regex": true, "pattern": "\\bbest self\\b", "term": "best self", "why": "Voice V4: identity and transformation talk."},
+    {"regex": true, "pattern": "\\blevel(?:l?ing)? up\\b", "term": "level up", "why": "Voice V4: gamified self-improvement talk."},
+    {"regex": true, "pattern": "\\bjourney\\b", "term": "journey", "why": "Voice V4/V8: vague transformation metaphor. Say the days and the pages."},
+    {"regex": true, "pattern": "\\bhustle\\b|\\bgrind\\b", "term": "hustle", "why": "Voice V4/V6: hustle tone, the brand kit's anti-model."},
+    {"regex": true, "pattern": "\\b(?:stay|staying|stays|get|getting|keep (?:you|yourself)|feel|feeling) motivated\\b|\\bmotivational\\b|\\bmotivation (?:boost|hack|tips?)\\b|\\b(?:boost|fuel|find) (?:your )?motivation\\b", "term": "motivation", "why": "Voice V4: the product is anti-motivational - evidence, not encouragement. Naming motivation as a belief to question is fine; promising or cheering it is not.", "allow_if_near": ["not", "no", "never", "isn't", "without", "nothing"]},
+    {"regex": true, "pattern": "\\b(?:daily|weekly|automatic|built-in|gentle|smart|push|we'll send|we send|get|set) reminders?\\b|\\breminds? you (?:to|when|every)\\b", "term": "reminders", "why": "Voice V5: not an app, nothing here reminds you.", "allow_if_near": ["not", "no", "never", "isn't", "without", "nothing"]},
+    {"regex": true, "pattern": "\\b(?:build|keep|track|protect|maintain|grow|start) (?:a |an |your )?(?:\\w+ )?streaks?\\b|\\bstreak (?:tracker|counter|tracking)\\b", "term": "streaks", "why": "Voice V5: not an app; no streak-keeping promises. Saying streaks are fiction is on voice.", "allow_if_near": ["not", "no", "never", "isn't", "without", "nothing", "fiction"]},
+    {"regex": true, "pattern": "\\b(?:push|daily|smart|instant|get|send|sends|receive) notifications?\\b", "term": "notifications", "why": "Voice V5: not an app.", "allow_if_near": ["not", "no", "never", "isn't", "without", "nothing"]},
+    {"regex": true, "pattern": "\\b(?:this|our|the) app\\b", "term": "this app", "why": "Voice V5: the product is paper and PDF, never described as an app.", "allow_if_near": ["not", "no", "never", "isn't"]},
+    {"regex": true, "pattern": "does (?:all )?the work for you|do(?:es)? it for you", "term": "does the work for you", "why": "Voice V5: the pages hold the structure; the reader does the thinking.", "allow_if_near": ["not", "no", "never", "isn't", "won't", "doesn't"]}
+  ],
+
   "disclaimers": {
     "reflection": {
       "patterns": ["not (therapy|a diagnosis|a diagnostic|medical)", "self.reflection tool", "not therapy, diagnosis"],

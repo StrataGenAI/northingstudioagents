@@ -4,6 +4,11 @@ Brief: `2026-09-12 Product Plan.md` §"Launch product briefs" → PB-006 · Bran
 
 **What it is:** a free, beautifully typeset one-page plan for the year — the brand's handshake. It exists to earn the email address, the Gumroad rating and the click to PB-002.
 
+**Interaction:** annotate-only
+**Font set:** brands/quiet-compass/fonts
+**Protection:** none — free lead magnet (pdf-protect rule 5)
+**Practitioner licence:** no
+
 ## Deliverables
 
 | File | Format | Size / orientation | Notes |
@@ -29,6 +34,10 @@ Margins 15 mm (top 18 mm) · single column with a 3-column inner grid, 6 mm gutt
 ## Hyperlink / tab map (digital)
 
 None beyond the single outbound product link on page 2. The tablet edition is a flat page; adding tabs to a 2-page file would be noise.
+
+## Cross-references
+
+None.
 
 ## Assets
 

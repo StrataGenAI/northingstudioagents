@@ -1,24 +1,37 @@
 ---
 name: pdf-report
-description: Turn a Markdown report into a polished, print-ready A4 PDF (cover page, table of contents, page numbers, styled tables, callout boxes, image galleries, hex colour swatches) using headless Google Chrome. Use whenever a report, brief or research deliverable must be delivered as PDF.
+description: Turn a Markdown report into a polished, print-ready A4 PDF (cover page, table of contents, page numbers, styled tables, callout boxes, image galleries, hex colour swatches) using headless Chrome on the Linux server. Use whenever a report, brief, plan or instruction document must be delivered as PDF.
 ---
 
 # PDF report
 
 Write the report in Markdown, then convert it:
 
-All finished reports live in the project's **`Research Reports/`** folder, named `YYYY-MM-DD <Report name>.md` and `.pdf`.
+All finished research reports live in the project's **`Research Reports/`** folder, named `YYYY-MM-DD <Report name>.md` and `.pdf`. Plans live in `Product Plans/`; listing instructions in each product's `Listing/`.
 
 ```bash
-python3 .claude/skills/pdf-report/scripts/md_to_pdf.py "Research Reports/2026-09-12 Digital Product Research Report.md" \
+PY=.venv/bin/python
+$PY .claude/skills/pdf-report/scripts/md_to_pdf.py "Research Reports/2026-09-12 Digital Product Research Report.md" \
   --subtitle "Etsy & Gumroad competitor, design & product-opportunity research" \
-  --author "Digital Product Research Agent"
+  --author "Northing Studio research"
 # -> "Research Reports/2026-09-12 Digital Product Research Report.pdf"  (prints page count + size)
 ```
 
-Requirements: macOS with Google Chrome (or Chromium/Edge/Brave) plus `pip3 install markdown`. `pypdf` is optional and only used to print the page count.
+**Requirements.** The headless Linux setup from `scripts/setup.sh`:
+- **Chrome:** Google Chrome, driven by `scripts/lib/chromium.py`, which waits for `%%EOF` and never hangs on a stalled render.
+- **Python:** `.venv` with `markdown`, `pypdf` and `Pillow`. Pillow downscales large images.
 
-Options: `-o out.pdf`, `--title` (by default this is the first `# H1`, which moves to the cover page), `--subtitle`, `--author`, `--date`, `--no-cover`, `--no-toc`, `--css extra.css` (brand overrides), `--max-image 1400` (larger local images are downscaled into a temp-folder cache, so the report folder stays clean), `--keep-html` (keeps `*.print.html` for debugging).
+**Options:**
+
+| Option | Effect |
+|---|---|
+| `-o out.pdf` | output path |
+| `--title` | by default the first `# H1`, which moves to the cover page |
+| `--subtitle`, `--author`, `--date` | cover text |
+| `--no-cover`, `--no-toc` | drop the cover page or table of contents |
+| `--css extra.css` | brand overrides |
+| `--max-image 1400` | larger local images are downscaled into a temp-folder cache, so the report folder stays clean |
+| `--keep-html` | keeps `*.print.html` for debugging |
 
 ## Markdown conventions
 
@@ -44,12 +57,13 @@ Image paths are relative to the Markdown file, e.g. `assets/etsy/<seller>/<listi
 - Use `[!IDEA]` / `[!OPPORTUNITY]` for product ideas, so they stand out.
 
 ## Verify before handing off
-1. The script prints the page count and file size. A 20-seller report with galleries is typically 40–120 pages and under 50 MB; if it's much bigger, lower `--max-image`.
-2. Check the text: `python3 -c "import pypdf;r=pypdf.PdfReader('X.pdf');print(r.pages[2].extract_text()[:800])"`.
-3. Check the look: re-run with `--keep-html`, then screenshot and `Read` it:
+1. **Size.** The script prints the page count and file size. A 20-seller report with galleries is typically 40–120 pages and under 50 MB; if it's much bigger, lower `--max-image`.
+2. **Text.**
    ```bash
-   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars \
-     --allow-file-access-from-files --window-size=900,2400 --screenshot=/tmp/check.png file://$PWD/research/REPORT-digital-product-research.print.html
+   $PY -c "import pypdf;r=pypdf.PdfReader('X.pdf');print(r.pages[2].extract_text()[:800])"
    ```
-   Also check the cover: `sips -s format png X.pdf --out /tmp/p1.png` (this renders page 1).
-4. Look for missing images: the script prints `warning: image not found` for each one. Fix the paths and re-run.
+3. **Look.** Rasterise a few pages, including the cover, and `Read` the PNGs:
+   ```bash
+   $PY .claude/skills/printable-pdf/scripts/render_pages.py X.pdf --out /tmp/report-check --pages 1,2,5 --width 1200
+   ```
+4. **Missing images.** The script prints `warning: image not found` for each one. Fix the paths and re-run.

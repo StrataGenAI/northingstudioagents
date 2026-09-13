@@ -11,14 +11,18 @@ unicode-range subsets); an ancient IE agent gets EOT, which Chrome cannot use.
 The Chrome-30 agent below gets the **full static face as WOFF** — one file per
 weight and style, which is exactly what a print build needs.
 
-The manifest records the resolved URL, SHA-256, byte count and date for every
-file. It is the evidence behind the licence claim — never state that a font is
-licensed from memory; read it from here.
+The manifest records the resolved URL, SHA-256, byte count, date and PostScript
+name for every file. It is the evidence behind the licence claim — never state
+that a font is licensed from memory; read it from here. The PostScript name is
+what a PDF embeds, so verify_pdf.py --fonts uses it to tell the brand's own face
+from a substitute.
 
 Usage:
-  fetch_fonts.py                      # into Products/_assets/fonts
-  fetch_fonts.py --check              # verify files against the manifest
-  fetch_fonts.py --force              # re-download everything
+  fetch_fonts.py --dir brands/quiet-compass/fonts                  # fetch missing, record names
+  fetch_fonts.py --dir ... --check                                 # verify files against the manifest
+  fetch_fonts.py --dir ... --force                                 # re-download everything
+  fetch_fonts.py --dir ... --install-system                        # install the faces for fontconfig
+  fetch_fonts.py --dir ... --check --check-system                  # ...and verify fontconfig sees them
 """
 import argparse
 import datetime
@@ -26,8 +30,11 @@ import hashlib
 import json
 import os
 import re
+import shutil
+import struct
 import subprocess
 import sys
+import zlib
 
 # Old enough to be served complete static WOFF, new enough to be served WOFF at all.
 FETCH_UA = ("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 "
@@ -35,6 +42,7 @@ FETCH_UA = ("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 "
 CSS_API = "https://fonts.googleapis.com/css2?family="
 REPO = "https://raw.githubusercontent.com/google/fonts/main/ofl"
 EXT = ".woff"
+SYSTEM_DIR = os.path.expanduser("~/.local/share/fonts/northing")
 
 # local file stem -> (css2 query, css family name, weight, style)
 FACES = {
@@ -55,7 +63,7 @@ FONT_MAGIC = (b"wOFF", b"wOF2", b"\x00\x01\x00\x00", b"true", b"OTTO")
 
 
 def curl(url, ua=None, binary=True):
-    """Python's urllib has no CA bundle on this machine; curl does."""
+    """Python's urllib may have no CA bundle; curl does."""
     cmd = ["curl", "-sSL", "--fail", "--max-time", "60"]
     if ua:
         cmd += ["-H", f"User-Agent: {ua}"]
@@ -73,6 +81,40 @@ def resolve(query):
     if not urls:
         raise RuntimeError("no src url in the CSS response")
     return urls[0]
+
+
+def postscript_name(data):
+    """The PostScript name (name ID 6) of a WOFF, TTF or OTF font file."""
+    tables = {}
+    if data[:4] == b"wOFF":
+        for i in range(struct.unpack_from(">H", data, 12)[0]):
+            tag, off, comp, orig, _ = struct.unpack_from(">4sIIII", data, 44 + 20 * i)
+            tables[tag] = (off, comp, orig)
+        if b"name" not in tables:
+            raise ValueError("no name table")
+        off, comp, orig = tables[b"name"]
+        name = zlib.decompress(data[off:off + comp]) if comp < orig else data[off:off + comp]
+    elif data[:4] in (b"\x00\x01\x00\x00", b"true", b"OTTO"):
+        for i in range(struct.unpack_from(">H", data, 4)[0]):
+            tag, _, off, length = struct.unpack_from(">4sIII", data, 12 + 16 * i)
+            tables[tag] = (off, length)
+        if b"name" not in tables:
+            raise ValueError("no name table")
+        off, length = tables[b"name"]
+        name = data[off:off + length]
+    else:
+        raise ValueError(f"cannot read names from a {data[:4]!r} file (WOFF2 needs brotli)")
+    _, count, strings = struct.unpack_from(">HHH", name, 0)
+    found = {}
+    for i in range(count):
+        pid, _, _, nid, length, off = struct.unpack_from(">HHHHHH", name, 6 + 12 * i)
+        if nid == 6:
+            raw = name[strings + off: strings + off + length]
+            found[pid] = raw.decode("utf-16-be") if pid in (0, 3) else raw.decode("latin-1")
+    for pid in (3, 1, 0):
+        if found.get(pid, "").strip():
+            return found[pid].strip()
+    raise ValueError("font has no PostScript name (name ID 6)")
 
 
 def fonts_css(manifest, path):
@@ -104,11 +146,59 @@ def licence_sheet(manifest, path):
     open(path, "w").write("\n".join(sheet) + "\n")
 
 
+def fc_tool(name):
+    """System fontconfig first: the browser links the system library, not Homebrew's."""
+    for cand in (f"/usr/bin/{name}", shutil.which(name)):
+        if cand and os.path.exists(cand):
+            return cand
+    return None
+
+
+def install_system(font_dir, manifest):
+    """Copy the faces where fontconfig looks, refreshing only what changed."""
+    fails = []
+    os.makedirs(SYSTEM_DIR, exist_ok=True)
+    changed = 0
+    for stem in FACES:
+        src = os.path.join(font_dir, stem + EXT)
+        dst = os.path.join(SYSTEM_DIR, stem + EXT)
+        if not os.path.exists(src):
+            fails.append(f"{stem}{EXT}: not in {font_dir}")
+            continue
+        if not os.path.exists(dst) or open(dst, "rb").read() != open(src, "rb").read():
+            shutil.copyfile(src, dst)
+            changed += 1
+    fc_cache = fc_tool("fc-cache")
+    if not fc_cache:
+        fails.append("fc-cache not found (apt package fontconfig)")
+    elif changed:
+        subprocess.run([fc_cache, "-f", SYSTEM_DIR], capture_output=True)
+    print(f"  system fonts: {changed} face(s) updated in {SYSTEM_DIR}")
+    return fails
+
+
+def check_system():
+    fails = []
+    fc_list = fc_tool("fc-list")
+    if not fc_list:
+        return ["fc-list not found (apt package fontconfig)"]
+    listed = subprocess.run([fc_list, "--format", "%{file}\n"], capture_output=True,
+                            text=True).stdout.splitlines()
+    for stem in FACES:
+        if os.path.join(SYSTEM_DIR, stem + EXT) not in listed:
+            fails.append(f"{stem}{EXT}: fontconfig does not list it - run --install-system")
+    return fails
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dir", default="Products/_assets/fonts")
+    ap.add_argument("--dir", default="brands/quiet-compass/fonts")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--install-system", action="store_true",
+                    help=f"copy the faces into {SYSTEM_DIR} and refresh fontconfig")
+    ap.add_argument("--check-system", action="store_true",
+                    help="with --check: also verify fontconfig lists every face")
     a = ap.parse_args()
 
     os.makedirs(a.dir, exist_ok=True)
@@ -119,7 +209,9 @@ def main():
 
     fails, got = [], []
 
-    if a.check:
+    if a.install_system:
+        fails += install_system(a.dir, manifest)
+    elif a.check:
         for stem in FACES:
             rec = manifest["fonts"].get(stem)
             dest = os.path.join(a.dir, stem + EXT)
@@ -127,24 +219,41 @@ def main():
                 fails.append(f"{stem}: missing from the manifest")
             elif not os.path.exists(dest):
                 fails.append(f"{stem}{EXT}: file missing")
-            elif hashlib.sha256(open(dest, "rb").read()).hexdigest() != rec["sha256"]:
-                fails.append(f"{stem}{EXT}: sha256 changed - licence evidence broken")
+            else:
+                data = open(dest, "rb").read()
+                if hashlib.sha256(data).hexdigest() != rec["sha256"]:
+                    fails.append(f"{stem}{EXT}: sha256 changed - licence evidence broken")
+                elif not rec.get("postscript_name"):
+                    fails.append(f"{stem}: no PostScript name recorded - run without --check")
+                elif postscript_name(data) != rec["postscript_name"]:
+                    fails.append(f"{stem}: recorded PostScript name does not match the file")
         for name in LICENCES:
             if not os.path.exists(os.path.join(a.dir, name)):
                 fails.append(f"{name}: licence text missing")
         if not os.path.exists(os.path.join(a.dir, "fonts.css")):
             fails.append("fonts.css: missing - products have nothing to link")
+        if a.check_system:
+            fails += check_system()
     else:
         for stem, (query, family, weight, style) in FACES.items():
             dest = os.path.join(a.dir, stem + EXT)
             if os.path.exists(dest) and stem in manifest["fonts"] and not a.force:
-                print(f"  have  {stem}{EXT}")
+                rec = manifest["fonts"][stem]
+                if not rec.get("postscript_name"):
+                    try:
+                        rec["postscript_name"] = postscript_name(open(dest, "rb").read())
+                        print(f"  named {stem}{EXT} -> {rec['postscript_name']}")
+                    except ValueError as e:
+                        fails.append(f"{stem}: {e}")
+                else:
+                    print(f"  have  {stem}{EXT}")
                 continue
             try:
                 url = resolve(query)
                 data = curl(url)
                 if not data.startswith(FONT_MAGIC):
                     raise RuntimeError(f"not a font file (starts {data[:4]!r})")
+                ps_name = postscript_name(data)
             except Exception as e:                      # noqa: BLE001
                 fails.append(f"{stem}: {e}")
                 continue
@@ -155,9 +264,10 @@ def main():
                 "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data),
                 "date": datetime.date.today().isoformat(),
                 "licence": "SIL Open Font License 1.1",
+                "postscript_name": ps_name,
             }
             got.append(stem)
-            print(f"  got   {stem}{EXT}  ({len(data):,} bytes)")
+            print(f"  got   {stem}{EXT}  ({len(data):,} bytes, {ps_name})")
 
         for name, url in LICENCES.items():
             dest = os.path.join(a.dir, name)
@@ -194,10 +304,11 @@ def main():
             print("  " + f, file=sys.stderr)
         return 1
     print(f"\nOK - {len(manifest['fonts'])} faces, {len(manifest['licences'])} licences in {a.dir}"
-          + (f"; {len(got)} newly fetched" if got else ""))
+          + (f"; {len(got)} newly fetched" if got else "")
+          + ("; fontconfig lists every face" if a.check_system else ""))
     if got:
         print("     fonts.css and FONT-LICENCES.md regenerated.")
-        print("     Now prove it: render a page and check verify_pdf.py reports no Type3 font.")
+        print("     Now prove it: render a page and check verify_pdf.py --fonts reports no substitute.")
     return 0
 
 
